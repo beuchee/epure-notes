@@ -12,7 +12,13 @@ private val NightColorScheme = darkColorScheme(
     onBackground = TextPrimary,
     surface = Black,
     onSurface = TextPrimary,
-    onSurfaceVariant = TextSecondary
+    onSurfaceVariant = TextSecondary,
+    // Menus et fenêtres de dialogue : fond noir, sans teinte automatique de Material.
+    surfaceContainerLowest = Black,
+    surfaceContainerLow = Black,
+    surfaceContainer = Black,
+    surfaceContainerHigh = Black,
+    surfaceContainerHighest = Black
 )
 
 @Composable

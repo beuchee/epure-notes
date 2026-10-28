@@ -48,6 +48,20 @@ class EditorViewModel(private val store: NoteStore) : ViewModel() {
         textState.setTextAndPlaceCursorAtEnd("")
     }
 
+    // Ouvre une note choisie dans la liste (SPEC F-6.3). La note en cours est enregistrée avant.
+    fun openNote(id: String) {
+        saveNow()
+        noteId = id
+        textState.setTextAndPlaceCursorAtEnd(store.read(id))
+    }
+
+    // Si la note supprimée est celle qui est ouverte, on passe à la plus récente ou à une note vide (SPEC F-6.5).
+    fun onNoteDeleted(id: String) {
+        if (id != noteId) return
+        noteId = store.latestId() ?: store.create()
+        textState.setTextAndPlaceCursorAtEnd(store.read(noteId))
+    }
+
     override fun onCleared() {
         saveNow()
     }

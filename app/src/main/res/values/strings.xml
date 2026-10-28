@@ -2,4 +2,12 @@
     <string name="app_name">Épure Notes</string>
     <string name="action_new_note">Nouvelle</string>
     <string name="editor_placeholder">Commence à écrire</string>
+    <string name="action_open_notes">Notes</string>
+    <string name="action_back">Retour</string>
+    <string name="action_share">Partager</string>
+    <string name="action_delete">Supprimer</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="notes_title">Notes</string>
+    <string name="notes_empty">Aucune note</string>
+    <string name="delete_note_question">Supprimer cette note ?</string>
 </resources>

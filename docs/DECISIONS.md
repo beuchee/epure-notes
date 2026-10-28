@@ -273,3 +273,16 @@
 - Justification : assombrir un peu le gris tout en gardant un contraste d'environ 7,4:1 sur fond noir (au-dessus du seuil WCAG AA de 4,5:1 pour le texte).
 - Réversibilité : facile (une seule valeur dans `Color.kt`).
 - Références : DEC-0009, SPEC F-1.3, F-8.2.
+
+## DEC-0023 — Choix du jalon 2 (liste, suppression, partage, réception)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Décision :
+  - F-4.3 : titre dans la liste sur 2 lignes au plus, puis « … ».
+  - F-6.4 : suppression seule, avec confirmation ; pas d'archivage.
+  - F-10.1 : Épure Notes apparaît dans la feuille de partage pour du texte ; le texte reçu crée une nouvelle note. F-10.2 (ajout aux tâches) reste ouvert pour le jalon 5.
+  - F-9.2 : partage du texte seulement, pas de fichier `.md` pour l'instant.
+- Justification : choix simples, qui suivent les propositions de la spec, et qui n'ajoutent ni permission ni bibliothèque.
+- Réversibilité : facile.
+- Références : SPEC F-4.3, F-6.4, F-9.2, F-10.1.

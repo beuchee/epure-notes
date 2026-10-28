@@ -31,7 +31,7 @@ import com.alain.epure.notes.ui.theme.TextSecondary
 
 // Éditeur plein écran : texte brut, marges de 24 dp, barre de commandes en bas (SPEC F-2, F-7).
 @Composable
-fun EditorScreen(viewModel: EditorViewModel) {
+fun EditorScreen(viewModel: EditorViewModel, onOpenNotes: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -73,6 +73,13 @@ fun EditorScreen(viewModel: EditorViewModel) {
                 colors = ButtonDefaults.textButtonColors(contentColor = TextPrimary)
             ) {
                 Text(text = stringResource(R.string.action_new_note))
+            }
+            TextButton(
+                onClick = onOpenNotes,
+                modifier = Modifier.sizeIn(minHeight = 48.dp),
+                colors = ButtonDefaults.textButtonColors(contentColor = TextPrimary)
+            ) {
+                Text(text = stringResource(R.string.action_open_notes))
             }
         }
     }

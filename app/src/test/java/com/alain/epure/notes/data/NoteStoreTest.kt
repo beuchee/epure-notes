@@ -72,6 +72,19 @@ class NoteStoreTest {
     }
 
     @Test
+    fun summariesAreSortedFromNewestModified() {
+        val store = store()
+        val first = store.create(LocalDateTime.of(2026, 10, 1, 9, 0, 0))
+        val second = store.create(LocalDateTime.of(2026, 10, 2, 9, 0, 0))
+        store.save(first, "première")
+        store.save(second, "deuxième")
+        File(folder.root, "$first.md").setLastModified(3_000_000L)
+        File(folder.root, "$second.md").setLastModified(2_000_000L)
+        assertEquals(listOf(first, second), store.summaries().map { it.id })
+        assertEquals("première", store.summaries().first().text)
+    }
+
+    @Test
     fun sameSecondGivesDifferentIds() {
         val store = store()
         val now = LocalDateTime.of(2026, 10, 28, 16, 30, 12)

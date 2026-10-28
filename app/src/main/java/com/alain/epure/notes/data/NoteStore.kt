@@ -3,8 +3,13 @@ package com.alain.epure.notes.data
 import androidx.core.util.AtomicFile
 import java.io.File
 import java.io.IOException
+import java.time.Instant
 import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
+
+// Une note telle qu'elle est lue sur le disque, pour la liste.
+data class NoteSummary(val id: String, val text: String, val modified: LocalDateTime)
 
 // Dépôt des notes : un fichier texte `.md` par note, dans un dossier privé de l'app (DEC-0007).
 // Le nom du fichier vient de la date de création ; le titre n'est jamais dans le nom.
@@ -54,6 +59,22 @@ class NoteStore(private val directory: File) {
         directory.listFiles { file -> file.extension == NOTE_EXTENSION }
             ?.maxByOrNull { it.lastModified() }
             ?.nameWithoutExtension
+
+    // Toutes les notes, de la plus récemment modifiée à la plus ancienne (SPEC F-6.1).
+    fun summaries(): List<NoteSummary> =
+        directory.listFiles { file -> file.extension == NOTE_EXTENSION }
+            ?.map { file ->
+                NoteSummary(
+                    id = file.nameWithoutExtension,
+                    text = file.readText(Charsets.UTF_8),
+                    modified = LocalDateTime.ofInstant(
+                        Instant.ofEpochMilli(file.lastModified()),
+                        ZoneId.systemDefault()
+                    )
+                )
+            }
+            .orEmpty()
+            .sortedByDescending { it.modified }
 
     fun delete(id: String) {
         file(id).delete()
