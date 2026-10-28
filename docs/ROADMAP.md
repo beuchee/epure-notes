@@ -11,17 +11,17 @@
 ## Jalon 0 — Mise en place
 
 - [x] Trancher DEC-0001 (nom, `applicationId`, dépôt) — décidée le 28/10/2026
-- [ ] Créer le projet Android Studio (Kotlin, Compose, `minSdk` 31, `targetSdk` / `compileSdk` 36)
-- [ ] `app_name` = « Épure Notes » dans `strings.xml`
-- [ ] Thème : `Color.kt` (3 jetons), `Theme.kt` (schéma sombre seul pour l'instant), `Type.kt`, `themes.xml` (fond noir) repris d'Épure PDF
-- [ ] Supprimer la couleur dynamique et le thème clair générés par le modèle
-- [ ] Paquets vides `ui/`, `data/`, `system/`, `domain/` ; classe `AppContainer`
-- [ ] Sauvegarde système fermée (DEC-0008) : `allowBackup="false"` + `res/xml/data_extraction_rules.xml` excluant tout pour `<cloud-backup>` et `<device-transfer>`
+- [x] Créer le projet Android Studio (Kotlin, Compose, `minSdk` 31, `targetSdk` / `compileSdk` 36)
+- [x] `app_name` = « Épure Notes » dans `strings.xml`
+- [x] Thème : `Color.kt` (3 jetons), `Theme.kt` (schéma sombre seul pour l'instant), `Type.kt`, `themes.xml` (fond noir) repris d'Épure PDF
+- [x] Supprimer la couleur dynamique et le thème clair générés par le modèle
+- [x] Paquets vides `ui/`, `data/`, `system/`, `domain/` ; classe `AppContainer`
+- [x] Sauvegarde système fermée (DEC-0008) : `allowBackup="false"` + `res/xml/data_extraction_rules.xml` excluant tout pour `<cloud-backup>` et `<device-transfer>`
 - [ ] `docs/` : `SPEC.md`, `ROADMAP.md`, `DECISIONS.md`, `CHARTE.md` (Partie A copiée telle quelle, Partie B à rédiger pour Épure Notes)
-- [ ] `CLAUDE.md` à la racine
-- [ ] `LICENSE` (texte officiel GPL v3), `.gitignore` Android vérifié, `README.md` minimal (objet, confidentialité, licence)
-- [ ] Premier build sur le téléphone : écran noir avec « Épure Notes »
-- [ ] Vérifier : aucune permission dans l'APK
+- [x] `CLAUDE.md` à la racine
+- [x] `LICENSE` (texte officiel GPL v3), `.gitignore` Android vérifié, `README.md` minimal (objet, confidentialité, licence)
+- [x] Premier build sur le téléphone : écran noir avec « Épure Notes »
+- [x] Vérifier : aucune permission dans l'APK
 - [ ] Premier commit (adresse « noreply »), création du dépôt GitHub, premier envoi
 
 **Contrôle sur l'appareil** : l'app s'installe, démarre sans flash blanc, affiche un fond noir.

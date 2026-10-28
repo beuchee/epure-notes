@@ -20,7 +20,7 @@ Consignes pour l'assistant de code. À lire en entier au début de chaque sessio
 
 - Kotlin uniquement ; pas de code natif, pas de NDK, pas de Rust.
 - Jetpack Compose, Material 3, thème personnalisé (pas de couleur dynamique).
-- `minSdk` 31, `targetSdk` 36, `compileSdk` 36.
+- `minSdk` 31, `targetSdk` 36, `compileSdk` 37 (DEC-0020 : `compileSdk` = dernière version requise par les bibliothèques AndroidX ; `targetSdk` = version du téléphone de test).
 - Une seule activité ; navigation par état simple ; `ViewModel` + `StateFlow` ; pas de framework d'injection (classe `AppContainer`).
 - Persistance : fichiers texte (notes, tâches) dans le stockage interne + DataStore Preferences (réglages). Pas de Room sans décision.
 - Sauvegarde système fermée : `allowBackup="false"` **et** `dataExtractionRules` excluant tout (cloud et transfert d'appareil). Seule sauvegarde : la copie optionnelle dans un dossier choisi par l'utilisateur (SPEC F-18, DEC-0019).

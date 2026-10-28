@@ -237,12 +237,13 @@
 ## DEC-0020 — `compileSdk` 37, `targetSdk` 36 (écart avec la charte A.3)
 
 - Date : 28/10/2026
-- Statut : **Proposée**
+- Statut : **Décidée** le 28/10/2026, option A (validée par Alain)
 - Contexte : la charte A.3 fixe `compileSdk` et `targetSdk` à 36. Le modèle Empty Activity d'Android Studio (octobre 2026) installe `androidx.core` 1.19.1 et `androidx.lifecycle` 2.11.0, qui exigent `compileSdk` 37 (vérification « AAR metadata » au build).
 - Options :
   - A. `compileSdk` 37, `targetSdk` 36. Le `compileSdk` sert seulement à la compilation (les API qu'on *peut* appeler) ; il ne change pas le comportement de l'app. Le `targetSdk`, qui active les nouveaux comportements d'Android, reste à 36, la version du téléphone de test. Aucune action supplémentaire ; on garde des bibliothèques à jour.
   - B. Tout à 36 et rétrograder les bibliothèques AndroidX vers des versions compatibles. Conforme à la lettre de la charte, mais versions plus anciennes à retrouver et à maintenir, et le problème reviendra à chaque mise à jour.
-- Décision proposée : A.
+- Décision : A. `compileSdk` = 37 (`release(37)` dans `app/build.gradle.kts`), `targetSdk` = 36.
+- Lint : l'avertissement `OldTargetApi` (« Not targeting the latest versions ») est désactivé dans `app/lint.xml`, tant que `targetSdk` reste à 36. Relever `targetSdk` à 37 reste possible plus tard, après test sur l'appareil.
 - Garde-fou : ne pas appeler d'API propre à Android 17 sans vérification de version (`Build.VERSION.SDK_INT`) ; lint le signale (`NewApi`), puisque `minSdk` vaut 31.
 - **À reporter dans la charte** (A.3) : `compileSdk` = dernière version requise par les bibliothèques AndroidX ; `targetSdk` = version du téléphone de test. Le launcher Épure et Épure PDF rencontreront le même cas à leur prochaine mise à jour de bibliothèques.
 - Réversibilité : facile.

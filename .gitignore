@@ -14,5 +14,13 @@
 .cxx
 local.properties
 
+# Signature : jamais versionnée (CLAUDE.md)
+*.jks
+*.keystore
+keystore.properties
+
+# Kotlin : données de session locales
+/.kotlin
+
 # Android Studio local settings
 .idea/
