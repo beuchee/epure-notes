@@ -69,8 +69,8 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 - [ ] « À propos » (F-15), avec l'avertissement de perte (F-18.2)
 - [x] Commande « Réglages » ; réglage « Sauvegarde » avec avertissement en italique (F-8.6, F-18.2, F-18.3)
 - [x] Recopie des notes dans le dossier choisi, à l'activation puis à chaque enregistrement (F-18.4, F-18.5, F-18.6)
-- [ ] « Restaurer depuis un dossier » sans écrasement (F-18.7) ; règle d'import dans `domain/` + tests
-- [ ] Dossier inaccessible et arrêt de la sauvegarde (F-18.8, F-18.9)
+- [x] « Restaurer depuis un dossier » sans écrasement (F-18.7) ; règle d'import dans `domain/` + tests
+- [x] Dossier inaccessible et arrêt de la sauvegarde (F-18.8, F-18.9)
 - [x] Retour : Notes → éditeur (T-8, `BackHandler`)
 
 **Contrôle sur l'appareil**
@@ -85,7 +85,7 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 - [ ] Sauvegarde désactivée : l'avertissement est visible dans les réglages et dans « À propos »
 - [x] Activer la sauvegarde dans `Documents/Épure Notes` → fichiers visibles dans « Mes fichiers » ; modifier une note → copie à jour
 - [ ] Désinstaller, réinstaller, « Restaurer depuis un dossier » → toutes les notes reviennent, sans doublon
-- [ ] Renommer le dossier dans « Mes fichiers » → message « Dossier de sauvegarde introuvable. », notes intactes
+- [x] Renommer le dossier dans « Mes fichiers » → message « Dossier de sauvegarde introuvable. », notes intactes
 - [ ] Sauvegarde désactivée : une sauvegarde Google ou un transfert Smart Switch ne contient aucune note **[À VÉRIFIER]**
 - [ ] Smart Switch vers un autre téléphone recopie-t-il `Documents/Épure Notes` ? **[À VÉRIFIER]**, résultat consigné dans DEC-0019
 
@@ -96,7 +96,7 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 Décisions à trancher : couleurs exactes du thème Jour (DEC-0009, principe décidé), DEC-0015 (effacement), F-7.4 (masquage de la barre), F-8.1 (taille par défaut), forme des réglages (§ 3), F-2.7 (immersif), F-16, F-17.
 
 - [ ] Réglages enregistrés dans DataStore
-- [ ] Taille du texte 16 → 24 sp, par paliers (F-8.1)
+- [x] Taille du texte 12 → 24 sp, par paliers (F-8.1, DEC-0027)
 - [ ] Thème Nuit / Jour (F-8.2) ; jetons du thème clair dans `Color.kt`
 - [ ] Effacement oui / non (F-8.3) ; règle dans `domain/` + tests (retour arrière, couper, coller sur sélection, correction automatique)
 - [ ] Police retenue embarquée, licence copiée dans le dépôt et citée dans « À propos » (DEC-0010)

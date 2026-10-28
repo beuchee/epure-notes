@@ -12,13 +12,20 @@ class BackupFolder(private val resolver: ContentResolver) {
     // Dossier choisi, ou null si la sauvegarde est désactivée.
     var treeUri: Uri? = null
 
+    // Appelé quand le dossier choisi a disparu (renommé, supprimé) : SPEC F-18.8.
+    var onUnavailable: (() -> Unit)? = null
+
     fun write(id: String, text: String) {
         val tree = treeUri ?: return
         try {
-            val document = findOrCreate(tree, fileName(id)) ?: return
+            val document = findOrCreate(tree, fileName(id))
+            if (document == null) {
+                reportIfUnavailable(tree)
+                return
+            }
             resolver.openOutputStream(document, "wt")?.use { it.write(text.toByteArray(Charsets.UTF_8)) }
         } catch (error: IOException) {
-            // Dossier inaccessible : le traitement de ce cas (SPEC F-18.8) viendra avec la restauration.
+            reportIfUnavailable(tree)
         }
     }
 
@@ -27,7 +34,33 @@ class BackupFolder(private val resolver: ContentResolver) {
         try {
             findChild(tree, fileName(id))?.let { DocumentsContract.deleteDocument(resolver, it) }
         } catch (error: IOException) {
-            // Voir write().
+            reportIfUnavailable(tree)
+        }
+    }
+
+    // Lit les fichiers `.md` du dossier (nom, texte), pour la restauration (SPEC F-18.7).
+    fun readAll(tree: Uri): List<Pair<String, String>> {
+        val rootId = DocumentsContract.getTreeDocumentId(tree)
+        val childrenUri = DocumentsContract.buildChildDocumentsUriUsingTree(tree, rootId)
+        val projection = arrayOf(
+            DocumentsContract.Document.COLUMN_DOCUMENT_ID,
+            DocumentsContract.Document.COLUMN_DISPLAY_NAME
+        )
+        val children = mutableListOf<Pair<String, Uri>>()
+        resolver.query(childrenUri, projection, null, null, null)?.use { cursor ->
+            while (cursor.moveToNext()) {
+                val name = cursor.getString(1)
+                if (name.endsWith(".md")) {
+                    children += name to DocumentsContract.buildDocumentUriUsingTree(tree, cursor.getString(0))
+                }
+            }
+        }
+        return children.mapNotNull { (name, documentUri) ->
+            try {
+                resolver.openInputStream(documentUri)?.bufferedReader(Charsets.UTF_8)?.use { name to it.readText() }
+            } catch (error: IOException) {
+                null
+            }
         }
     }
 
@@ -43,8 +76,8 @@ class BackupFolder(private val resolver: ContentResolver) {
             val rootUri = DocumentsContract.buildDocumentUriUsingTree(tree, rootId)
             resolver.query(rootUri, arrayOf(DocumentsContract.Document.COLUMN_DISPLAY_NAME), null, null, null)
                 ?.use { cursor -> if (cursor.moveToFirst()) cursor.getString(0) else null }
-        } catch (error: SecurityException) {
-            // Accès retiré hors de l'app : pas de nom à afficher.
+        } catch (error: RuntimeException) {
+            // Dossier retiré ou accès révoqué (SecurityException, IllegalArgumentException) : pas de nom.
             null
         }
 
@@ -72,6 +105,14 @@ class BackupFolder(private val resolver: ContentResolver) {
             }
         }
         return null
+    }
+
+    // Si le dossier n'existe plus, la sauvegarde s'arrête (SPEC F-18.8). Une erreur passagère n'arrête rien.
+    private fun reportIfUnavailable(tree: Uri) {
+        if (folderName(tree) == null) {
+            treeUri = null
+            onUnavailable?.invoke()
+        }
     }
 
     private fun fileName(id: String) = "$id.md"

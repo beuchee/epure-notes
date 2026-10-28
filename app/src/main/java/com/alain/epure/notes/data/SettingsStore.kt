@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.alain.epure.notes.domain.DEFAULT_TEXT_SIZE
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -25,7 +27,15 @@ class SettingsStore(context: Context) {
         }
     }
 
+    // Taille du texte de l'éditeur, en sp (SPEC F-8.1).
+    val textSize: Flow<Int> = dataStore.data.map { it[TEXT_SIZE] ?: DEFAULT_TEXT_SIZE }
+
+    suspend fun setTextSize(size: Int) {
+        dataStore.edit { prefs -> prefs[TEXT_SIZE] = size }
+    }
+
     private companion object {
         val BACKUP_FOLDER = stringPreferencesKey("backup_folder")
+        val TEXT_SIZE = intPreferencesKey("text_size")
     }
 }

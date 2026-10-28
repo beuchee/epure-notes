@@ -46,6 +46,7 @@ fun NotesScreen(
     onOpenNote: (String) -> Unit,
     onDeleteNote: (String) -> Unit,
     onBack: () -> Unit,
+    onOpenSettings: () -> Unit,
     backupActive: Boolean
 ) {
     val rows by viewModel.rows.collectAsState()
@@ -102,6 +103,12 @@ fun NotesScreen(
                 colors = ButtonDefaults.textButtonColors(contentColor = TextPrimary)
             ) {
                 Text(text = stringResource(R.string.action_back))
+            }
+            TextButton(
+                onClick = onOpenSettings,
+                colors = ButtonDefaults.textButtonColors(contentColor = TextPrimary)
+            ) {
+                Text(text = stringResource(R.string.action_settings))
             }
         }
     }

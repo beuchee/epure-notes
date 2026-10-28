@@ -18,6 +18,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
@@ -32,6 +34,8 @@ import com.alain.epure.notes.ui.theme.TextSecondary
 // Éditeur plein écran : texte brut, marges de 24 dp, barre de commandes en bas (SPEC F-2, F-7).
 @Composable
 fun EditorScreen(viewModel: EditorViewModel, onOpenNotes: () -> Unit, onOpenSettings: () -> Unit) {
+    val textSize by viewModel.textSize.collectAsState()
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -45,7 +49,7 @@ fun EditorScreen(viewModel: EditorViewModel, onOpenNotes: () -> Unit, onOpenSett
                 .weight(1f)
                 .fillMaxWidth()
                 .padding(horizontal = 24.dp, vertical = 24.dp),
-            textStyle = TextStyle(color = TextPrimary, fontSize = 20.sp),
+            textStyle = TextStyle(color = TextPrimary, fontSize = textSize.sp),
             cursorBrush = SolidColor(TextPrimary),
             lineLimits = TextFieldLineLimits.MultiLine(),
             scrollState = rememberScrollState(),
@@ -54,7 +58,7 @@ fun EditorScreen(viewModel: EditorViewModel, onOpenNotes: () -> Unit, onOpenSett
                     if (viewModel.textState.text.isEmpty()) {
                         Text(
                             text = stringResource(R.string.editor_placeholder),
-                            style = TextStyle(color = TextSecondary, fontSize = 20.sp)
+                            style = TextStyle(color = TextSecondary, fontSize = textSize.sp)
                         )
                     }
                     innerTextField()

@@ -125,7 +125,7 @@ Avant une publication sur le Play Store : recherche d'homonymes, vérification I
 
 Réglages limités au strict minimum, mémorisés dans DataStore (Preferences) :
 
-- **F-8.1** **Taille du texte** : 16, 18, 20, 22, 24 sp. Un toucher sur le réglage passe à la valeur suivante (comme « 16px » dans freewrite). Valeur par défaut : **[À DÉCIDER]**, proposition 20 sp. (Le brief parle de « px » : en Android, le texte se mesure en `sp`, qui suit aussi le réglage de taille de police du téléphone.)
+- **F-8.1** **Taille du texte** : 12, 14, 16, 18, 20, 22, 24 sp (DEC-0027). Un toucher sur le réglage passe à la valeur suivante (comme « 16px » dans freewrite). Valeur par défaut : **[À DÉCIDER]**, proposition 20 sp. (Le brief parle de « px » : en Android, le texte se mesure en `sp`, qui suit aussi le réglage de taille de police du téléphone.)
 - **F-8.2** **Thème** : « Nuit » (par défaut) ou « Jour » (DEC-0009, décidée). Dérogation à la charte A.5 (thème sombre uniquement). Le thème Jour s'applique à tout l'écran : fond blanc, texte noir. Couleurs exactes à valider sur l'appareil.
 - **F-8.3** **Effacement** : « Effacer : oui » (par défaut) / « Effacer : non ». Quand l'effacement est désactivé, toute suppression de texte est refusée (touche Retour arrière, couper, remplacer une sélection, correction automatique). Mise en œuvre : DEC-0015 ; comportement du clavier Samsung **[À VÉRIFIER]**.
 - **F-8.4** « À propos » (F-15).

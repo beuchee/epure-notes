@@ -289,7 +289,7 @@ L'échelle de A.5 s'applique. `ClockStyle` et `DateStyle` ne servent pas. Un sty
 
 | Élément | Style |
 |---|---|
-| Texte de la note | Nouveau style `NoteTextStyle` : taille réglable 16, 18, 20, 22 ou 24 sp (défaut proposé 20 sp, **[À DÉCIDER]**), graisse Normal, texte principal ; interligne proposé 1,5 (**[À DÉCIDER]**, A.5 prévoit 1,3 à 1,4) |
+| Texte de la note | Nouveau style `NoteTextStyle` : taille réglable 12, 14, 16, 18, 20, 22 ou 24 sp (DEC-0027) (défaut proposé 20 sp, **[À DÉCIDER]**), graisse Normal, texte principal ; interligne proposé 1,5 (**[À DÉCIDER]**, A.5 prévoit 1,3 à 1,4) |
 | Titre d'écran (« Notes », « Tâches », « Réglages ») | `AppNameStyle`, texte principal |
 | Champs « Rechercher », « Ajouter une tâche » | Champ de recherche (A.6), `AppNameStyle` |
 | Titre d'une note dans la liste | **[À DÉCIDER]** : `AppNameStyle` (conforme) ou `LabelStyle` en texte principal ; 2 lignes au plus puis « … » (dérogation proposée, F-4.3) |

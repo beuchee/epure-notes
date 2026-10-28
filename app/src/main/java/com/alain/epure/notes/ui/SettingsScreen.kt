@@ -38,11 +38,13 @@ fun SettingsScreen(
     viewModel: SettingsViewModel,
     onStartBackup: () -> Unit,
     onStopBackup: () -> Unit,
+    onRestore: () -> Unit,
     onOpenAbout: () -> Unit,
     onBack: () -> Unit
 ) {
     BackHandler(onBack = onBack)
     val setting by viewModel.backupSetting.collectAsState()
+    val textSize by viewModel.textSize.collectAsState()
     var confirmStop by remember { mutableStateOf(false) }
 
     Column(
@@ -90,6 +92,26 @@ fun SettingsScreen(
                 )
             }
         }
+        Text(
+            text = stringResource(R.string.settings_text_size, textSize),
+            style = MaterialTheme.typography.bodyLarge,
+            color = TextPrimary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = viewModel::cycleTextSize)
+                .sizeIn(minHeight = 48.dp)
+                .padding(horizontal = 24.dp, vertical = 12.dp)
+        )
+        Text(
+            text = stringResource(R.string.settings_restore),
+            style = MaterialTheme.typography.bodyLarge,
+            color = TextPrimary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = onRestore)
+                .sizeIn(minHeight = 48.dp)
+                .padding(horizontal = 24.dp, vertical = 12.dp)
+        )
         Text(
             text = stringResource(R.string.settings_about),
             style = MaterialTheme.typography.bodyLarge,

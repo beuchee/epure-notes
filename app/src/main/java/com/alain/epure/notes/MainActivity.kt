@@ -3,6 +3,7 @@ package com.alain.epure.notes
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
@@ -22,7 +23,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
+import com.alain.epure.notes.domain.notesToImport
 import com.alain.epure.notes.domain.sharedNoteText
+import com.alain.epure.notes.domain.validNoteFiles
 import com.alain.epure.notes.ui.AboutScreen
 import com.alain.epure.notes.ui.EditorScreen
 import com.alain.epure.notes.ui.EditorViewModel
@@ -32,7 +35,10 @@ import com.alain.epure.notes.ui.SettingsScreen
 import com.alain.epure.notes.ui.SettingsViewModel
 import com.alain.epure.notes.ui.theme.Black
 import com.alain.epure.notes.ui.theme.EpureNotesTheme
+import com.alain.epure.notes.R
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // Écrans de l'app. Navigation par état simple (CLAUDE.md), sans bibliothèque de navigation.
 enum class Screen { Editor, Notes, Settings, About }
@@ -45,6 +51,7 @@ class MainActivity : ComponentActivity() {
     private lateinit var container: AppContainer
     private lateinit var editorViewModel: EditorViewModel
     private lateinit var pickBackupFolder: ActivityResultLauncher<Uri?>
+    private lateinit var pickRestoreFolder: ActivityResultLauncher<Uri?>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +63,7 @@ class MainActivity : ComponentActivity() {
         container = AppContainer(applicationContext)
         editorViewModel = ViewModelProvider(
             this,
-            viewModelFactory { initializer { EditorViewModel(container.noteStore, container.backup) } }
+            viewModelFactory { initializer { EditorViewModel(container.noteStore, container.backup, container.settings) } }
         )[EditorViewModel::class.java]
         val notesViewModel = ViewModelProvider(
             this,
@@ -70,6 +77,14 @@ class MainActivity : ComponentActivity() {
         // Le choix du dossier de sauvegarde passe par le sélecteur du système (SPEC F-18.3).
         pickBackupFolder = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
             if (uri != null) enableBackup(uri)
+        }
+        pickRestoreFolder = registerForActivityResult(ActivityResultContracts.OpenDocumentTree()) { uri ->
+            if (uri != null) restoreFrom(uri)
+        }
+        // Dossier introuvable : la sauvegarde s'arrête et le réglage repasse à « non » (SPEC F-18.8).
+        container.backup.onUnavailable = {
+            disableBackup()
+            Toast.makeText(this, R.string.backup_unavailable, Toast.LENGTH_LONG).show()
         }
         // Le dossier mémorisé est relu au démarrage, pour que les copies reprennent.
         lifecycleScope.launch {
@@ -119,12 +134,14 @@ class MainActivity : ComponentActivity() {
                             editorViewModel.onNoteDeleted(id)
                         },
                         onBack = { screen = Screen.Editor },
+                        onOpenSettings = { screen = Screen.Settings },
                         backupActive = container.backup.treeUri != null
                     )
                     Screen.Settings -> SettingsScreen(
                         viewModel = settingsViewModel,
                         onStartBackup = { pickBackupFolder.launch(null) },
                         onStopBackup = ::disableBackup,
+                        onRestore = { pickRestoreFolder.launch(null) },
                         onOpenAbout = { screen = Screen.About },
                         onBack = { screen = Screen.Editor }
                     )
@@ -155,6 +172,26 @@ class MainActivity : ComponentActivity() {
         editorViewModel.saveNow()
         container.backup.writeAll(container.noteStore.summaries().map { it.id to it.text })
         lifecycleScope.launch { container.settings.setBackupFolder(uri.toString()) }
+    }
+
+    // Restauration : importe les notes du dossier sans écraser celles qui existent (SPEC F-18.7).
+    private fun restoreFrom(folder: Uri) {
+        lifecycleScope.launch {
+            editorViewModel.saveNow()
+            val files = withContext(Dispatchers.IO) { container.backup.readAll(folder) }
+            val message = if (validNoteFiles(files).isEmpty()) {
+                getString(R.string.restore_none)
+            } else {
+                val existing = container.noteStore.summaries().map { it.id }.toSet()
+                val toImport = notesToImport(existing, files)
+                withContext(Dispatchers.IO) {
+                    toImport.forEach { (id, text) -> container.noteStore.save(id, text) }
+                }
+                if (container.backup.treeUri != null) container.backup.writeAll(toImport)
+                resources.getQuantityString(R.plurals.restore_result, toImport.size, toImport.size)
+            }
+            Toast.makeText(this@MainActivity, message, Toast.LENGTH_LONG).show()
+        }
     }
 
     // Arrêt : libère l'accès au dossier ; les copies existantes restent (SPEC F-18.9).

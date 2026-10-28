@@ -5,7 +5,12 @@ import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import com.alain.epure.notes.data.NoteStore
+import com.alain.epure.notes.data.SettingsStore
+import com.alain.epure.notes.domain.DEFAULT_TEXT_SIZE
 import com.alain.epure.notes.system.BackupFolder
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -15,10 +20,15 @@ import kotlinx.coroutines.launch
 // Porte la note en cours. Le texte vit ici (et non dans l'écran) pour survivre à une rotation.
 class EditorViewModel(
     private val store: NoteStore,
-    private val backup: BackupFolder
+    private val backup: BackupFolder,
+    settings: SettingsStore
 ) : ViewModel() {
 
     val textState = TextFieldState()
+
+    // Taille du texte, réglée dans Réglages (SPEC F-8.1).
+    val textSize: StateFlow<Int> = settings.textSize
+        .stateIn(viewModelScope, SharingStarted.Eagerly, DEFAULT_TEXT_SIZE)
 
     private var noteId: String
 

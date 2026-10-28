@@ -319,3 +319,13 @@
 - Vérification : après ajout, `aapt2 dump permissions` ne doit lister que `DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` (SPEC T-1, T-2).
 - Réversibilité : facile (réglages peu nombreux, à migrer si besoin).
 - Références : DEC-0004, DEC-0019, SPEC F-8, F-18, § 7.
+
+## DEC-0027 — Tailles du texte de l'éditeur : 12 à 24 sp
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (choix d'Alain)
+- Contexte : F-8.1 prévoyait 16, 18, 20, 22, 24 sp. Sur l'appareil, Alain souhaite pouvoir descendre plus bas.
+- Décision : sept paliers, 12, 14, 16, 18, 20, 22, 24 sp. Un toucher passe au palier suivant ; après 24 sp, retour à 12 sp. La valeur par défaut reste 20 sp (proposition de F-8.1, toujours [À DÉCIDER] pour la valeur par défaut).
+- Justification : demande d'Alain pour un texte plus petit.
+- Réversibilité : facile (liste de tailles dans `domain/TextSize.kt`).
+- Références : SPEC F-8.1, CHARTE B (B.4 ou tableau des textes), DEC-0021.
