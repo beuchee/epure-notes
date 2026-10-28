@@ -1,0 +1,249 @@
+# Journal des décisions — Épure Notes
+
+> Les entrées ne sont jamais effacées. Une décision révisée reçoit une nouvelle entrée qui renvoie à l'ancienne.
+> Statuts : **Décidée** · **Proposée** (à confirmer par Alain) · **[À DÉCIDER]** (options ouvertes) · **Remplacée par DEC-xxxx**.
+
+## Modèle d'entrée
+
+```
+## DEC-xxxx — Titre court
+- Date :
+- Statut :
+- Contexte :
+- Options :
+- Décision :
+- Justification :
+- Réversibilité :
+- Références : SPEC.md F-x.y / T-n
+```
+
+---
+
+## DEC-0001 — Nom et identifiants
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026
+- Contexte : le brief indique « Épure PDF », `EpurePdf`, `com.alain.epure.pdf`, `epure-pdf`, qui sont les identifiants de l'app de lecture PDF. L'`applicationId` ne peut plus changer après une publication et doit rester stable dès le premier build.
+- Options : reprendre les valeurs du brief (collision avec Épure PDF, impossible d'installer les deux apps) ; valeurs propres à l'app de notes.
+- Décision : « Épure Notes », `EpureNotes`, `com.alain.epure.notes`, dépôt `epure-notes`.
+- Justification : cohérence avec la famille Épure (A.2) ; deux apps distinctes doivent avoir deux identifiants.
+- Réversibilité : facile avant le premier build ; ensuite, changer l'`applicationId` revient à créer une autre app (données perdues).
+- Références : SPEC § 2.
+
+## DEC-0002 — Licence
+
+- Date : 28/10/2026
+- Statut : Décidée
+- Décision : GPL v3, fichier `LICENSE` dès le premier commit.
+- Justification : brief ; cohérence avec Épure et Épure PDF.
+- Réversibilité : difficile une fois des contributions externes acceptées.
+
+## DEC-0003 — App distincte
+
+- Date : 28/10/2026
+- Statut : Décidée
+- Décision : dépôt, identifiant et cycle de développement séparés du launcher Épure et d'Épure PDF ; aucune dépendance de code ; cohérence visuelle seulement (le thème est copié, pas partagé).
+- Réversibilité : facile.
+
+## DEC-0004 — Pile technique
+
+- Date : 28/10/2026
+- Statut : Décidée
+- Décision : charte A.3 sans changement (Kotlin, Compose, Material 3, `minSdk` 31, `targetSdk` / `compileSdk` 36, une activité, `ViewModel` + `StateFlow`, `AppContainer`, DataStore Preferences, `domain/` sans dépendance Android). Pas de code natif, pas de Room tant que des fichiers texte suffisent.
+- Réversibilité : moyenne.
+
+## DEC-0005 — Aucune permission INTERNET
+
+- Date : 28/10/2026
+- Statut : Décidée
+- Décision : aucune permission `INTERNET` ni aucune autre permission dans le manifeste fusionné. Vérification de l'APK à chaque ajout de dépendance ; une permission injectée est retirée par `tools:node="remove"` ou la bibliothèque est écartée.
+- Justification : garantie de confidentialité vérifiable par quiconque.
+- Réversibilité : techniquement facile, mais contraire à l'objet de l'app.
+
+## DEC-0006 — Inspiration freewrite, aucun code repris
+
+- Date : 28/10/2026
+- Statut : Décidée
+- Contexte : deux références. (1) freewrite de Farza (`github.com/farzaa/freewrite`) : app macOS en Swift / SwiftUI, sous licence MIT. (2) freewrite pour Android de Mohammed Farseen (`com.farseen.freewrite`) : aucun dépôt de code source public trouvé le 28/10/2026, licence inconnue.
+- Décision : inspiration d'ergonomie seulement (écran d'écriture nu, barre basse discrète, réglages en panneau, désactivation de l'effacement). Aucun code, texte ou visuel repris. Le code Swift n'est de toute façon pas transposable.
+- Mentions : README et « À propos » : « Interface inspirée de freewrite », sans logo ni suggestion d'affiliation.
+- Prudence : « Freewrite » est aussi un nom de produit commercial (machines à écrire numériques) ; ne jamais l'employer dans le nom, le paquet ou une fiche de store. À vérifier avant toute publication.
+- Réversibilité : —
+
+## DEC-0007 — Lieu et format de stockage des notes
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 — option A (stockage interne), complétée par une sauvegarde optionnelle (DEC-0019)
+- Contexte : le brief reprend la règle d'Épure PDF (« l'app ne copie pas les fichiers, elle conserve seulement leur URI »), qui n'a pas d'équivalent ici : les notes sont créées par l'app et doivent être stockées quelque part.
+- Options :
+  - A. Un fichier texte `.md` par note dans le stockage interne privé de l'app (`filesDir/notes/`). Aucune permission, aucun choix au premier lancement, le plus simple. Fichiers invisibles depuis « Mes fichiers » ; perdus à la désinstallation si `allowBackup` est à `false`.
+  - B. Fichiers `.md` dans un dossier choisi par l'utilisateur (`ACTION_OPEN_DOCUMENT_TREE`, autorisation persistante). Aucune permission ; notes visibles et sauvegardables avec les outils de l'utilisateur. Mais un choix de dossier au premier lancement (contraire à « ouvrir et écrire tout de suite »), accès aux fichiers plus lent et plus complexe, risque de modification externe pendant l'édition.
+  - C. Base Room. Recherche plus rapide sur de gros volumes, mais nouvelle dépendance, données non lisibles hors de l'app ; écarté par la charte tant que les données ne sont pas structurées.
+- Proposition initiale : A pour les jalons 1 à 5 ; nom de fichier fondé sur la date de création (ex. `2026-10-28-163012.md`), titre jamais dans le nom.
+- Décision (28/10/2026) : A par défaut. Le dossier choisi par l'utilisateur (B) n'est pas le lieu de travail des notes, mais une **copie de sauvegarde optionnelle** (DEC-0019).
+- Réversibilité : A → B possible par une fonction d'export / migration.
+- Références : SPEC F-3.5, § 8, DEC-0008.
+
+## DEC-0008 — Sauvegarde Android (`allowBackup`)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 — sauvegarde système fermée ; sauvegarde par l'utilisateur en option (DEC-0019)
+- Contexte : la charte A.3 fixe `allowBackup` à `false` « pour un outil qui ne stocke que des préférences locales ». Épure Notes stocke du contenu personnel ; la prémisse ne s'applique plus.
+- Options :
+  - A. `false` : rien ne quitte le téléphone ; notes perdues en cas de désinstallation, de réinitialisation ou de perte du téléphone ; seule protection, le partage manuel.
+  - B. `true` avec règles d'extraction limitées aux notes et aux tâches (`dataExtractionRules`) : sauvegarde par le système Android (Google, et transfert d'appareil à appareil, ex. Smart Switch **[À VÉRIFIER]**), chiffrée de bout en bout si un verrouillage d'écran est défini. L'app ne demande toujours pas `INTERNET`, mais les données quittent le téléphone par le système.
+  - C. `false` + export manuel de toutes les notes en un fichier (via le partage ou le sélecteur de fichiers).
+- Proposition initiale : A au jalon 1 ; trancher entre B et C au jalon 2.
+- Fait technique : `allowBackup` est un attribut **figé dans le manifeste** ; il ne peut pas devenir un réglage que l'utilisateur active. De plus, pour une app qui cible Android 12 ou plus, `allowBackup="false"` bloque la sauvegarde cloud et la sauvegarde ADB, mais **pas le transfert d'appareil à appareil**. Pour que rien ne sorte par le système, il faut aussi des règles `dataExtractionRules` qui excluent tout, pour `<cloud-backup>` comme pour `<device-transfer>`.
+- Décision (28/10/2026) :
+  - `android:allowBackup="false"` ;
+  - `android:dataExtractionRules="@xml/data_extraction_rules"`, qui exclut tous les domaines pour `<cloud-backup>` et `<device-transfer>` ;
+  - `android:fullBackupContent` de même pour Android 11 et moins : sans objet, puisque `minSdk` vaut 31.
+  - Le besoin de transfert et de sauvegarde longue est couvert par une fonction de l'app, que l'utilisateur active lui-même (DEC-0019, option C élargie).
+- Justification : « aucune donnée ne quitte le téléphone » reste vrai par défaut ; l'utilisateur choisit lui-même où va sa copie.
+- **À reporter dans la charte** : la règle A.3 (`allowBackup` à `false`) ne suffit pas à elle seule sous Android 12 et plus. Le launcher Épure et Épure PDF sont concernés aussi : ajouter les mêmes `dataExtractionRules`, ou accepter le transfert d'appareil à appareil de leurs préférences.
+- Réversibilité : facile.
+- Références : SPEC T-13, F-18, § 8.
+
+## DEC-0009 — Thème clair (dérogation à la charte A.5)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (Nuit par défaut, Jour en option) ; **valeurs des couleurs du thème Jour à valider sur l'appareil**
+- Remarque : dans Épure PDF, le mode nuit inverse seulement les pages et l'interface reste noire. Dans Épure Notes, il n'y a pas de page : le texte est l'interface. Le thème Jour change donc le fond de tout l'écran (blanc) et pas seulement une page.
+- Contexte : la charte A.5 impose le thème sombre seul. L'écriture en plein jour justifie un thème clair, proposé par freewrite (« Light Mode »).
+- Décision : thème Nuit par défaut, thème Jour en option. Toujours sans couleur dynamique ni couleur d'accent ; trois jetons par thème.
+- Proposition de jetons du thème Jour : fond `#FFFFFF`, texte principal `#000000`, texte secondaire `#5F5F5F` (le `#B0B0B0` du thème sombre serait illisible sur blanc). Contraste à vérifier (WCAG AA : au moins 4,5:1 pour le texte secondaire) **[À VÉRIFIER]**.
+- Réversibilité : facile.
+- Références : SPEC F-8.2.
+
+## DEC-0010 — Police
+
+- Date : 28/10/2026
+- Statut : **[À DÉCIDER]** (au plus tard au jalon 3 ; police système provisoire au jalon 1)
+- Contexte : le brief demande un rendu proche de freewrite, qui utilise Lato par défaut (captures). La charte A.5 prévoit la police système et exige une décision pour toute police tierce.
+- Options :
+  - A. Police système (Samsung One) : aucun fichier ajouté, rendu One UI, moins proche de freewrite.
+  - B. Lato embarquée (`res/font/`, deux fichiers `.ttf`, quelques centaines de Ko), licence SIL Open Font License 1.1, disponible sur Google Fonts. Distribution avec une app GPL v3 : la police reste un fichier séparé sous sa propre licence (agrégat) ; copier `OFL.txt` dans le dépôt et la citer dans « À propos ».
+  - C. Polices téléchargeables (Google Play services) : écartées, elles dépendent d'un service Google et d'un téléchargement.
+- Proposition : B, si la différence de rendu est jugée utile sur l'appareil ; sinon A.
+- Réversibilité : facile.
+- Références : SPEC F-2.4.
+
+## DEC-0011 — Aucune icône dans la barre de commandes
+
+- Date : 28/10/2026
+- Statut : Décidée sur le principe (charte A.5) ; **libellés [À DÉCIDER]**
+- Contexte : freewrite utilise des icônes (étincelles, +, historique, chevron). La charte exclut les icônes ; l'exception des raccourcis d'Épure ne s'applique pas ici.
+- Décision : libellés texte. Proposition : « Nouvelle », « Notes », « Tâches », « Réglages », puis « → Tâche » au jalon 5.
+- Point de vigilance : 4 à 5 libellés de 20 sp sur la largeur d'un téléphone, avec la police système agrandie **[À VÉRIFIER]** ; à défaut, retour à la ligne de la barre ou libellés plus courts.
+- Réversibilité : facile.
+
+## DEC-0012 — Éléments du brief propres à un lecteur PDF
+
+- Date : 28/10/2026
+- Statut : **Proposée**
+- Contexte : le brief d'Épure Notes reprend plusieurs éléments d'Épure PDF (zoom, demi-page, indicateur « 12 / 48 », saut de page, inversion des couleurs des pages, intent `VIEW` `application/pdf`, URI persistantes, PdfRenderer / pdfium, « retirer de la liste sans supprimer le fichier »).
+- Décision proposée : les écarter ou les remplacer selon le tableau SPEC § 5. En particulier : réception de texte partagé (`ACTION_SEND`, `text/plain`) à la place de l'ouverture de PDF ; taille du texte réglable à la place du zoom ; thème Nuit / Jour à la place de l'inversion.
+- Justification : le double toucher et le pincement ont déjà un rôle dans un champ de texte (sélection) ; la notion de page n'existe pas dans une note.
+- Réversibilité : facile tant que rien n'est codé.
+
+## DEC-0013 — Ajouter une ligne d'une note aux tâches
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 — option A
+- Contexte : le brief prévoit l'appui long sur une ligne. Dans un champ de texte Android, l'appui long sélectionne un mot et ouvre le menu Copier / Coller ; le détourner casse un comportement attendu.
+- Options :
+  - A. Action « → Tâche » dans la barre : ajoute la ligne du curseur. Simple, fiable, sans conflit de geste, conforme à « un libellé pour chaque action » (A.9).
+  - B. Entrée « Ajouter aux tâches » dans le menu de sélection du système. Naturelle (appui long → sélection → menu), mais l'API Compose de menu de texte personnalisé est récente : faisabilité à vérifier selon la version de Compose au jalon 5 ; ajoute la sélection, pas forcément la ligne.
+  - C. Remplacer l'appui long : écartée.
+- Proposition : A ; B en complément si l'API le permet simplement.
+- Décision (28/10/2026) : A, action « → Tâche » dans la barre de commandes. B reste une piste à réévaluer au jalon 5, sans engagement.
+- Réversibilité : facile.
+- Références : SPEC F-13.
+
+## DEC-0014 — Format de la liste de tâches
+
+- Date : 28/10/2026
+- Statut : **[À DÉCIDER]** avant le jalon 5
+- Options :
+  - A. Fichier unique `taches.md`, une tâche par ligne : `- [ ] texte` / `- [x] texte`. Lisible hors de l'app, partageable tel quel, cohérent avec les notes.
+  - B. DataStore (liste sérialisée). Plus simple à coder, illisible hors de l'app.
+  - C. Room : surdimensionné.
+- Proposition : A, lecture / écriture dans `domain/` avec tests.
+- Réversibilité : facile.
+- Références : SPEC F-12.7.
+
+## DEC-0015 — Désactivation de l'effacement
+
+- Date : 28/10/2026
+- Statut : **Proposée** ; comportement des claviers **[À VÉRIFIER]**
+- Contexte : freewrite propose « Backspace On / Off » pour écrire sans se corriger. Sur Android, le clavier virtuel n'envoie pas toujours une touche « Retour arrière » : il remplace souvent directement le texte (mot en cours de composition, correction automatique, balayage pour effacer).
+- Décision proposée : filtrer les **modifications** du texte plutôt que les touches. Avec le champ de texte récent de Compose (`BasicTextField` avec `TextFieldState`), une `InputTransformation` refuse toute modification qui retire des caractères ; la règle « insertion pure ou non » est une fonction du `domain/`, testée. Quand l'effacement est désactivé, désactiver aussi la correction automatique (`KeyboardOptions`), sinon chaque correction serait refusée.
+- Points à vérifier sur l'appareil : clavier Samsung (composition des mots, suggestions, balayage), Gboard si installé ; collage sur une sélection.
+- Réversibilité : facile.
+- Références : SPEC F-8.3.
+
+## DEC-0016 — Tâches sur l'écran d'accueil
+
+- Date : 28/10/2026
+- Statut : **[À DÉCIDER]** au jalon 6
+- Options :
+  - A. Widget avec Jetpack Glance (bibliothèque AndroidX, Apache 2.0, compatible GPL v3) : affiche les tâches ; nouvelle dépendance à justifier.
+  - B. Widget avec les `RemoteViews` classiques : aucune dépendance, code plus verbeux.
+  - C. Raccourci d'app (appui long sur l'icône → « Tâches ») : aucune dépendance, très simple, mais n'affiche pas les tâches.
+- Préalable **[À VÉRIFIER]** : le launcher Épure héberge-t-il des widgets et des raccourcis d'app ?
+- Réversibilité : facile.
+- Références : SPEC F-14.
+
+## DEC-0017 — Fonctions de freewrite non retenues
+
+- Date : 28/10/2026
+- Statut : **Proposée**
+- Décision proposée : pas de fonction d'IA (bouton étincelles de freewrite) — elle exigerait le réseau, contraire à DEC-0005 ; pas de minuteur d'écriture (« 15:00 ») ni de choix de police multiple (Lato / Serif / Mono / System), absents de la liste des fonctions du brief.
+- Réversibilité : le minuteur pourrait être ajouté plus tard sans permission.
+
+## DEC-0018 — Enregistrement automatique
+
+- Date : 28/10/2026
+- Statut : **Proposée**
+- Décision proposée : enregistrement 1 s après la dernière frappe et en `onStop`, par `AtomicFile` (AndroidX Core, déjà présent dans le projet) ; aucune indication à l'écran ; une note vide n'est jamais écrite.
+- Justification : pas de perte de texte, même après un arrêt du processus par le système ; pas d'écriture à chaque caractère.
+- Réversibilité : facile.
+- Références : SPEC F-3.
+
+## DEC-0019 — Sauvegarde optionnelle dans un dossier choisi par l'utilisateur
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (principe et modalités)
+- Contexte : par défaut, les notes ne sont que dans le stockage interne, sans sauvegarde système (DEC-0007, DEC-0008). Alain souhaite pouvoir, en option, transférer ses notes vers un nouveau téléphone et les conserver durablement.
+- Options écartées :
+  - activer la sauvegarde Android à la demande : impossible simplement, car `allowBackup` est figé dans le manifeste. Un agent de sauvegarde personnalisé qui lirait un réglage serait complexe, dépendrait du compte Google, et son comportement avec Smart Switch serait incertain ;
+  - export manuel seul : couvre le transfert, mais pas la sauvegarde continue (il faut y penser).
+- Décision :
+  - Réglage « Sauvegarde » : **désactivé par défaut**. L'activer ouvre le sélecteur de dossier du système (`ACTION_OPEN_DOCUMENT_TREE`). L'utilisateur choisit un dossier, par exemple `Documents/Épure Notes`, ou un dossier synchronisé par l'outil de son choix. L'autorisation sur ce dossier est conservée (`takePersistableUriPermission`). Aucune permission n'est déclarée.
+  - Quand la sauvegarde est active, chaque enregistrement d'une note ou des tâches est **recopié** dans ce dossier, sous forme de fichiers `.md` lisibles par n'importe quelle app.
+  - « Restaurer depuis un dossier » (nouveau téléphone) : choisir le dossier, puis importer les notes et les tâches qu'il contient. Une note déjà présente n'est jamais écrasée.
+  - Désactiver la sauvegarde libère l'autorisation sur le dossier et n'efface pas les copies.
+  - Avertissement affiché sous le réglage, en italique et en `TextSecondary`, tant que la sauvegarde est désactivée : *« Tes notes sont enregistrées seulement sur ce téléphone. Elles seront perdues si tu désinstalles l'app ou si tu perds le téléphone. »* L'italique est une petite dérogation typographique à la charte A.5, à reporter dans la Partie B.
+- Modalités (décidées le 28/10/2026) :
+  - recopie à chaque enregistrement de la note (et non seulement en `onStop`) ;
+  - fichiers inconnus déjà présents dans le dossier : ignorés, jamais modifiés ni supprimés.
+- [À VÉRIFIER] : Smart Switch recopie-t-il le dossier `Documents` vers le nouveau téléphone ? Comportement si l'utilisateur supprime ou renomme le dossier hors de l'app : message « Dossier de sauvegarde introuvable. », sauvegarde suspendue, notes intactes.
+- Confidentialité : si le dossier choisi est synchronisé par une app de cloud, les notes quittent le téléphone **par cette app**, à l'initiative de l'utilisateur ; Épure Notes ne demande toujours pas `INTERNET`. À écrire tel quel dans le README.
+- Décision complémentaire (28/10/2026) : supprimer une note dans l'app supprime aussi sa copie dans le dossier de sauvegarde (« supprimée partout »). La copie reflète l'état de l'app ; ce n'est pas une archive. La confirmation de suppression (F-6.4) le précise.
+- Réversibilité : facile.
+- Références : SPEC F-18, § 7, § 8.
+
+## DEC-0020 — `compileSdk` 37, `targetSdk` 36 (écart avec la charte A.3)
+
+- Date : 28/10/2026
+- Statut : **Proposée**
+- Contexte : la charte A.3 fixe `compileSdk` et `targetSdk` à 36. Le modèle Empty Activity d'Android Studio (octobre 2026) installe `androidx.core` 1.19.1 et `androidx.lifecycle` 2.11.0, qui exigent `compileSdk` 37 (vérification « AAR metadata » au build).
+- Options :
+  - A. `compileSdk` 37, `targetSdk` 36. Le `compileSdk` sert seulement à la compilation (les API qu'on *peut* appeler) ; il ne change pas le comportement de l'app. Le `targetSdk`, qui active les nouveaux comportements d'Android, reste à 36, la version du téléphone de test. Aucune action supplémentaire ; on garde des bibliothèques à jour.
+  - B. Tout à 36 et rétrograder les bibliothèques AndroidX vers des versions compatibles. Conforme à la lettre de la charte, mais versions plus anciennes à retrouver et à maintenir, et le problème reviendra à chaque mise à jour.
+- Décision proposée : A.
+- Garde-fou : ne pas appeler d'API propre à Android 17 sans vérification de version (`Build.VERSION.SDK_INT`) ; lint le signale (`NewApi`), puisque `minSdk` vaut 31.
+- **À reporter dans la charte** (A.3) : `compileSdk` = dernière version requise par les bibliothèques AndroidX ; `targetSdk` = version du téléphone de test. Le launcher Épure et Épure PDF rencontreront le même cas à leur prochaine mise à jour de bibliothèques.
+- Réversibilité : facile.
+- Références : SPEC T-5.
