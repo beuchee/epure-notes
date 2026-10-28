@@ -11,24 +11,39 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.systemBarsPadding
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.alain.epure.notes.R
 import com.alain.epure.notes.ui.theme.Black
 import com.alain.epure.notes.ui.theme.TextPrimary
 import com.alain.epure.notes.ui.theme.TextSecondary
 
-// Liste de réglages (DEC-0024). Pour l'instant : « À propos ». La sauvegarde arrivera ici.
+// Liste de réglages (DEC-0024) : sauvegarde (F-18) et « À propos ».
 @Composable
-fun SettingsScreen(onOpenAbout: () -> Unit, onBack: () -> Unit) {
+fun SettingsScreen(
+    viewModel: SettingsViewModel,
+    onStartBackup: () -> Unit,
+    onStopBackup: () -> Unit,
+    onOpenAbout: () -> Unit,
+    onBack: () -> Unit
+) {
     BackHandler(onBack = onBack)
+    val setting by viewModel.backupSetting.collectAsState()
+    var confirmStop by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -42,6 +57,39 @@ fun SettingsScreen(onOpenAbout: () -> Unit, onBack: () -> Unit) {
             color = TextPrimary,
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)
         )
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable {
+                    if (setting.active) confirmStop = true else onStartBackup()
+                }
+                .padding(horizontal = 24.dp, vertical = 12.dp)
+        ) {
+            Text(
+                text = stringResource(
+                    if (setting.active) R.string.settings_backup_on else R.string.settings_backup_off
+                ),
+                style = MaterialTheme.typography.bodyLarge,
+                color = TextPrimary
+            )
+            if (setting.active) {
+                setting.folderName?.let {
+                    Text(
+                        text = it,
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = TextSecondary
+                    )
+                }
+            } else {
+                Text(
+                    text = stringResource(R.string.backup_warning),
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontStyle = FontStyle.Italic,
+                    color = TextSecondary,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
+        }
         Text(
             text = stringResource(R.string.settings_about),
             style = MaterialTheme.typography.bodyLarge,
@@ -62,5 +110,25 @@ fun SettingsScreen(onOpenAbout: () -> Unit, onBack: () -> Unit) {
                 Text(text = stringResource(R.string.action_back))
             }
         }
+    }
+
+    if (confirmStop) {
+        AlertDialog(
+            onDismissRequest = { confirmStop = false },
+            text = { Text(text = stringResource(R.string.backup_stop_question)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    confirmStop = false
+                    onStopBackup()
+                }) {
+                    Text(text = stringResource(R.string.action_stop))
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { confirmStop = false }) {
+                    Text(text = stringResource(R.string.action_cancel))
+                }
+            }
+        )
     }
 }

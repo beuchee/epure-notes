@@ -6,13 +6,17 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.alain.epure.notes.data.NoteStore
+import com.alain.epure.notes.system.BackupFolder
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.launch
 
 // Porte la note en cours. Le texte vit ici (et non dans l'écran) pour survivre à une rotation.
-class EditorViewModel(private val store: NoteStore) : ViewModel() {
+class EditorViewModel(
+    private val store: NoteStore,
+    private val backup: BackupFolder
+) : ViewModel() {
 
     val textState = TextFieldState()
 
@@ -37,7 +41,10 @@ class EditorViewModel(private val store: NoteStore) : ViewModel() {
 
     // Appelé aussi à l'arrêt de l'app (SPEC F-3.1, onStop).
     fun saveNow() {
-        store.save(noteId, textState.text.toString())
+        val text = textState.text.toString()
+        store.save(noteId, text)
+        // Copie de sauvegarde à chaque enregistrement (SPEC F-18.4) ; une note vide n'a pas de copie.
+        if (text.isBlank()) backup.delete(noteId) else backup.write(noteId, text)
     }
 
     // Nouvelle note vide ; sans effet si la note en cours est déjà vide (SPEC F-5.2).

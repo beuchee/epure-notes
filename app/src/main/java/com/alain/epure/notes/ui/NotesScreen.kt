@@ -45,7 +45,8 @@ fun NotesScreen(
     viewModel: NotesViewModel,
     onOpenNote: (String) -> Unit,
     onDeleteNote: (String) -> Unit,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    backupActive: Boolean
 ) {
     val rows by viewModel.rows.collectAsState()
     val context = LocalContext.current
@@ -108,7 +109,13 @@ fun NotesScreen(
     noteToDelete?.let { row ->
         AlertDialog(
             onDismissRequest = { noteToDelete = null },
-            text = { Text(text = stringResource(R.string.delete_note_question)) },
+            text = {
+                Text(
+                    text = stringResource(
+                        if (backupActive) R.string.delete_note_question_backup else R.string.delete_note_question
+                    )
+                )
+            },
             confirmButton = {
                 TextButton(onClick = {
                     onDeleteNote(row.id)

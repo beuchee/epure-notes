@@ -306,3 +306,16 @@
 - Justification : demande explicite d'Alain.
 - Réversibilité : facile.
 - Références : DEC-0006, SPEC F-15.
+
+## DEC-0026 — Bibliothèque DataStore Preferences (réglages)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Contexte : le réglage « Sauvegarde » (dossier choisi, F-18) et les autres réglages doivent être mémorisés. La charte A.3 prévoit DataStore Preferences pour les réglages (DEC-0004).
+- Options :
+  - A. `androidx.datastore:datastore-preferences` 1.2.1 (AndroidX, licence Apache 2.0, compatible GPL v3). Bibliothèque officielle, sans permission, asynchrone.
+  - B. `SharedPreferences` (Android, sans bibliothèque). Rien à ajouter, mais s'écarte de la charte et du choix de DEC-0004.
+- Décision : A, version 1.2.1 (stable, publiée avant la 1.3.0 du 21/10/2026 pour un peu de recul).
+- Vérification : après ajout, `aapt2 dump permissions` ne doit lister que `DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` (SPEC T-1, T-2).
+- Réversibilité : facile (réglages peu nombreux, à migrer si besoin).
+- Références : DEC-0004, DEC-0019, SPEC F-8, F-18, § 7.

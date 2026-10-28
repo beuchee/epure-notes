@@ -67,8 +67,8 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 - [x] Partage du texte par la feuille de partage (F-9.1)
 - [x] Réception de texte partagé depuis une autre app → nouvelle note (F-10.1), si retenue
 - [ ] « À propos » (F-15), avec l'avertissement de perte (F-18.2)
-- [ ] Commande « Réglages » ; réglage « Sauvegarde » avec avertissement en italique (F-8.6, F-18.2, F-18.3)
-- [ ] Recopie des notes dans le dossier choisi, à l'activation puis à chaque enregistrement (F-18.4, F-18.5, F-18.6)
+- [x] Commande « Réglages » ; réglage « Sauvegarde » avec avertissement en italique (F-8.6, F-18.2, F-18.3)
+- [x] Recopie des notes dans le dossier choisi, à l'activation puis à chaque enregistrement (F-18.4, F-18.5, F-18.6)
 - [ ] « Restaurer depuis un dossier » sans écrasement (F-18.7) ; règle d'import dans `domain/` + tests
 - [ ] Dossier inaccessible et arrêt de la sauvegarde (F-18.8, F-18.9)
 - [x] Retour : Notes → éditeur (T-8, `BackHandler`)
@@ -78,12 +78,12 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 - [ ] 30 notes fictives : ordre correct, défilement fluide, titres longs lisibles
 - [x] Modifier une ancienne note → elle remonte en tête
 - [x] Supprimer avec « Annuler » puis « Supprimer » → comportement attendu, fichier effacé
-- [ ] Sauvegarde active : supprimer une note → message de confirmation adapté, copie effacée aussi du dossier
+- [x] Sauvegarde active : supprimer une note → message de confirmation adapté, copie effacée aussi du dossier
 - [x] Partager vers Gmail ou Samsung Notes → texte et sujet corrects
 - [x] Depuis Chrome, partager un texte sélectionné vers Épure Notes → nouvelle note (si F-10 retenue)
 - [x] Geste Retour prédictif : aperçu correct, pas de sortie involontaire de l'app depuis « Notes »
 - [ ] Sauvegarde désactivée : l'avertissement est visible dans les réglages et dans « À propos »
-- [ ] Activer la sauvegarde dans `Documents/Épure Notes` → fichiers visibles dans « Mes fichiers » ; modifier une note → copie à jour
+- [x] Activer la sauvegarde dans `Documents/Épure Notes` → fichiers visibles dans « Mes fichiers » ; modifier une note → copie à jour
 - [ ] Désinstaller, réinstaller, « Restaurer depuis un dossier » → toutes les notes reviennent, sans doublon
 - [ ] Renommer le dossier dans « Mes fichiers » → message « Dossier de sauvegarde introuvable. », notes intactes
 - [ ] Sauvegarde désactivée : une sauvegarde Google ou un transfert Smart Switch ne contient aucune note **[À VÉRIFIER]**

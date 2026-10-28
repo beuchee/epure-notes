@@ -88,7 +88,7 @@ fun AboutScreen(onBack: () -> Unit) {
                 modifier = Modifier.padding(top = 8.dp)
             )
             Text(
-                text = stringResource(R.string.about_backup_warning),
+                text = stringResource(R.string.backup_warning),
                 style = MaterialTheme.typography.bodyMedium,
                 fontStyle = FontStyle.Italic,
                 color = TextSecondary,
