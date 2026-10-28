@@ -79,7 +79,7 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 - [x] Modifier une ancienne note → elle remonte en tête
 - [x] Supprimer avec « Annuler » puis « Supprimer » → comportement attendu, fichier effacé
 - [ ] Sauvegarde active : supprimer une note → message de confirmation adapté, copie effacée aussi du dossier
-- [ ] Partager vers Gmail ou Samsung Notes → texte et sujet corrects
+- [x] Partager vers Gmail ou Samsung Notes → texte et sujet corrects
 - [ ] Depuis Chrome, partager un texte sélectionné vers Épure Notes → nouvelle note (si F-10 retenue)
 - [x] Geste Retour prédictif : aperçu correct, pas de sortie involontaire de l'app depuis « Notes »
 - [ ] Sauvegarde désactivée : l'avertissement est visible dans les réglages et dans « À propos »
