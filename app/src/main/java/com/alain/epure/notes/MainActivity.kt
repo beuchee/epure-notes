@@ -18,15 +18,17 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.alain.epure.notes.domain.sharedNoteText
+import com.alain.epure.notes.ui.AboutScreen
 import com.alain.epure.notes.ui.EditorScreen
 import com.alain.epure.notes.ui.EditorViewModel
 import com.alain.epure.notes.ui.NotesScreen
 import com.alain.epure.notes.ui.NotesViewModel
+import com.alain.epure.notes.ui.SettingsScreen
 import com.alain.epure.notes.ui.theme.Black
 import com.alain.epure.notes.ui.theme.EpureNotesTheme
 
 // Écrans de l'app. Navigation par état simple (CLAUDE.md), sans bibliothèque de navigation.
-enum class Screen { Editor, Notes }
+enum class Screen { Editor, Notes, Settings, About }
 
 class MainActivity : ComponentActivity() {
 
@@ -72,8 +74,17 @@ class MainActivity : ComponentActivity() {
                         onOpenNotes = {
                             editorViewModel.saveNow()
                             screen = Screen.Notes
+                        },
+                        onOpenSettings = {
+                            editorViewModel.saveNow()
+                            screen = Screen.Settings
                         }
                     )
+                    Screen.Settings -> SettingsScreen(
+                        onOpenAbout = { screen = Screen.About },
+                        onBack = { screen = Screen.Editor }
+                    )
+                    Screen.About -> AboutScreen(onBack = { screen = Screen.Settings })
                     Screen.Notes -> NotesScreen(
                         viewModel = notesViewModel,
                         onOpenNote = { id ->

@@ -10,4 +10,12 @@
     <string name="notes_title">Notes</string>
     <string name="notes_empty">Aucune note</string>
     <string name="delete_note_question">Supprimer cette note ?</string>
-</resources>
+    <string name="action_settings">Réglages</string>
+    <string name="settings_title">Réglages</string>
+    <string name="settings_about">À propos</string>
+    <string name="about_title">À propos</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_license">Licence GNU GPL v3. Code source :</string>
+    <string name="about_privacy_title">Confidentialité</string>
+    <string name="about_privacy">Épure Notes n\'a aucune permission et n\'accède pas au réseau. Aucune donnée ne quitte le téléphone.</string>
+    <string name="about_backup_warning">Tes notes sont enregistrées seulement sur ce téléphone. Elles seront perdues si tu désinstalles l\'app ou si tu perds le téléphone.</string></resources>

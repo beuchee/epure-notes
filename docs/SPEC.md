@@ -183,7 +183,7 @@ Le brief prévoyait l'ouverture de PDF depuis d'autres apps (intent `VIEW`, `app
 
 ### F-15 — À propos (jalon 2)
 
-Version, licence GPL v3, lien vers le dépôt (ouvert par le navigateur), confidentialité (§ 8), crédit d'inspiration (« Interface inspirée de freewrite »), licence de la police si une police est embarquée (SIL OFL 1.1 pour Lato).
+Version, licence GPL v3, lien vers le dépôt (ouvert par le navigateur), confidentialité (§ 8), licence de la police si une police est embarquée (SIL OFL 1.1 pour Lato).
 
 ### F-18 — Sauvegarde et restauration optionnelles (jalon 2)
 

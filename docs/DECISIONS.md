@@ -286,3 +286,23 @@
 - Justification : choix simples, qui suivent les propositions de la spec, et qui n'ajoutent ni permission ni bibliothèque.
 - Réversibilité : facile.
 - Références : SPEC F-4.3, F-6.4, F-9.2, F-10.1.
+
+## DEC-0024 — Forme de l'écran Réglages
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Décision : les réglages sont un écran « Liste de réglages » à part, ouvert par la commande « Réglages » de la barre. Pas de panneau dépliable.
+- Justification : écran simple à lire et à tester sur le téléphone ; même principe que « Notes ».
+- Réversibilité : facile.
+- Références : SPEC §3, F-7.2, F-8.
+
+## DEC-0025 — Retrait de la mention « Interface inspirée de freewrite » dans « À propos »
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (demandée par Alain)
+- Contexte : DEC-0006 prévoit la mention « Interface inspirée de freewrite » dans le README et dans « À propos ».
+- Décision : la mention est retirée de l'écran « À propos » et du README, sur confirmation d'Alain. DEC-0006 reste inchangée dans son texte ; cette décision la remplace pour ces deux endroits.
+- Alignement : `SPEC.md` F-15 et `CHARTE.md` (tableau des marques et « À propos ») mis à jour sur décision d'Alain.
+- Justification : demande explicite d'Alain.
+- Réversibilité : facile.
+- Références : DEC-0006, SPEC F-15.

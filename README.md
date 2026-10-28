@@ -4,8 +4,6 @@ Application Android de prise de notes minimaliste, entièrement hors ligne : éc
 
 Projet en cours de construction (jalon 0). Pas encore utilisable.
 
-Interface inspirée de freewrite, sans code repris.
-
 ## Confidentialité
 
 - Les notes restent sur le téléphone, dans le stockage privé de l'app.

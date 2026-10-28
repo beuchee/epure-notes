@@ -237,7 +237,7 @@ Référence ergonomique : l'app freewrite (Android, Mohammed Farseen ; macOS, Fa
 | Dépôt Git | `epure-notes` |
 | Licence | GPL v3 |
 | Relation avec Épure et Épure PDF | Apps distinctes ; cohérence visuelle seulement ; thème copié, pas partagé |
-| Marques | « freewrite » cité seulement comme inspiration, dans le README et « À propos » (« Interface inspirée de freewrite ») ; jamais dans le nom, le paquet ou une fiche de store |
+| Marques | « freewrite » jamais dans le nom, le paquet ou une fiche de store ; aucune mention dans le README ni dans « À propos » (DEC-0025) |
 
 ### B.3 Écrans
 
@@ -367,7 +367,6 @@ Libellés de référence, à reprendre dans `strings.xml` ; ceux marqués (p) so
 | Réglages | « Taille du texte », « Thème : Nuit » / « Thème : Jour », « Effacer : oui » / « Effacer : non », « Sauvegarde : oui » / « Sauvegarde : non », « Restaurer depuis un dossier », « À propos » |
 | Avertissement (italique) | « Tes notes sont enregistrées seulement sur ce téléphone. Elles seront perdues si tu désinstalles l'app ou si tu perds le téléphone. » |
 | Sauvegarde | « Arrêter la sauvegarde ? », « Annuler », « Arrêter », « Dossier de sauvegarde introuvable. », « 12 notes importées. » (nombre réel), « Aucune note trouvée dans ce dossier. » |
-| À propos | « Interface inspirée de freewrite » |
 
 Les messages exacts restent ajustables au jalon concerné ; le ton reste neutre et factuel (A.7).
 
