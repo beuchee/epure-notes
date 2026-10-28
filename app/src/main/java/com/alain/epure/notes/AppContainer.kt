@@ -1,5 +1,9 @@
 package com.alain.epure.notes
 
-// Point unique où seront créées les dépendances de l'app (dépôts, fichiers, réglages).
-// Vide au jalon 0 ; pas de framework d'injection (CLAUDE.md).
-class AppContainer
+import com.alain.epure.notes.data.NoteStore
+import java.io.File
+
+// Point unique où sont créées les dépendances de l'app. Pas de framework d'injection (CLAUDE.md).
+class AppContainer(filesDir: File) {
+    val noteStore = NoteStore(File(filesDir, "notes"))
+}

@@ -32,27 +32,27 @@
 
 Décision à trancher avant de coder : DEC-0010 (police, ou police système provisoire). Stockage : DEC-0007, décidée.
 
-- [ ] `domain/` : calcul du titre (F-4.1) + tests unitaires
-- [ ] `data/` : dépôt des notes (créer, lire, écrire, lister), écriture atomique (`AtomicFile`)
-- [ ] Éditeur plein écran, texte brut, marges 24 dp (F-2.1 à F-2.3)
-- [ ] Gestion du clavier et des barres système (`WindowInsets`), défilement qui suit le curseur (F-2.2)
-- [ ] Enregistrement automatique après pause de frappe et en `onStop` (F-3.1, F-3.2)
-- [ ] Ouverture sur la dernière note, curseur à la fin (F-1.1, F-1.2)
+- [x] `domain/` : calcul du titre (F-4.1) + tests unitaires
+- [x] `data/` : dépôt des notes (créer, lire, écrire, lister), écriture atomique (`AtomicFile`)
+- [x] Éditeur plein écran, texte brut, marges 24 dp (F-2.1 à F-2.3)
+- [x] Gestion du clavier et des barres système (`WindowInsets`), défilement qui suit le curseur (F-2.2)
+- [x] Enregistrement automatique après pause de frappe et en `onStop` (F-3.1, F-3.2)
+- [x] Ouverture sur la dernière note, curseur à la fin (F-1.1, F-1.2)
 - [ ] Texte indicatif sur note vide (F-1.3)
-- [ ] Note vide jamais conservée (F-3.4)
-- [ ] Barre de commandes toujours visible avec « Nouvelle » (F-5, F-7.3)
-- [ ] Retour depuis l'éditeur : quitte l'app (T-8)
-- [ ] Vérifier : toujours aucune permission dans l'APK
+- [x] Note vide jamais conservée (F-3.4)
+- [x] Barre de commandes toujours visible avec « Nouvelle » (F-5, F-7.3)
+- [x] Retour depuis l'éditeur : quitte l'app (T-8)
+- [x] Vérifier : toujours aucune permission dans l'APK
 
 **Contrôle sur l'appareil**
 
-- [ ] Lancer → écrire une phrase → Accueil → relancer : la phrase est là, curseur à la fin
-- [ ] Écrire puis fermer l'app depuis les apps récentes → texte conservé
-- [ ] Arrêt forcé (Paramètres > Applications > Épure Notes > « Forcer l'arrêt ») → texte conservé
-- [ ] Texte de 3 écrans : le curseur n'est jamais caché par le clavier
-- [ ] Rotation de l'écran : ni perte de texte, ni saut du curseur
-- [ ] « Nouvelle » sans rien écrire, puis relance : aucune note vide créée
-- [ ] Taille de police système agrandie au maximum : texte et barre restent utilisables
+- [x] Lancer → écrire une phrase → Accueil → relancer : la phrase est là, curseur à la fin
+- [x] Écrire puis fermer l'app depuis les apps récentes → texte conservé
+- [x] Arrêt forcé (Paramètres > Applications > Épure Notes > « Forcer l'arrêt ») → texte conservé
+- [x] Texte de 3 écrans : le curseur n'est jamais caché par le clavier
+- [x] Rotation de l'écran : ni perte de texte, ni saut du curseur
+- [x] « Nouvelle » sans rien écrire, puis relance : aucune note vide créée
+- [x] Taille de police système agrandie au maximum : texte et barre restent utilisables
 
 ---
 

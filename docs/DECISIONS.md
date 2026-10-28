@@ -205,7 +205,7 @@
 ## DEC-0018 — Enregistrement automatique
 
 - Date : 28/10/2026
-- Statut : **Proposée**
+- Statut : **Décidée** le 28/10/2026 (validée par Alain, jalon 1)
 - Décision proposée : enregistrement 1 s après la dernière frappe et en `onStop`, par `AtomicFile` (AndroidX Core, déjà présent dans le projet) ; aucune indication à l'écran ; une note vide n'est jamais écrite.
 - Justification : pas de perte de texte, même après un arrêt du processus par le système ; pas d'écriture à chaque caractère.
 - Réversibilité : facile.
@@ -248,3 +248,18 @@
 - **À reporter dans la charte** (A.3) : `compileSdk` = dernière version requise par les bibliothèques AndroidX ; `targetSdk` = version du téléphone de test. Le launcher Épure et Épure PDF rencontreront le même cas à leur prochaine mise à jour de bibliothèques.
 - Réversibilité : facile.
 - Références : SPEC T-5.
+
+## DEC-0021 — Choix de l'éditeur (jalon 1)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Contexte : plusieurs points de SPEC F-1 à F-2 étaient [À DÉCIDER] ; le jalon 1 demande un éditeur utilisable.
+- Décision :
+  - F-1.4 : le clavier ne s'ouvre pas tout seul à l'arrivée ; un toucher dans le texte l'ouvre.
+  - F-1.3 : pas de texte indicatif sur note vide pour l'instant (reporté, la tâche reste ouverte dans la roadmap).
+  - F-8.1 : taille du texte fixée à 20 sp, valeur par défaut proposée (le réglage arrive au jalon 3).
+  - F-2.3 : interligne par défaut de Material 3, provisoire, en attendant la décision sur la valeur.
+  - F-3.1 : enregistrement 1 s après la dernière frappe, et à l'arrêt de l'app (DEC-0018).
+- Justification : rendre l'éditeur testable sur l'appareil sans trancher à la place d'Alain les points de confort.
+- Réversibilité : facile.
+- Références : SPEC F-1.3, F-1.4, F-2.3, F-3.1, F-8.1.
