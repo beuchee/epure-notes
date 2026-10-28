@@ -1,6 +1,7 @@
 package com.alain.epure.notes.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -47,7 +48,18 @@ fun EditorScreen(viewModel: EditorViewModel) {
             textStyle = TextStyle(color = TextPrimary, fontSize = 20.sp),
             cursorBrush = SolidColor(TextPrimary),
             lineLimits = TextFieldLineLimits.MultiLine(),
-            scrollState = rememberScrollState()
+            scrollState = rememberScrollState(),
+            decorator = { innerTextField ->
+                Box {
+                    if (viewModel.textState.text.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.editor_placeholder),
+                            style = TextStyle(color = TextSecondary, fontSize = 20.sp)
+                        )
+                    }
+                    innerTextField()
+                }
+            }
         )
         HorizontalDivider(color = TextSecondary, thickness = 1.dp)
         Row(

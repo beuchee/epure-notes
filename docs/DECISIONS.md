@@ -256,10 +256,20 @@
 - Contexte : plusieurs points de SPEC F-1 à F-2 étaient [À DÉCIDER] ; le jalon 1 demande un éditeur utilisable.
 - Décision :
   - F-1.4 : le clavier ne s'ouvre pas tout seul à l'arrivée ; un toucher dans le texte l'ouvre.
-  - F-1.3 : pas de texte indicatif sur note vide pour l'instant (reporté, la tâche reste ouverte dans la roadmap).
+  - F-1.3 : texte indicatif « Commence à écrire » en `TextSecondary` sur note vide, validé par Alain le 28/10/2026 (ajouté après la première version de DEC-0021).
   - F-8.1 : taille du texte fixée à 20 sp, valeur par défaut proposée (le réglage arrive au jalon 3).
   - F-2.3 : interligne par défaut de Material 3, provisoire, en attendant la décision sur la valeur.
   - F-3.1 : enregistrement 1 s après la dernière frappe, et à l'arrêt de l'app (DEC-0018).
 - Justification : rendre l'éditeur testable sur l'appareil sans trancher à la place d'Alain les points de confort.
 - Réversibilité : facile.
 - Références : SPEC F-1.3, F-1.4, F-2.3, F-3.1, F-8.1.
+
+## DEC-0022 — Gris secondaire du thème Nuit (révise DEC-0009)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (demandée par Alain après essai sur l'appareil)
+- Contexte : DEC-0009 donne `TextSecondary` = `#B0B0B0` pour le thème Nuit. Sur l'appareil, le texte indicatif « Commence à écrire » paraissait trop clair.
+- Décision : `TextSecondary` = `#999999`. Le jeton reste unique et sert à tous les textes secondaires du thème Nuit.
+- Justification : assombrir un peu le gris tout en gardant un contraste d'environ 7,4:1 sur fond noir (au-dessus du seuil WCAG AA de 4,5:1 pour le texte).
+- Réversibilité : facile (une seule valeur dans `Color.kt`).
+- Références : DEC-0009, SPEC F-1.3, F-8.2.

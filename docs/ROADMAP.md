@@ -38,7 +38,7 @@ Décision à trancher avant de coder : DEC-0010 (police, ou police système prov
 - [x] Gestion du clavier et des barres système (`WindowInsets`), défilement qui suit le curseur (F-2.2)
 - [x] Enregistrement automatique après pause de frappe et en `onStop` (F-3.1, F-3.2)
 - [x] Ouverture sur la dernière note, curseur à la fin (F-1.1, F-1.2)
-- [ ] Texte indicatif sur note vide (F-1.3)
+- [x] Texte indicatif sur note vide (F-1.3)
 - [x] Note vide jamais conservée (F-3.4)
 - [x] Barre de commandes toujours visible avec « Nouvelle » (F-5, F-7.3)
 - [x] Retour depuis l'éditeur : quitte l'app (T-8)

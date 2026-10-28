@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Épure Notes</string>
     <string name="action_new_note">Nouvelle</string>
+    <string name="editor_placeholder">Commence à écrire</string>
 </resources>
