@@ -55,6 +55,15 @@ class EditorViewModel(private val store: NoteStore) : ViewModel() {
         textState.setTextAndPlaceCursorAtEnd(store.read(id))
     }
 
+    // Nouvelle note contenant un texte reçu d'une autre app (SPEC F-10.1). Rien si le texte est vide.
+    fun newNoteWith(content: String) {
+        if (content.isBlank()) return
+        saveNow()
+        noteId = store.create()
+        textState.setTextAndPlaceCursorAtEnd(content)
+        saveNow()
+    }
+
     // Si la note supprimée est celle qui est ouverte, on passe à la plus récente ou à une note vide (SPEC F-6.5).
     fun onNoteDeleted(id: String) {
         if (id != noteId) return

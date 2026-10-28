@@ -65,7 +65,7 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 - [x] Suppression avec confirmation ; cas de la note ouverte (F-6.4, F-6.5)
 - [x] Liste vide : « Aucune note » (F-6.6)
 - [x] Partage du texte par la feuille de partage (F-9.1)
-- [ ] Réception de texte partagé depuis une autre app → nouvelle note (F-10.1), si retenue
+- [x] Réception de texte partagé depuis une autre app → nouvelle note (F-10.1), si retenue
 - [ ] « À propos » (F-15), avec l'avertissement de perte (F-18.2)
 - [ ] Commande « Réglages » ; réglage « Sauvegarde » avec avertissement en italique (F-8.6, F-18.2, F-18.3)
 - [ ] Recopie des notes dans le dossier choisi, à l'activation puis à chaque enregistrement (F-18.4, F-18.5, F-18.6)
@@ -80,7 +80,7 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 - [x] Supprimer avec « Annuler » puis « Supprimer » → comportement attendu, fichier effacé
 - [ ] Sauvegarde active : supprimer une note → message de confirmation adapté, copie effacée aussi du dossier
 - [x] Partager vers Gmail ou Samsung Notes → texte et sujet corrects
-- [ ] Depuis Chrome, partager un texte sélectionné vers Épure Notes → nouvelle note (si F-10 retenue)
+- [x] Depuis Chrome, partager un texte sélectionné vers Épure Notes → nouvelle note (si F-10 retenue)
 - [x] Geste Retour prédictif : aperçu correct, pas de sortie involontaire de l'app depuis « Notes »
 - [ ] Sauvegarde désactivée : l'avertissement est visible dans les réglages et dans « À propos »
 - [ ] Activer la sauvegarde dans `Documents/Épure Notes` → fichiers visibles dans « Mes fichiers » ; modifier une note → copie à jour
