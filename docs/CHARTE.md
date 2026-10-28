@@ -1,7 +1,7 @@
-# Charte graphique et fonctionnelle — Épure PDF
+# Charte graphique et fonctionnelle — Épure Notes
 
-> Partie A : version 1.0 du 24 octobre 2026, reprise **sans modification** de la charte du launcher Épure (DEC-0010). Les références de la Partie A (`ActionRow.kt`, « Épure »…) désignent les fichiers et l'app du launcher, qui servent de modèle.
-> Partie B : version 0.1 du 24 octobre 2026, propre à Épure PDF.
+> Partie A : version 1.0 du 24 octobre 2026, reprise **sans modification** de la charte d'Épure PDF, elle-même reprise du launcher Épure. Les références de la Partie A (`ActionRow.kt`, « Épure »…) désignent les fichiers et l'app du launcher, qui servent de modèle. Les écarts d'Épure Notes avec la Partie A sont listés en B.13.
+> Partie B : version 0.1 du 28 octobre 2026, propre à Épure Notes.
 > Ce document ne remplace pas `SPEC.md`, qui reste le cahier des charges détaillé. En cas d'écart, `SPEC.md` et `DECISIONS.md` font foi ; l'écart est signalé et tranché.
 
 ---
@@ -217,197 +217,232 @@ Règles de méthode :
 
 ---
 
-## Partie B — Épure PDF
+## Partie B — Épure Notes
 
-Cette partie décrit ce qu'Épure PDF fait et comment la Partie A s'applique à un lecteur de documents. Les exigences détaillées sont dans `SPEC.md` (références entre parenthèses). Tout ce qui est marqué **[À DÉCIDER]** n'est pas tranché.
+Cette partie décrit ce qu'Épure Notes fait et comment la Partie A s'applique à une app d'écriture. Les exigences détaillées sont dans `SPEC.md` (références entre parenthèses), les décisions dans `DECISIONS.md`. Tout ce qui est marqué **[À DÉCIDER]** n'est pas tranché ; les propositions sont signalées comme telles.
 
 ### B.1 Objet
 
-Lecteur PDF Android minimaliste, entièrement hors ligne : lire sans distraction, sans réseau, sans collecte de données. Usage principal : articles scientifiques, recommandations, documents de travail. Usage personnel en priorité ; code public ; publication sur le Play Store éventuelle, non prioritaire.
+App Android de prise de notes minimaliste, entièrement hors ligne : écrire sans distraction, sans réseau, sans collecte de données. Usages : prise de notes rapide (ouvrir l'app et écrire tout de suite), écriture libre sans mise en forme, extraction d'une ligne vers une liste de tâches. Usage personnel en priorité ; code public ; publication sur le Play Store éventuelle, non prioritaire.
 
-### B.2 Identité (DEC-0001 à DEC-0003)
+Référence ergonomique : l'app freewrite (Android, Mohammed Farseen ; macOS, Farza). Inspiration d'interface seulement, aucun code repris (DEC-0006).
+
+### B.2 Identité (DEC-0001 à DEC-0003, DEC-0006)
 
 | Élément | Valeur |
 |---|---|
-| Nom affiché | « Épure PDF » |
-| Nom technique | `EpurePdf` |
-| `applicationId` | `com.alain.epure.pdf` |
-| Dépôt Git | `epure-pdf` |
+| Nom affiché | « Épure Notes » |
+| Nom technique | `EpureNotes` |
+| `applicationId` et `namespace` | `com.alain.epure.notes` |
+| Dépôt Git | `epure-notes` |
 | Licence | GPL v3 |
-| Relation avec Épure | App distincte ; cohérence visuelle seulement |
-| Marques | Aucun nom, logo ou visuel d'Adobe ; « PDF » employé comme nom de format (ISO 32000) |
+| Relation avec Épure et Épure PDF | Apps distinctes ; cohérence visuelle seulement ; thème copié, pas partagé |
+| Marques | « freewrite » cité seulement comme inspiration, dans le README et « À propos » (« Interface inspirée de freewrite ») ; jamais dans le nom, le paquet ou une fiche de store |
 
 ### B.3 Écrans
 
 | Écran | Rôle | Accès | Jalon |
 |---|---|---|---|
-| Accueil | Titre, « Ouvrir un fichier », récents, accès aux paramètres | Lancement de l'app | 1, 2 |
-| Lecteur | Pages en défilement vertical continu, commandes au toucher | Ouverture d'un document | 1 |
-| Aller à la page | Boîte de saisie | Toucher l'indicateur de page | 3 |
-| Marque-pages | Liste des pages marquées | Commandes | 4 |
-| Recherche | Champ et navigation entre résultats | Commandes | 4 (conditionnel) |
-| Table des matières | Sommaire hiérarchique du PDF | Commandes | 4 (conditionnel) |
-| Paramètres | Options de lecture, « À propos » | Accueil | 2, 3 |
-| Mot de passe | Boîte de saisie | PDF protégé | 5 (conditionnel) |
+| Éditeur | Écran principal : la note en cours, plein écran, barre de commandes en bas | Lancement de l'app | 1 |
+| Notes | Liste des notes, de la plus récente à la plus ancienne ; champ de recherche (jalon 4) | Commande « Notes » | 2 |
+| Réglages | Sauvegarde et restauration (jalon 2) ; taille du texte, thème, effacement (jalon 3) ; « À propos » | Commande « Réglages » | 2, 3 |
+| À propos | Version, licence, dépôt, confidentialité, crédits | Réglages | 2 |
+| Tâches | Liste de tâches unique | Commande « Tâches » | 5 |
+| Menu d'une note | « Partager », « Supprimer » | Appui long sur une note | 2 |
+| Confirmations | Suppression d'une note, arrêt de la sauvegarde, effacement des tâches faites | Action irréversible | 2, 5 |
 
-- Emplacement de l'accès aux paramètres sur l'accueil : **[À DÉCIDER]**. Proposition : action secondaire « Paramètres » (`LabelStyle`, `TextSecondary`) en bas de l'écran, comme dans Épure.
-- Pas d'écran d'autorisation (A.6, A.10) : l'app ne demande aucune permission (B.6).
+- Il n'y a pas d'écran d'accueil distinct : l'éditeur est l'accueil (F-1).
+- Forme des réglages : écran « Liste de réglages » (A.6) ou panneau dépliable au-dessus de la barre, comme freewrite : **[À DÉCIDER]** (`SPEC.md` § 3). Proposition : panneau dépliable.
+- Pas d'écran d'autorisation (A.6, A.10) : l'app ne demande aucune permission (B.10). Le choix du dossier de sauvegarde passe par le sélecteur système, qui n'est pas une permission.
 
-### B.4 Application de la charte visuelle au lecteur
+### B.4 Application de la charte visuelle
 
-#### Pages et fond
+#### Thèmes Nuit et Jour (dérogation à A.5, DEC-0009)
+
+Le thème Nuit, par défaut, reprend exactement les trois jetons de A.5. Le thème Jour est une dérogation décidée : l'écran entier passe en clair, car dans une app d'écriture le texte est l'interface (dans Épure PDF, seul le contenu des pages était inversé).
+
+| Rôle | Nuit (défaut, = A.5) | Jour (proposition, à valider sur l'appareil) |
+|---|---|---|
+| Fond | `#000000` | `#FFFFFF` |
+| Texte principal, curseur, éléments actifs | `#FFFFFF` | `#000000` |
+| Texte secondaire, filets, liserés, éléments inactifs | `#B0B0B0` | `#5F5F5F` (contraste ≥ 4,5:1 à vérifier) |
+
+- Toujours sans couleur dynamique ni couleur d'accent.
+- Proposition de mise en œuvre : jetons nommés par rôle et par thème dans `Color.kt` (ex. `NightBackground`, `DayBackground`), repris dans `darkColorScheme` et `lightColorScheme` ; le choix suit le réglage de l'app, pas le thème du téléphone.
+- `themes.xml` garde un fond noir (`android:windowBackground`) : au démarrage en thème Jour, un bref passage par le noir est accepté plutôt qu'un flash blanc en thème Nuit **[À VÉRIFIER]**.
+
+#### Éditeur
 
 | Élément | Règle |
 |---|---|
-| Fond hors des pages | `Black` |
-| Pages | Couleurs d'origine du PDF (DEC-0010) ; ce n'est pas une dérogation, les pages sont du contenu, pas de l'interface |
-| Espace entre deux pages | Noir, 8 dp (proposition **[À DÉCIDER]**) |
-| Marges latérales autour des pages | 0 dp (proposition **[À DÉCIDER]**), pour maximiser la surface de lecture |
-| Page en cours de rendu | Rectangle de la bonne proportion, couleur de page unie, sans indicateur animé (A.6, « Pendant une action ») |
-| Page illisible | « Page illisible » en `TextSecondary`, centré dans le rectangle de la page |
-| Mode nuit | Inversion des couleurs des pages par filtre d'affichage ; images comprises (limite assumée) ; l'interface ne change pas |
+| Zone de texte | Plein écran, texte brut, sans cadre ni soulignement |
+| Marges | 24 dp latérales, 24 dp en haut (A.5) |
+| Clavier | La zone de texte et la barre restent au-dessus du clavier (`WindowInsets.ime`) |
+| Texte indicatif (note vide) | Même style que le texte, en texte secondaire ; libellé proposé « Commence à écrire » |
+| Barre de commandes | En bas, filet de 1 dp en haut, actions texte ; toujours visible au jalon 1, masquée pendant la frappe à partir du jalon 3 (`SPEC.md` F-7.4, **[À DÉCIDER]**) |
+| Enregistrement | Aucun indicateur « enregistré » (A.6, « Pendant une action ») |
+| Mode immersif | Proposition : barre d'état masquée, barre de navigation conservée **[À DÉCIDER]** (F-2.7) |
 
-#### Plein écran
+#### Typographie propre à Épure Notes
 
-- Lecture en mode immersif : barres d'état et de navigation masquées.
-- Les barres système réapparaissent avec les commandes, ou par balayage depuis le bord.
-
-#### Typographie propre à Épure PDF
-
-L'échelle de A.5 s'applique. Les styles `ClockStyle` et `DateStyle` (heure, date) ne servent pas. Usages :
+L'échelle de A.5 s'applique. `ClockStyle` et `DateStyle` ne servent pas. Un style est ajouté pour le texte des notes.
 
 | Élément | Style |
 |---|---|
-| Titre de l'accueil « Épure PDF » | `AppNameStyle`, `TextPrimary` |
-| « Ouvrir un fichier » | Action en liste (`AppNameStyle`) |
-| Nom de fichier dans les récents | **[À DÉCIDER]** : `AppNameStyle` (conforme) ou `LabelStyle` en `TextPrimary` (dérogation, mieux adapté aux noms longs d'articles) |
-| Seconde ligne d'un récent (« p. 12 / 48 ») | `LabelStyle`, `TextSecondary` (proposition) |
-| Nom du fichier dans les commandes | `LabelStyle`, `TextPrimary` |
-| Indicateur « 12 / 48 » | `LabelStyle`, `TextSecondary` |
-| Actions des commandes | Action secondaire, en `TextPrimary` quand disponible, `TextSecondary` quand indisponible |
-| Titres de la table des matières | `LabelStyle`, `TextPrimary` ; retrait de 16 dp par niveau |
+| Texte de la note | Nouveau style `NoteTextStyle` : taille réglable 16, 18, 20, 22 ou 24 sp (défaut proposé 20 sp, **[À DÉCIDER]**), graisse Normal, texte principal ; interligne proposé 1,5 (**[À DÉCIDER]**, A.5 prévoit 1,3 à 1,4) |
+| Titre d'écran (« Notes », « Tâches », « Réglages ») | `AppNameStyle`, texte principal |
+| Champs « Rechercher », « Ajouter une tâche » | Champ de recherche (A.6), `AppNameStyle` |
+| Titre d'une note dans la liste | **[À DÉCIDER]** : `AppNameStyle` (conforme) ou `LabelStyle` en texte principal ; 2 lignes au plus puis « … » (dérogation proposée, F-4.3) |
+| Date de la note (seconde ligne) | `LabelStyle`, texte secondaire |
+| Tâche à faire / faite | Proposition : `LabelStyle`, texte principal / texte secondaire (F-12.3) |
+| Actions de la barre | `LabelStyle` ; texte principal si disponible, texte secondaire sinon |
+| Réglages | Action en liste, valeur dans le libellé (« Taille du texte : 20 », « Thème : Nuit », « Effacer : oui », « Sauvegarde : non ») |
+| Avertissement de perte de données | `LabelStyle`, texte secondaire, **italique** (dérogation décidée, DEC-0019) |
+
+- Police : système au jalon 1 ; Lato embarquée (SIL OFL 1.1) ou police système : **[À DÉCIDER]** (DEC-0010). Si Lato est retenue, elle ne sert qu'au texte des notes ou à toute l'interface : à préciser dans la décision.
 
 #### Iconographie
 
-Aucune icône. Toutes les actions du lecteur sont des libellés texte (« Sommaire », « Rechercher », « Marque-page », « Nuit », « Plus »). L'exception des raccourcis d'Épure (A.5) ne s'applique pas ici.
+Aucune icône (DEC-0011). Les icônes de freewrite (étincelles, +, historique, chevron) sont remplacées par des libellés texte. L'exception des raccourcis d'Épure (A.5) ne s'applique pas.
 
-#### Dérogations possibles, non tranchées
+Point de vigilance : le libellé proposé « → Tâche » contient une flèche, que A.5 exclut comme pictogramme décoratif. Libellé à trancher **[À DÉCIDER]** : « → Tâche » (flèche considérée comme du texte) ou un libellé sans flèche, par exemple « En tâche ».
 
-| Sujet | Problème | Référence |
-|---|---|---|
-| Signalement des résultats de recherche | Il faut marquer un mot sur une page claire ; aucune couleur d'accent disponible | `SPEC.md` F-11.4, **[À DÉCIDER]** |
-| Taille du nom dans les récents | Noms de fichiers longs | `SPEC.md` F-4.1, **[À DÉCIDER]** |
+#### Dérogations à la Partie A
+
+| Sujet | Règle A | Dérogation | État |
+|---|---|---|---|
+| Thème clair | A.5 : sombre uniquement | Thème Jour en option | Décidée (DEC-0009) |
+| Italique | A.5 : graisses Light et Normal seulement | Avertissement de sauvegarde en italique | Décidée (DEC-0019) |
+| Interligne du texte des notes | A.5 : 1,3 à 1,4 | 1,5, proche de freewrite | **[À DÉCIDER]** (F-2.3) |
+| Police tierce | A.5 : police système | Lato embarquée | **[À DÉCIDER]** (DEC-0010) |
+| Troncature des titres | A.5 : pas de troncature | 2 lignes puis « … » | **[À DÉCIDER]** (F-4.3) |
 
 Toute dérogation retenue est consignée dans `DECISIONS.md` puis reportée ici.
 
-### B.5 Composants propres à Épure PDF
+### B.5 Composants propres à Épure Notes
 
 À créer dans ce projet, en respectant les composants types de A.6 :
 
 | Composant | Description | Exigences |
 |---|---|---|
-| **Liste de pages** | Défilement vertical continu, rendu à la demande, zoom par pincement et double toucher | F-2, F-3 |
-| **Barre de commandes** | Fond `Black`, texte seul ; en haut le nom du fichier, en bas l'indicateur et les actions ; apparition et disparition immédiates | F-6 |
-| **Indicateur de page** | « 12 / 48 », touchable : ouvre « Aller à la page » | F-7 |
-| **Ligne de récent** | Nom du fichier (passage à la ligne, pas de troncature) et seconde ligne en `TextSecondary` ; appui court = ouvrir, appui long = menu | F-4 |
-| **Liste hiérarchique** | Table des matières, retrait par niveau, texte seul | F-13 |
+| **Éditeur** | Zone de texte plein écran, enregistrement automatique, gestion du clavier ; filtrage des suppressions quand « Effacer : non » | F-1 à F-3, F-8.3 |
+| **Barre de commandes** | Rangée d'actions texte en bas de l'éditeur, filet de 1 dp en haut, cibles ≥ 48 dp ; apparition et disparition immédiates | F-7 |
+| **Ligne de note** | Titre (première ligne de la note) et date en seconde ligne ; appui court = ouvrir, appui long = menu | F-6 |
+| **Ligne de tâche** | Texte de la tâche ; appui court = fait / à faire, appui long = menu ; tâche faite en texte secondaire | F-12 |
+| **Réglage à valeurs** | Action en liste dont le libellé affiche la valeur courante ; un toucher passe à la valeur suivante | F-8 |
+| **Avertissement** | Phrase en `LabelStyle`, texte secondaire, italique, sous le réglage « Sauvegarde » et dans « À propos » | F-18.2 |
 
-Composants de A.6 réutilisés tels quels : action en liste, action secondaire, champ de recherche, fenêtre de menu, boîte de saisie, liste de réglages, séparateur. L'index alphabétique et l'écran d'autorisation ne servent pas.
+Composants de A.6 réutilisés tels quels : action en liste, action secondaire, champ de recherche, fenêtre de menu (menu d'une note, confirmations), boîte de saisie (modifier une tâche), liste de réglages (si l'écran est retenu), séparateur. L'index alphabétique et l'écran d'autorisation ne servent pas.
 
 ### B.6 Gestes et navigation
 
 | Geste | Où | Effet |
 |---|---|---|
-| Appui court | Récent | Ouvrir à la dernière position |
-| Appui long | Récent | Menu : « Retirer de la liste », « Partager » |
-| Toucher simple | Page | Afficher ou masquer les commandes (après le délai de double toucher du système) |
-| Double toucher | Page | Cycle de zoom ; proposition : largeur → demi-page (colonne touchée) → largeur, **[À DÉCIDER]** |
-| Pincement | Page | Zoom continu, de la largeur au maximum (×5, proposition **[À DÉCIDER]**) |
-| Défilement | Page | Défilement natif ; masque les commandes |
-| Toucher | Indicateur de page | « Aller à la page » |
-| Retour | Lecteur | Ferme la fenêtre ouverte, puis masque les commandes, puis quitte le lecteur (accueil, ou app d'origine si ouverture depuis une autre app) |
-| Retour | Accueil | Quitte l'app (comportement Android standard ; Épure PDF n'est pas un launcher) |
+| Toucher | Texte de la note | Place le curseur et ouvre le clavier ; à partir du jalon 3, fait aussi réapparaître la barre |
+| Appui long, double toucher | Texte de la note | Sélection système (copier, coller…) ; non détournés (DEC-0013) |
+| Pincement | Texte de la note | Aucun effet ; la taille se règle dans les réglages (DEC-0012) |
+| Défilement | Texte de la note | Défilement natif |
+| Toucher | Action de la barre | Exécute l'action |
+| Appui court / appui long | Note dans la liste | Ouvrir / menu « Partager », « Supprimer » |
+| Appui court / appui long | Tâche | Fait ou à faire / menu « Modifier », « Supprimer » |
+| Toucher | Réglage | Valeur suivante, ou sélecteur de dossier pour la sauvegarde |
+| Retour | Partout | Ferme d'abord la fenêtre ou le panneau ouvert, puis masque le clavier |
+| Retour | Notes, Tâches, Réglages | Revient à l'éditeur |
+| Retour | Éditeur | Quitte l'app (comportement Android standard ; Épure Notes n'est pas un launcher) |
 
-- Masquage automatique des commandes : 4 s (proposition **[À DÉCIDER]**).
-- Pas de geste sans libellé équivalent, sauf le zoom (A.9) : le pincement et le double toucher sont les gestes standards d'un lecteur.
+- Aucun geste sans libellé équivalent (A.9) : toutes les fonctions passent par une action texte.
 
 ### B.7 Textes propres
 
-Libellés de référence (à reprendre dans `strings.xml`) :
+Libellés de référence, à reprendre dans `strings.xml` ; ceux marqués (p) sont des propositions.
 
 | Contexte | Texte |
 |---|---|
-| Accueil | « Ouvrir un fichier », « Aucun fichier récent » |
-| Menu d'un récent | « Retirer de la liste », « Partager » |
-| Commandes | « Sommaire », « Rechercher », « Marque-page », « Retirer le marque-page », « Nuit », « Plus » |
-| Aller à la page | « Aller à la page », « Annuler », « Aller », « Entre 1 et 48. » |
-| Listes vides | « Aucun marque-page », « Aucune table des matières », « Aucun résultat » |
-| Erreurs | « Fichier introuvable. », « Accès au fichier retiré. », « Ce fichier n'est pas un PDF lisible. », « Page illisible », « Mot de passe incorrect. », « Ce document ne contient pas de texte. » |
-| Réglages | « Écran allumé pendant la lecture », « Mode nuit », « À propos » |
+| Éditeur | « Commence à écrire » (p) |
+| Barre de commandes | « Nouvelle », « Notes », « Tâches », « Réglages » (p) ; « → Tâche » ou équivalent, « Ajoutée » (p, jalon 5) |
+| Notes | « Notes », « Rechercher », « Aucune note », « Aucun résultat » |
+| Menu d'une note | « Partager », « Supprimer » |
+| Suppression d'une note | « Supprimer cette note ? » ; si la sauvegarde est active : « Supprimer cette note ? Elle sera aussi supprimée du dossier de sauvegarde. » ; « Annuler », « Supprimer » |
+| Tâches | « Tâches », « Ajouter une tâche », « Aucune tâche », « Modifier », « Supprimer », « Effacer les tâches faites » |
+| Réglages | « Taille du texte », « Thème : Nuit » / « Thème : Jour », « Effacer : oui » / « Effacer : non », « Sauvegarde : oui » / « Sauvegarde : non », « Restaurer depuis un dossier », « À propos » |
+| Avertissement (italique) | « Tes notes sont enregistrées seulement sur ce téléphone. Elles seront perdues si tu désinstalles l'app ou si tu perds le téléphone. » |
+| Sauvegarde | « Arrêter la sauvegarde ? », « Annuler », « Arrêter », « Dossier de sauvegarde introuvable. », « 12 notes importées. » (nombre réel), « Aucune note trouvée dans ce dossier. » |
+| À propos | « Interface inspirée de freewrite » |
 
-Les messages d'erreur exacts restent ajustables au jalon concerné ; le ton reste neutre et factuel (A.7).
+Les messages exacts restent ajustables au jalon concerné ; le ton reste neutre et factuel (A.7).
 
 ### B.8 Fonctions
 
 | Fonction | Détail | Jalon | État |
 |---|---|---|---|
-| Ouverture par le sélecteur | `ACTION_OPEN_DOCUMENT`, autorisation persistante | 1 | Prévu |
-| Défilement vertical continu | Pages ajustées à la largeur, formats mixtes | 1 | Prévu |
-| Zoom | Pincement, double toucher, nouveau rendu net | 1 | Prévu |
-| Ouverture depuis une autre app | Intent `VIEW`, `application/pdf` | 2 | Prévu |
-| Récents | Liste texte, retrait sans supprimer le fichier | 2 | Prévu |
-| Reprise de lecture | Dernière page mémorisée | 2 | Prévu |
-| « À propos » | Version, licence, dépôt, confidentialité | 2 | Prévu |
-| Commandes au toucher | Masquage automatique | 3 | Prévu |
-| Indicateur et saut de page | « 12 / 48 », « Aller à la page » | 3 | Prévu |
-| Mode nuit | Inversion des couleurs des pages | 3 | Prévu |
-| Écran allumé | Option, limitée au lecteur | 3 | Prévu |
-| Partage | Partage système, sans réseau propre | 3 | Prévu |
-| Marque-pages | Numéros de page, par document | 4 | Prévu |
-| Recherche de texte | Selon le moteur retenu | 4 | Conditionnel |
-| Table des matières | Selon le moteur retenu | 4 | Conditionnel |
-| PDF protégés | Saisie du mot de passe selon le moteur, sinon message | 5 | Conditionnel |
-| Gros fichiers | Mémoire bornée, résolution plafonnée | 5 | Prévu |
-| EPUB, CBZ, CBR | — | — | **[À DÉCIDER]** (`SPEC.md` F-16) |
+| Éditeur plein écran | Texte brut, défilement continu, clavier géré | 1 | Prévu |
+| Enregistrement automatique | Après pause de frappe et en arrière-plan, écriture atomique | 1 | Prévu |
+| Reprise | Ouverture sur la dernière note, curseur à la fin | 1 | Prévu |
+| Nouvelle note | Note vide jamais conservée | 1 | Prévu |
+| Liste des notes | Titre = première ligne, date, suppression confirmée | 2 | Prévu |
+| Partage | Feuille de partage système, texte de la note | 2 | Prévu |
+| Réception de texte | Texte partagé depuis une autre app → nouvelle note | 2 | **[À DÉCIDER]** (F-10) |
+| Sauvegarde et restauration | Copie optionnelle dans un dossier choisi ; suppression partout | 2 | Décidée (DEC-0019) |
+| « À propos » | Version, licence, dépôt, confidentialité, crédits | 2 | Prévu |
+| Réglages d'écriture | Taille du texte, thème Nuit / Jour, effacement oui / non | 3 | Prévu |
+| Barre masquée pendant la frappe | — | 3 | Prévu, modalités **[À DÉCIDER]** |
+| Écran allumé, compteur de mots | — | 3 | **[À DÉCIDER]** (F-16, F-17) |
+| Recherche | Dans toutes les notes, sans tenir compte des majuscules ni des accents | 4 | Prévu |
+| Liste de tâches | Liste unique, fait / à faire | 5 | Prévu |
+| Ligne → tâche | Action de la barre, ligne du curseur | 5 | Décidée (DEC-0013) |
+| Tâches sur l'écran d'accueil | Widget ou raccourci d'app | 6 | Conditionnel (DEC-0016) |
 
-Moteur de rendu : **[À DÉCIDER]** au jalon 1 (`SPEC.md` §6).
+### B.9 Fonctions écartées
 
-### B.9 Fonctions écartées (DEC-0009)
-
-Annotations et surlignage, remplissage de formulaires, signature, édition, synchronisation cloud, lecture à voix haute.
+- Fonction d'IA de freewrite (exigerait le réseau), minuteur d'écriture, choix entre plusieurs polices (DEC-0017, proposée).
+- Fonctions de lecteur PDF reprises par erreur dans le brief : zoom, demi-page, indicateur de page, inversion des couleurs (DEC-0012, proposée).
+- Hors périmètre de la version 1 : mise en forme, images, dossiers et étiquettes, rappels, synchronisation cloud propre à l'app, chiffrement, verrouillage par code (`SPEC.md` § 9).
 
 ### B.10 Permissions
 
 | Permission / accès | Fonction | Obtention |
 |---|---|---|
-| Sélecteur système | Ouvrir un fichier | Choix de l'utilisateur |
-| Autorisation persistante sur une URI | Rouvrir un récent | Accordée lors du choix ; libérée au retrait de la liste |
-| Filtre d'intent `VIEW` | Ouverture depuis une autre app | Droit temporaire fourni par l'app d'origine |
-| `FLAG_KEEP_SCREEN_ON` | Écran allumé | Aucune permission |
-| `INTERNET`, `ACCESS_NETWORK_STATE`, `MANAGE_EXTERNAL_STORAGE`, `READ_EXTERNAL_STORAGE`, `READ_MEDIA_*`, `POST_NOTIFICATIONS`, `WAKE_LOCK`, `QUERY_ALL_PACKAGES`, `SYSTEM_ALERT_WINDOW` | — | **Non déclarées** |
+| Stockage interne de l'app | Notes, tâches | Aucune permission |
+| DataStore | Réglages, note en cours, dossier de sauvegarde | Aucune permission |
+| Feuille de partage (émission) | Partager une note | Aucune permission |
+| Filtre d'intent `ACTION_SEND` `text/plain` (si F-10 retenue) | Créer une note depuis une autre app | Aucune permission |
+| Autorisation persistante sur un dossier (`ACTION_OPEN_DOCUMENT_TREE`) | Sauvegarde et restauration | Choix de l'utilisateur ; libérée à l'arrêt de la sauvegarde |
+| `INTERNET`, `ACCESS_NETWORK_STATE`, `MANAGE_EXTERNAL_STORAGE`, `READ_EXTERNAL_STORAGE`, `WRITE_EXTERNAL_STORAGE`, `READ_MEDIA_*`, `POST_NOTIFICATIONS`, `WAKE_LOCK`, `QUERY_ALL_PACKAGES`, `SYSTEM_ALERT_WINDOW`, `RECEIVE_BOOT_COMPLETED` | — | **Non déclarées** |
 
-Objectif : **aucune permission déclarée** dans le manifeste fusionné.
+Objectif : **aucune permission déclarée** dans le manifeste fusionné (la permission interne `DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION` ajoutée par AndroidX, propre à l'app, est acceptée).
 
 ### B.11 Garanties de confidentialité
 
-- Aucune donnée ne quitte le téléphone.
+- Par défaut, aucune donnée ne quitte le téléphone, ni par l'app, ni par la sauvegarde système Android (sauvegarde cloud et transfert d'appareil à appareil fermés, DEC-0008).
 - Pas de permission `INTERNET` : garantie vérifiable dans le manifeste (DEC-0005).
-- L'app n'accède qu'aux fichiers choisis par l'utilisateur (DEC-0006).
-- Le contenu des documents n'est pas copié ; seuls sont conservés l'URI, les métadonnées des récents, la position de lecture, les marque-pages et les réglages (DEC-0008).
-- Aucune statistique de lecture, aucun historique au-delà de la liste des récents.
-- Retirer un document de la liste efface toutes ses données ; le fichier n'est jamais modifié ni supprimé.
+- Les notes sont des fichiers texte dans le stockage interne de l'app (DEC-0007) ; aucune statistique, aucun journal d'usage, aucun contenu de note dans les journaux techniques.
+- Sans sauvegarde activée, les notes sont perdues à la désinstallation ou en cas de perte du téléphone ; l'app l'affiche en clair (F-18.2).
+- Avec la sauvegarde activée, les copies vont uniquement dans le dossier choisi par l'utilisateur. Si ce dossier est synchronisé par une app de cloud, c'est cette app qui envoie les fichiers, à l'initiative de l'utilisateur (DEC-0019).
+- Supprimer une note la supprime partout, y compris dans le dossier de sauvegarde ; les autres fichiers de ce dossier ne sont jamais touchés.
 - Le lien « Dépôt GitHub » de « À propos » est ouvert par le navigateur.
 
-### B.12 Jalons et état d'avancement (24 octobre 2026)
+### B.12 Jalons et état d'avancement (28 octobre 2026)
 
 | Jalon | Contenu | État |
 |---|---|---|
-| 0 | Mise en place du projet, dépôt, licence, documents | En cours (documents rédigés) |
-| 1 | Lecteur de base : moteur, sélecteur, défilement, zoom | À faire |
-| 2 | Ouverture depuis d'autres apps, récents, reprise | À faire |
-| 3 | Commandes, mode nuit, saut de page, écran allumé, partage | À faire |
-| 4 | Marque-pages, recherche, table des matières | À faire |
-| 5 | Gros fichiers, mémoire, PDF protégés ou mal formés | À faire |
+| 0 | Mise en place du projet, dépôt, licence, documents | En cours (projet créé, premier commit local) |
+| 1 | Éditeur, enregistrement automatique, reprise, nouvelle note | À faire |
+| 2 | Liste des notes, sauvegarde et restauration, partage, réception, « À propos » | À faire |
+| 3 | Réglages d'écriture, thème Jour, effacement, barre masquée | À faire |
+| 4 | Recherche | À faire |
+| 5 | Liste de tâches, ligne → tâche | À faire |
+| 6 | Tâches sur l'écran d'accueil | Conditionnel |
+
+### B.13 Écarts avec la Partie A (pile technique)
+
+La Partie A est reprise sans modification ; ces écarts sont propres à Épure Notes et à reporter dans une future version 1.1 de la Partie A commune.
+
+| Règle A | Écart dans Épure Notes | Décision |
+|---|---|---|
+| A.3 `targetSdk` / `compileSdk` 36 | `compileSdk` 37, `targetSdk` 36 : les bibliothèques AndroidX actuelles exigent `compileSdk` 37 ; le comportement de l'app reste celui d'Android 16 | DEC-0020 |
+| A.3 Persistance DataStore | Notes et tâches en fichiers texte `.md` dans le stockage interne ; DataStore pour les réglages | DEC-0007 |
+| A.3 Sauvegarde Android | `allowBackup` à `false` **et** `dataExtractionRules` excluant tout : sous Android 12+, `allowBackup` seul n'empêche pas le transfert d'appareil à appareil. Sauvegarde par l'utilisateur en option | DEC-0008, DEC-0019 |
+| A.5 Couleurs, typographie | Voir « Dérogations à la Partie A » en B.4 | DEC-0009, DEC-0019 |
 
 ---
 
@@ -429,5 +464,5 @@ Liste à suivre dans l'ordre :
 
 ## Historique
 
-- Partie A 1.0 (24/10/2026) : reprise sans modification de la charte du launcher Épure (DEC-0010).
-- Partie B 0.1 (24/10/2026) : première version pour Épure PDF, à partir de `SPEC.md` 0.1 et `DECISIONS.md` (DEC-0001 à DEC-0011).
+- Partie A 1.0 (24/10/2026) : reprise sans modification de la charte du launcher Épure, via Épure PDF.
+- Partie B 0.1 (28/10/2026) : première version pour Épure Notes, à partir de `SPEC.md` 0.2 et `DECISIONS.md` (DEC-0001 à DEC-0020).

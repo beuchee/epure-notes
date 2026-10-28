@@ -4,7 +4,7 @@ Consignes pour l'assistant de code. À lire en entier au début de chaque sessio
 
 ## Avant toute tâche
 
-1. Lire `docs/SPEC.md`, `docs/ROADMAP.md`, `docs/DECISIONS.md` et `docs/CHARTE.md`.
+1. Lire `docs/SPEC.md`, `docs/ROADMAP.md`, `docs/DECISIONS.md` et `docs/CHARTE.md` (Partie B et B.13 pour les écarts propres à Épure Notes).
 2. Identifier le **jalon en cours** dans `ROADMAP.md` (premier jalon dont toutes les tâches ne sont pas cochées). Ne travailler que sur ce jalon ; ne rien anticiper des jalons suivants.
 3. Un point marqué **[À DÉCIDER]** n'est jamais implémenté comme s'il était tranché : demander à Alain, puis consigner la décision dans `DECISIONS.md` avant de coder.
 4. Ne pas modifier `SPEC.md` pour l'aligner sur le code : signaler l'écart et le faire trancher.
@@ -20,7 +20,7 @@ Consignes pour l'assistant de code. À lire en entier au début de chaque sessio
 
 - Kotlin uniquement ; pas de code natif, pas de NDK, pas de Rust.
 - Jetpack Compose, Material 3, thème personnalisé (pas de couleur dynamique).
-- `minSdk` 31, `targetSdk` 36, `compileSdk` 37 (DEC-0020 : `compileSdk` = dernière version requise par les bibliothèques AndroidX ; `targetSdk` = version du téléphone de test).
+- `minSdk` 31, `targetSdk` 36, `compileSdk` 37 (DEC-0020 : exigé par les bibliothèques AndroidX ; le comportement reste celui d'Android 16).
 - Une seule activité ; navigation par état simple ; `ViewModel` + `StateFlow` ; pas de framework d'injection (classe `AppContainer`).
 - Persistance : fichiers texte (notes, tâches) dans le stockage interne + DataStore Preferences (réglages). Pas de Room sans décision.
 - Sauvegarde système fermée : `allowBackup="false"` **et** `dataExtractionRules` excluant tout (cloud et transfert d'appareil). Seule sauvegarde : la copie optionnelle dans un dossier choisi par l'utilisateur (SPEC F-18, DEC-0019).

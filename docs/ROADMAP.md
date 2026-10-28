@@ -17,12 +17,12 @@
 - [x] Supprimer la couleur dynamique et le thème clair générés par le modèle
 - [x] Paquets vides `ui/`, `data/`, `system/`, `domain/` ; classe `AppContainer`
 - [x] Sauvegarde système fermée (DEC-0008) : `allowBackup="false"` + `res/xml/data_extraction_rules.xml` excluant tout pour `<cloud-backup>` et `<device-transfer>`
-- [ ] `docs/` : `SPEC.md`, `ROADMAP.md`, `DECISIONS.md`, `CHARTE.md` (Partie A copiée telle quelle, Partie B à rédiger pour Épure Notes)
+- [x] `docs/` : `SPEC.md`, `ROADMAP.md`, `DECISIONS.md`, `CHARTE.md` (Partie A copiée telle quelle, Partie B à rédiger pour Épure Notes)
 - [x] `CLAUDE.md` à la racine
 - [x] `LICENSE` (texte officiel GPL v3), `.gitignore` Android vérifié, `README.md` minimal (objet, confidentialité, licence)
 - [x] Premier build sur le téléphone : écran noir avec « Épure Notes »
 - [x] Vérifier : aucune permission dans l'APK
-- [ ] Premier commit (adresse « noreply »), création du dépôt GitHub, premier envoi
+- [x] Premier commit (adresse « noreply »), création du dépôt GitHub, premier envoi
 
 **Contrôle sur l'appareil** : l'app s'installe, démarre sans flash blanc, affiche un fond noir.
 
