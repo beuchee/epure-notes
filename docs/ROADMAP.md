@@ -157,15 +157,15 @@ Décisions à trancher : DEC-0014 (format), F-12.3, F-13.5, F-10.2. Mode d'ajout
 
 Décision à trancher : DEC-0016 (widget ou raccourci, bibliothèque).
 
-- [ ] **[À VÉRIFIER]** Le launcher Épure peut-il afficher un widget ?
-- [ ] Selon la décision : widget des tâches à faire (F-14) ou raccourci d'app « Tâches »
-- [ ] Vérifier : la bibliothèque ajoutée n'injecte aucune permission
+- [x] **[À VÉRIFIER]** Le launcher Épure peut-il afficher un widget ? Non : sa première page n'a pas de zone de widgets (DEC-0016). Le widget fonctionne avec le lanceur One UI.
+- [x] Selon la décision : widget des tâches à faire (F-14) ou raccourci d'app « Tâches »
+- [x] Vérifier : la bibliothèque ajoutée n'injecte aucune permission
 
 **Contrôle sur l'appareil**
 
-- [ ] Widget mis à jour après ajout ou fin d'une tâche dans l'app
-- [ ] Toucher le widget → écran « Tâches »
-- [ ] Aucune permission dans l'APK
+- [x] Widget mis à jour après ajout ou fin d'une tâche dans l'app
+- [x] Toucher le widget → écran « Tâches »
+- [x] Aucune permission dans l'APK
 
 ---
 

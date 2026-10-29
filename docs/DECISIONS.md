@@ -425,3 +425,21 @@
 - Limite : le type reçu dépend du système ; à tester sur le téléphone.
 - Réversibilité : facile.
 - Références : SPEC F-10.3, F-10.4 ; DEC-0032.
+
+## DEC-0037 — Widget et lanceur Épure (jalon 6)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (constat sur le téléphone d'Alain)
+- Constat : le lanceur Épure Launcher, dans sa configuration minimaliste, n'affiche pas de widgets sur sa première page (liste de favoris, horloge, date, bouton des apps, trois icônes). Le widget « Tâches » fonctionne avec le lanceur One UI, et apparaît dans sa liste de widgets.
+- Décision : le widget reste proposé à tous les lanceurs qui le supportent ; Épure Launcher ne l'affichera pas tant qu'il n'a pas de zone de widgets.
+- Réversibilité : facile.
+- Références : DEC-0016, SPEC F-14.4.
+
+## DEC-0038 — Restauration de la liste de tâches (F-18.7)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Décision : « Restaurer depuis un dossier » importe `taches.md` seulement si la liste de tâches de l'app est vide. Sinon, la liste de l'app est conservée et le fichier du dossier est ignoré.
+- Justification : ne jamais écraser ce que l'utilisateur a déjà, comme pour les notes (DEC-0019).
+- Réversibilité : facile.
+- Références : SPEC F-18.7 ; DEC-0019, DEC-0033.

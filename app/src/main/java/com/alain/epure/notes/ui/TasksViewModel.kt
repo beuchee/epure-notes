@@ -45,6 +45,16 @@ class TasksViewModel(
         update(_tasks.value.filterNot { it.done })
     }
 
+    // Restauration (SPEC F-18.7) : la liste du dossier n'est importée que si la liste de l'app est vide.
+    // Retourne true si des tâches ont été restaurées.
+    fun restoreIfEmpty(content: String): Boolean {
+        if (_tasks.value.isNotEmpty()) return false
+        val restored = parseTasks(content)
+        if (restored.isEmpty()) return false
+        update(restored)
+        return true
+    }
+
     // Recopie `taches.md` dans le dossier de sauvegarde, à l'activation (SPEC F-18.5).
     fun copyToBackup() {
         backup.writeFile(TASKS_FILE, formatTasks(_tasks.value))

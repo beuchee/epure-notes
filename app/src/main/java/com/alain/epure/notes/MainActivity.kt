@@ -283,6 +283,11 @@ class MainActivity : ComponentActivity() {
         lifecycleScope.launch {
             editorViewModel.saveNow()
             val files = withContext(Dispatchers.IO) { container.backup.readAll(folder) }
+            files.firstOrNull { it.first == TasksViewModel.TASKS_FILE }?.let { (_, content) ->
+                if (tasksViewModel.restoreIfEmpty(content)) {
+                    Toast.makeText(this@MainActivity, R.string.tasks_restored, Toast.LENGTH_LONG).show()
+                }
+            }
             val message = if (validNoteFiles(files).isEmpty()) {
                 getString(R.string.restore_none)
             } else {

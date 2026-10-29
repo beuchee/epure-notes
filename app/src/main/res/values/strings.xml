@@ -21,6 +21,7 @@
     <string name="action_clear">Effacer</string>
     <string name="action_edit">Modifier</string>
     <string name="action_remove">Retirer</string>
+    <string name="tasks_restored">Liste de tâches restaurée.</string>
     <string name="tasks_widget_preview_example">• Appeler le labo</string>
     <string name="tasks_widget_label">Tâches</string>
     <string name="tasks_lock_widget_label">Tâches (écran verrouillé)</string>
