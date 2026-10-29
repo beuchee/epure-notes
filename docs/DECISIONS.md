@@ -443,3 +443,19 @@
 - Justification : ne jamais écraser ce que l'utilisateur a déjà, comme pour les notes (DEC-0019).
 - Réversibilité : facile.
 - Références : SPEC F-18.7 ; DEC-0019, DEC-0033.
+
+## DEC-0039 — Libellés des barres en symboles (révise DEC-0011)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Décision : les barres du bas utilisent des symboles courts : « + » (Nouvelle note), « > tâche » (ajouter la ligne aux tâches), « ^ » (Réglages), « - tâches » (effacer les tâches faites). « Notes », « Tâches » et « Retour » restent en texte.
+- Répartition :
+  - éditeur : + | > tâche | Notes | Tâches | ^
+  - Notes : + | Retour | Tâches | ^
+  - Tâches : + | - tâches | Retour | Notes | ^
+  - Réglages : Retour | Notes | Tâches
+- Disposition : les actions (+, > tâche, - tâches) sont alignées à gauche ; la navigation (Retour, Notes, Tâches, ^) est alignée à droite.
+- Accessibilité : chaque symbole a un nom complet lu par les lecteurs d'écran (SPEC F-7.5).
+- Justification : barres lisibles avec la police agrandie, plus homogènes d'un écran à l'autre.
+- Réversibilité : facile.
+- Références : SPEC F-7.2, F-7.5 ; DEC-0011.

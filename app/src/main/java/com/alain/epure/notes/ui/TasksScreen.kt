@@ -3,6 +3,7 @@ package com.alain.epure.notes.ui
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -47,7 +48,13 @@ import com.alain.epure.notes.ui.theme.LocalNoteColors
 
 // Liste « Tâches » (SPEC F-12) : ajout en haut, appui court = faite / à faire, appui long = modifier ou supprimer.
 @Composable
-fun TasksScreen(viewModel: TasksViewModel, onBack: () -> Unit) {
+fun TasksScreen(
+    viewModel: TasksViewModel,
+    onBack: () -> Unit,
+    onNewNote: () -> Unit,
+    onOpenNotes: () -> Unit,
+    onOpenSettings: () -> Unit
+) {
     val tasks by viewModel.tasks.collectAsState()
     var draft by rememberSaveable { mutableStateOf("") }
     var clearDoneAsked by remember { mutableStateOf(false) }
@@ -121,20 +128,42 @@ fun TasksScreen(viewModel: TasksViewModel, onBack: () -> Unit) {
             }
         }
         HorizontalDivider(color = LocalNoteColors.current.textSecondary, thickness = 1.dp)
-        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
-            TextButton(
-                onClick = onBack,
-                colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
+        Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = stringResource(R.string.action_back))
+                Row {
+                CommandButton(
+                    label = stringResource(R.string.action_new_note),
+                    description = stringResource(R.string.cd_new_note),
+                    onClick = onNewNote
+                )
+                CommandButton(
+                    label = stringResource(R.string.action_clear_done),
+                    description = stringResource(R.string.cd_clear_done),
+                    onClick = { clearDoneAsked = true }
+                )
+                }
+                Row {
+                CommandButton(
+                    label = stringResource(R.string.action_back),
+                    description = stringResource(R.string.action_back),
+                    onClick = onBack
+                )
+                CommandButton(
+                    label = stringResource(R.string.action_open_notes),
+                    description = stringResource(R.string.action_open_notes),
+                    onClick = onOpenNotes
+                )
+                CommandButton(
+                    label = stringResource(R.string.action_settings),
+                    description = stringResource(R.string.cd_settings),
+                    onClick = onOpenSettings
+                )
+                }
             }
-            TextButton(
-                onClick = { clearDoneAsked = true },
-                colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
-            ) {
-                Text(text = stringResource(R.string.action_clear_done))
-            }
-        }
     }
 
     if (clearDoneAsked) {

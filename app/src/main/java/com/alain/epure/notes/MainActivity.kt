@@ -174,11 +174,21 @@ class MainActivity : ComponentActivity() {
                             editorViewModel.saveNow()
                             screen = Screen.Tasks
                         },
-                        onAddTask = { editorViewModel.addCurrentLineAsTask(tasksViewModel) }
+                        onAddTask = { editorViewModel.addCurrentLineAsTask(tasksViewModel) },
+                        onOpenSettings = {
+                            editorViewModel.saveNow()
+                            screen = Screen.Settings
+                        }
                     )
                     Screen.Tasks -> TasksScreen(
                         viewModel = tasksViewModel,
-                        onBack = { screen = Screen.Editor }
+                        onBack = { screen = Screen.Editor },
+                        onNewNote = {
+                            editorViewModel.newNote()
+                            screen = Screen.Editor
+                        },
+                        onOpenNotes = { screen = Screen.Notes },
+                        onOpenSettings = { screen = Screen.Settings }
                     )
                     Screen.Notes -> NotesScreen(
                         viewModel = notesViewModel,
@@ -199,6 +209,7 @@ class MainActivity : ComponentActivity() {
                             editorViewModel.newNote()
                             screen = Screen.Editor
                         },
+                        onOpenTasks = { screen = Screen.Tasks },
                         onOpenSettings = { screen = Screen.Settings },
                         backupActive = container.backup.treeUri != null
                     )
@@ -208,6 +219,8 @@ class MainActivity : ComponentActivity() {
                         onStopBackup = ::disableBackup,
                         onRestore = { pickRestoreFolder.launch(null) },
                         onOpenAbout = { screen = Screen.About },
+                        onOpenNotes = { screen = Screen.Notes },
+                        onOpenTasks = { screen = Screen.Tasks },
                         onBack = { screen = Screen.Editor }
                     )
                     Screen.About -> AboutScreen(onBack = { screen = Screen.Settings })

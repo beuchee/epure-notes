@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -50,6 +51,7 @@ fun NotesScreen(
     onDeleteNote: (String) -> Unit,
     onBack: () -> Unit,
     onNewNote: () -> Unit,
+    onOpenTasks: () -> Unit,
     onOpenSettings: () -> Unit,
     backupActive: Boolean
 ) {
@@ -132,26 +134,37 @@ fun NotesScreen(
             }
         }
         HorizontalDivider(color = LocalNoteColors.current.textSecondary, thickness = 1.dp)
-        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
-            TextButton(
-                onClick = onNewNote,
-                colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
+        Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = stringResource(R.string.action_new_note))
+                Row {
+                CommandButton(
+                    label = stringResource(R.string.action_new_note),
+                    description = stringResource(R.string.cd_new_note),
+                    onClick = onNewNote
+                )
+                }
+                Row {
+                CommandButton(
+                    label = stringResource(R.string.action_back),
+                    description = stringResource(R.string.action_back),
+                    onClick = goBack
+                )
+                CommandButton(
+                    label = stringResource(R.string.action_tasks),
+                    description = stringResource(R.string.action_tasks),
+                    onClick = onOpenTasks
+                )
+                CommandButton(
+                    label = stringResource(R.string.action_settings),
+                    description = stringResource(R.string.cd_settings),
+                    onClick = onOpenSettings
+                )
+                }
             }
-            TextButton(
-                onClick = goBack,
-                colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
-            ) {
-                Text(text = stringResource(R.string.action_back))
-            }
-            TextButton(
-                onClick = onOpenSettings,
-                colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
-            ) {
-                Text(text = stringResource(R.string.action_settings))
-            }
-        }
     }
 
     noteToDelete?.let { row ->

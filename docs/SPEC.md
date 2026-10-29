@@ -115,7 +115,7 @@ Avant une publication sur le Play Store : recherche d'homonymes, vérification I
 ### F-7 — Barre de commandes (jalons 1 et 3)
 
 - **F-7.1** Barre en bas de l'éditeur, au-dessus du clavier quand il est ouvert ; fond `Black` (ou fond du thème clair), filet de 1 dp en haut, **texte seul, sans icône** (charte A.5, DEC-0011).
-- **F-7.2** Actions (libellés proposés, **[À DÉCIDER]**) : « Nouvelle », « Notes », « Tâches » (jalon 5), « Réglages » (jalon 3) ; plus « → Tâche » au jalon 5 (F-13).
+- **F-7.2** Actions de la barre (DEC-0039) : « + » (Nouvelle note), « > tâche » (ajouter la ligne du curseur aux tâches), « ^ » (Réglages), « - tâches » (effacer les tâches faites), « Notes », « Tâches », « Retour ». Répartition par écran dans DEC-0039.
 - **F-7.3** Jalon 1 : barre toujours visible (prototype).
 - **F-7.4** Jalon 3 — masquage automatique : la barre disparaît dès que l'on tape ; elle réapparaît au toucher du texte, à la fermeture du clavier, ou après une pause de frappe (proposition : 3 s, **[À DÉCIDER]**). Apparition et disparition immédiates, sans animation.
   > Un toucher dans le texte sert aussi à placer le curseur : on ne peut pas réserver le toucher simple à l'affichage des commandes comme dans un lecteur. Comportement à valider sur l'appareil **[À VÉRIFIER]**.

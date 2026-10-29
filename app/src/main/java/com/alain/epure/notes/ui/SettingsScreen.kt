@@ -3,6 +3,7 @@ package com.alain.epure.notes.ui
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -38,6 +39,8 @@ fun SettingsScreen(
     onStopBackup: () -> Unit,
     onRestore: () -> Unit,
     onOpenAbout: () -> Unit,
+    onOpenNotes: () -> Unit,
+    onOpenTasks: () -> Unit,
     onBack: () -> Unit
 ) {
     BackHandler(onBack = onBack)
@@ -159,14 +162,32 @@ fun SettingsScreen(
         )
         Spacer(modifier = Modifier.weight(1f))
         HorizontalDivider(color = LocalNoteColors.current.textSecondary, thickness = 1.dp)
-        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
-            TextButton(
-                onClick = onBack,
-                colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
+        Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = stringResource(R.string.action_back))
+                Row {
+                }
+                Row {
+                CommandButton(
+                    label = stringResource(R.string.action_back),
+                    description = stringResource(R.string.action_back),
+                    onClick = onBack
+                )
+                CommandButton(
+                    label = stringResource(R.string.action_open_notes),
+                    description = stringResource(R.string.action_open_notes),
+                    onClick = onOpenNotes
+                )
+                CommandButton(
+                    label = stringResource(R.string.action_tasks),
+                    description = stringResource(R.string.action_tasks),
+                    onClick = onOpenTasks
+                )
+                }
             }
-        }
     }
 
     if (confirmStop) {

@@ -3,6 +3,7 @@ package com.alain.epure.notes.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -53,7 +54,8 @@ fun EditorScreen(
     viewModel: EditorViewModel,
     onOpenNotes: () -> Unit,
     onOpenTasks: () -> Unit,
-    onAddTask: () -> Unit
+    onAddTask: () -> Unit,
+    onOpenSettings: () -> Unit
 ) {
     val textSize by viewModel.textSize.collectAsState()
     val taskAdded by viewModel.taskAdded.collectAsState()
@@ -125,35 +127,37 @@ fun EditorScreen(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 12.dp)
+                    .padding(horizontal = 12.dp),
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                TextButton(
-                    onClick = viewModel::newNote,
-                    modifier = Modifier.sizeIn(minHeight = 48.dp),
-                    colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
-                ) {
-                    Text(text = stringResource(R.string.action_new_note))
+                Row {
+                CommandButton(
+                    label = stringResource(R.string.action_new_note),
+                    description = stringResource(R.string.cd_new_note),
+                    onClick = viewModel::newNote
+                )
+                CommandButton(
+                    label = stringResource(if (taskAdded) R.string.action_added else R.string.action_to_task),
+                    description = stringResource(if (taskAdded) R.string.action_added else R.string.cd_to_task),
+                    onClick = onAddTask
+                )
                 }
-                TextButton(
-                    onClick = onOpenNotes,
-                    modifier = Modifier.sizeIn(minHeight = 48.dp),
-                    colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
-                ) {
-                    Text(text = stringResource(R.string.action_open_notes))
-                }
-                TextButton(
-                    onClick = onOpenTasks,
-                    modifier = Modifier.sizeIn(minHeight = 48.dp),
-                    colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
-                ) {
-                    Text(text = stringResource(R.string.action_tasks))
-                }
-                TextButton(
-                    onClick = onAddTask,
-                    modifier = Modifier.sizeIn(minHeight = 48.dp),
-                    colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
-                ) {
-                    Text(text = stringResource(if (taskAdded) R.string.action_added else R.string.action_to_task))
+                Row {
+                CommandButton(
+                    label = stringResource(R.string.action_open_notes),
+                    description = stringResource(R.string.action_open_notes),
+                    onClick = onOpenNotes
+                )
+                CommandButton(
+                    label = stringResource(R.string.action_tasks),
+                    description = stringResource(R.string.action_tasks),
+                    onClick = onOpenTasks
+                )
+                CommandButton(
+                    label = stringResource(R.string.action_settings),
+                    description = stringResource(R.string.cd_settings),
+                    onClick = onOpenSettings
+                )
                 }
             }
         }
