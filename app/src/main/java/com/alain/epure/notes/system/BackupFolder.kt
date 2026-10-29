@@ -15,10 +15,15 @@ class BackupFolder(private val resolver: ContentResolver) {
     // Appelé quand le dossier choisi a disparu (renommé, supprimé) : SPEC F-18.8.
     var onUnavailable: (() -> Unit)? = null
 
-    fun write(id: String, text: String) {
+    fun write(id: String, text: String) = writeFile(fileName(id), text)
+
+    fun delete(id: String) = deleteFile(fileName(id))
+
+    // Copie d'un fichier quelconque de l'app, par exemple `taches.md` (SPEC F-18.4).
+    fun writeFile(name: String, text: String) {
         val tree = treeUri ?: return
         try {
-            val document = findOrCreate(tree, fileName(id))
+            val document = findOrCreate(tree, name)
             if (document == null) {
                 reportIfUnavailable(tree)
                 return
@@ -29,10 +34,10 @@ class BackupFolder(private val resolver: ContentResolver) {
         }
     }
 
-    fun delete(id: String) {
+    fun deleteFile(name: String) {
         val tree = treeUri ?: return
         try {
-            findChild(tree, fileName(id))?.let { DocumentsContract.deleteDocument(resolver, it) }
+            findChild(tree, name)?.let { DocumentsContract.deleteDocument(resolver, it) }
         } catch (error: IOException) {
             reportIfUnavailable(tree)
         }

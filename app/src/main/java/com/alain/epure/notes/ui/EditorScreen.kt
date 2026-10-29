@@ -49,8 +49,14 @@ private const val COMMAND_BAR_DELAY_MS = 3_000L
 
 // Éditeur plein écran : texte brut, marges de 24 dp, barre de commandes en bas (SPEC F-2, F-7).
 @Composable
-fun EditorScreen(viewModel: EditorViewModel, onOpenNotes: () -> Unit, onOpenSettings: () -> Unit) {
+fun EditorScreen(
+    viewModel: EditorViewModel,
+    onOpenNotes: () -> Unit,
+    onOpenTasks: () -> Unit,
+    onAddTask: () -> Unit
+) {
     val textSize by viewModel.textSize.collectAsState()
+    val taskAdded by viewModel.taskAdded.collectAsState()
     val deletionAllowed by viewModel.deletionAllowed.collectAsState()
     // « Effacer : non » : toute modification qui retire des caractères est annulée (SPEC F-8.3, DEC-0015).
     val inputTransformation = remember(deletionAllowed) {
@@ -136,11 +142,18 @@ fun EditorScreen(viewModel: EditorViewModel, onOpenNotes: () -> Unit, onOpenSett
                     Text(text = stringResource(R.string.action_open_notes))
                 }
                 TextButton(
-                    onClick = onOpenSettings,
+                    onClick = onOpenTasks,
                     modifier = Modifier.sizeIn(minHeight = 48.dp),
                     colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
                 ) {
-                    Text(text = stringResource(R.string.action_settings))
+                    Text(text = stringResource(R.string.action_tasks))
+                }
+                TextButton(
+                    onClick = onAddTask,
+                    modifier = Modifier.sizeIn(minHeight = 48.dp),
+                    colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
+                ) {
+                    Text(text = stringResource(if (taskAdded) R.string.action_added else R.string.action_to_task))
                 }
             }
         }

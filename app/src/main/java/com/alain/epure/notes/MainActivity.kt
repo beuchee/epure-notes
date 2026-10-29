@@ -37,6 +37,8 @@ import com.alain.epure.notes.ui.NotesScreen
 import com.alain.epure.notes.ui.NotesViewModel
 import com.alain.epure.notes.ui.SettingsScreen
 import com.alain.epure.notes.ui.SettingsViewModel
+import com.alain.epure.notes.ui.TasksScreen
+import com.alain.epure.notes.ui.TasksViewModel
 import com.alain.epure.notes.ui.theme.Black
 import com.alain.epure.notes.ui.theme.DayBackground
 import com.alain.epure.notes.ui.theme.EpureNotesTheme
@@ -47,7 +49,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 // Écrans de l'app. Navigation par état simple (CLAUDE.md), sans bibliothèque de navigation.
-enum class Screen { Editor, Notes, Settings, About }
+enum class Screen { Editor, Notes, Settings, About, Tasks }
 
 class MainActivity : ComponentActivity() {
 
@@ -56,6 +58,7 @@ class MainActivity : ComponentActivity() {
 
     private lateinit var container: AppContainer
     private lateinit var editorViewModel: EditorViewModel
+    private lateinit var tasksViewModel: TasksViewModel
     private lateinit var pickBackupFolder: ActivityResultLauncher<Uri?>
     private lateinit var pickRestoreFolder: ActivityResultLauncher<Uri?>
 
@@ -75,6 +78,10 @@ class MainActivity : ComponentActivity() {
             this,
             viewModelFactory { initializer { NotesViewModel(container.noteStore) } }
         )[NotesViewModel::class.java]
+        tasksViewModel = ViewModelProvider(
+            this,
+            viewModelFactory { initializer { TasksViewModel(container.taskStore, container.backup) } }
+        )[TasksViewModel::class.java]
         val settingsViewModel = ViewModelProvider(
             this,
             viewModelFactory { initializer { SettingsViewModel(container.settings, container.backup) } }
@@ -142,10 +149,15 @@ class MainActivity : ComponentActivity() {
                             editorViewModel.saveNow()
                             screen = Screen.Notes
                         },
-                        onOpenSettings = {
+                        onOpenTasks = {
                             editorViewModel.saveNow()
-                            screen = Screen.Settings
-                        }
+                            screen = Screen.Tasks
+                        },
+                        onAddTask = { editorViewModel.addCurrentLineAsTask(tasksViewModel) }
+                    )
+                    Screen.Tasks -> TasksScreen(
+                        viewModel = tasksViewModel,
+                        onBack = { screen = Screen.Editor }
                     )
                     Screen.Notes -> NotesScreen(
                         viewModel = notesViewModel,
@@ -227,6 +239,7 @@ class MainActivity : ComponentActivity() {
         container.backup.treeUri = uri
         editorViewModel.saveNow()
         container.backup.writeAll(container.noteStore.summaries().map { it.id to it.text })
+        tasksViewModel.copyToBackup()
         lifecycleScope.launch { container.settings.setBackupFolder(uri.toString()) }
     }
 

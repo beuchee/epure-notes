@@ -384,3 +384,24 @@
 - Limite : les fichiers partagés avec un type générique (`application/octet-stream`) ne sont pas proposés ; un fichier `.md` avec un titre `# …` garde le `#` dans le titre affiché.
 - Réversibilité : facile.
 - Références : SPEC F-10.1, F-10.3, F-10.4.
+
+## DEC-0033 — Choix du jalon 5 (liste de tâches)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Décision :
+  - DEC-0014 : fichier `taches.md`, une tâche par ligne : `- [ ] texte` ou `- [x] texte`. Copié dans le dossier de sauvegarde quand elle est active (F-18.4).
+  - F-12.3 : une tâche faite est grisée et descend en bas de la liste. Pas de texte barré.
+  - F-13.5 : après « → Tâche », le libellé devient « Ajoutée » pendant 2 secondes, sans animation.
+- Justification : choix proposés par la spec, retenus par Alain.
+- Réversibilité : facile.
+- Références : SPEC F-12, F-13 ; DEC-0014, DEC-0013.
+
+## DEC-0034 — Barre de l'éditeur à quatre commandes (jalon 5)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (choix d'Alain)
+- Décision : la barre de l'éditeur contient « Nouvelle », « Notes », « Tâches » et « → Tâche ». « Réglages » n'y figure plus ; il reste accessible depuis la page Notes.
+- Justification : la barre à cinq commandes ne tient pas sur un téléphone avec la police agrandie (DEC-0011).
+- Réversibilité : facile.
+- Références : SPEC F-7.2, DEC-0011.

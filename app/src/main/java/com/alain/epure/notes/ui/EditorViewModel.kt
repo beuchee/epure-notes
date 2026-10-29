@@ -5,13 +5,17 @@ import androidx.compose.foundation.text.input.setTextAndPlaceCursorAtEnd
 import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import com.alain.epure.notes.data.NoteStore
 import com.alain.epure.notes.data.SettingsStore
 import com.alain.epure.notes.domain.DEFAULT_TEXT_SIZE
 import com.alain.epure.notes.domain.firstMatchRange
+import com.alain.epure.notes.domain.lineToTaskText
 import androidx.compose.ui.text.TextRange
 import com.alain.epure.notes.system.BackupFolder
 import kotlinx.coroutines.FlowPreview
@@ -63,6 +67,25 @@ class EditorViewModel(
         if (text.isBlank()) backup.delete(noteId) else backup.write(noteId, text)
     }
 
+    // « Ajoutée » pendant 2 s après « → Tâche » (SPEC F-13.5).
+    private val _taskAdded = MutableStateFlow(false)
+    val taskAdded: StateFlow<Boolean> = _taskAdded.asStateFlow()
+
+    // Ajoute la ligne où se trouve le curseur aux tâches ; la note n'est pas modifiée (SPEC F-13.2 à F-13.4).
+    fun addCurrentLineAsTask(tasks: TasksViewModel) {
+        val text = textState.text.toString()
+        val cursor = textState.selection.start.coerceIn(0, text.length)
+        val start = text.lastIndexOf('\n', startIndex = cursor - 1).let { if (it < 0) 0 else it + 1 }
+        val end = text.indexOf('\n', startIndex = cursor).let { if (it < 0) text.length else it }
+        val taskText = lineToTaskText(text.substring(start, end)) ?: return
+        tasks.add(taskText)
+        viewModelScope.launch {
+            _taskAdded.value = true
+            delay(TASK_ADDED_MS)
+            _taskAdded.value = false
+        }
+    }
+
     // Nouvelle note vide ; sans effet si la note en cours est déjà vide (SPEC F-5.2).
     fun newNote() {
         if (textState.text.isBlank()) return
@@ -105,5 +128,6 @@ class EditorViewModel(
 
     private companion object {
         const val SAVE_DELAY_MS = 1_000L
+        const val TASK_ADDED_MS = 2_000L
     }
 }

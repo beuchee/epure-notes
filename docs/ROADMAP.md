@@ -127,7 +127,7 @@ Décision à trancher : F-11.5.
 **Contrôle sur l'appareil**
 
 - [x] « eleve » trouve « Élève » ; « ECOS » trouve « ecos »
-- [ ] 100 notes fictives : résultat sans délai perceptible
+- [x] 100 notes fictives : résultat sans délai perceptible
 - [x] Retour : vide la recherche, puis revient à l'éditeur
 
 ---
@@ -136,20 +136,20 @@ Décision à trancher : F-11.5.
 
 Décisions à trancher : DEC-0014 (format), F-12.3, F-13.5, F-10.2. Mode d'ajout : DEC-0013, décidée (action « → Tâche »).
 
-- [ ] Lecture / écriture du format des tâches dans `domain/` + tests (F-12.7)
-- [ ] Écran « Tâches » : ajout, fait / à faire, modifier, supprimer, « Effacer les tâches faites » (F-12)
-- [ ] Commande « Tâches » dans la barre
-- [ ] Action « → Tâche » dans la barre : ajout de la ligne du curseur (F-13, DEC-0013) ; nettoyage de la ligne dans `domain/` + tests
-- [ ] Si la sauvegarde est active : `taches.md` recopié aussi (F-18.4)
-- [ ] Retour visuel de l'ajout (F-13.5)
+- [x] Lecture / écriture du format des tâches dans `domain/` + tests (F-12.7)
+- [x] Écran « Tâches » : ajout, fait / à faire, modifier, supprimer, « Effacer les tâches faites » (F-12)
+- [x] Commande « Tâches » dans la barre
+- [x] Action « → Tâche » dans la barre : ajout de la ligne du curseur (F-13, DEC-0013) ; nettoyage de la ligne dans `domain/` + tests
+- [x] Si la sauvegarde est active : `taches.md` recopié aussi (F-18.4)
+- [x] Retour visuel de l'ajout (F-13.5)
 
 **Contrôle sur l'appareil**
 
-- [ ] Ligne « - appeler le labo » → tâche « appeler le labo »
-- [ ] Ligne vide → rien n'est ajouté
-- [ ] La note n'est pas modifiée par l'ajout
-- [ ] Tâches conservées après arrêt forcé
-- [ ] Sélection, copier et coller dans l'éditeur fonctionnent comme avant
+- [x] Ligne « - appeler le labo » → tâche « appeler le labo »
+- [x] Ligne vide → rien n'est ajouté
+- [x] La note n'est pas modifiée par l'ajout
+- [x] Tâches conservées après arrêt forcé
+- [x] Sélection, copier et coller dans l'éditeur fonctionnent comme avant
 
 ---
 
