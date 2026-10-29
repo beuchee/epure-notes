@@ -415,3 +415,13 @@
 - Constat (sur le téléphone d'Alain, One UI) : le widget verrouillé n'est pas proposé. Aucun widget tiers n'utilise la catégorie standard d'écran verrouillé ; One UI n'expose que ses propres catégories (non documentées). Décision d'Alain : garder le code, sans l'exposer. La ligne de Réglages reste, sans effet sur ce téléphone, jusqu'à décision contraire.
 - Réversibilité : facile.
 - Références : SPEC F-14, F-8 ; DEC-0016.
+
+## DEC-0036 — « Ouvrir avec » pour un fichier .md (F-10.3)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Décision : Épure Notes apparaît dans « Ouvrir avec » pour les fichiers `.md`. Le contenu est copié dans une nouvelle note ; le fichier d'origine n'est ni modifié ni supprimé. Mention ajoutée dans « À propos ».
+- Justification : même règle que le partage (F-10.4). Cela remplace l'exclusion de F-10.3 pour les seuls fichiers `.md`.
+- Limite : le type reçu dépend du système ; à tester sur le téléphone.
+- Réversibilité : facile.
+- Références : SPEC F-10.3, F-10.4 ; DEC-0032.

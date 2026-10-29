@@ -228,15 +228,23 @@ class MainActivity : ComponentActivity() {
         if (intent?.getBooleanExtra(EXTRA_OPEN_TASKS, false) == true) openTasksRequested = true
     }
 
-    // Texte partagé, ou fichier .md partagé depuis « Mes fichiers » (SPEC F-10.1, F-10.4).
+    // Texte partagé, fichier .md partagé ou ouvert avec Épure Notes (SPEC F-10.1, F-10.3, F-10.4).
     private fun handleShareIntent(intent: Intent?) {
-        if (intent?.action != Intent.ACTION_SEND) return
-        val text = intent.getStringExtra(Intent.EXTRA_TEXT)
-        if (text != null) {
-            sharedText = sharedNoteText(intent.getStringExtra(Intent.EXTRA_SUBJECT), text)
-            return
+        when (intent?.action) {
+            Intent.ACTION_SEND -> {
+                val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+                if (text != null) {
+                    sharedText = sharedNoteText(intent.getStringExtra(Intent.EXTRA_SUBJECT), text)
+                    return
+                }
+                IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java)?.let { importMarkdown(it) }
+            }
+            Intent.ACTION_VIEW -> intent.data?.let { importMarkdown(it) }
         }
-        val uri = IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java) ?: return
+    }
+
+    // Copie le contenu d'un fichier .md dans une nouvelle note. Le fichier d'origine n'est ni modifié ni supprimé.
+    private fun importMarkdown(uri: Uri) {
         if (displayName(uri)?.endsWith(".md", ignoreCase = true) != true) {
             Toast.makeText(this, R.string.share_not_markdown, Toast.LENGTH_LONG).show()
             return

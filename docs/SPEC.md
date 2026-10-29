@@ -146,7 +146,7 @@ Le brief prévoyait l'ouverture de PDF depuis d'autres apps (intent `VIEW`, `app
 
 - **F-10.1** Épure Notes apparaît dans la feuille de partage pour du **texte** (`ACTION_SEND`, `text/plain`) : le texte reçu crée une nouvelle note (le sujet éventuel en première ligne).
 - **F-10.2** Option : le texte reçu peut aussi être ajouté aux tâches (jalon 5) **[À DÉCIDER]**.
-- **F-10.3** Ouverture de fichiers `.txt` / `.md` externes (`VIEW`) : écartée en version 1 (il faudrait modifier des fichiers qui n'appartiennent pas à l'app) — proposition.
+- **F-10.3** Ouverture d'un fichier `.md` externe (`VIEW`, « Ouvrir avec ») : le contenu est copié dans une nouvelle note, le fichier d'origine n'est ni modifié ni supprimé (DEC-0036). Les autres fichiers (`.txt`…) ne sont pas proposés.
 - **F-10.4** Import d'un fichier `.md` partagé depuis une autre app, par exemple « Mes fichiers » : le contenu devient une nouvelle note, comme pour le texte reçu (F-10.1). Le fichier d'origine n'est ni modifié ni supprimé (DEC-0032).
 
 ### F-11 — Recherche (jalon 4)

@@ -30,6 +30,15 @@
                 <!-- Tous les types : un fichier .md partagé depuis « Mes fichiers » doit pouvoir être proposé (F-10.4). -->
                 <data android:mimeType="*/*" />
             </intent-filter>
+            <!-- « Ouvrir avec » pour un fichier Markdown : importé en note, le fichier d'origine n'est pas modifié (F-10.3, DEC-0036). -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/markdown" />
+                <data android:mimeType="text/x-markdown" />
+            </intent-filter>
         </activity>
         <!-- Widget « Tâches » sur l'écran d'accueil (SPEC F-14, DEC-0016). Aucune permission. -->
         <receiver
