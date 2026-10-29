@@ -75,7 +75,7 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 
 **Contrôle sur l'appareil**
 
-- [ ] 30 notes fictives : ordre correct, défilement fluide, titres longs lisibles
+- [x] 30 notes fictives : ordre correct, défilement fluide, titres longs lisibles
 - [x] Modifier une ancienne note → elle remonte en tête
 - [x] Supprimer avec « Annuler » puis « Supprimer » → comportement attendu, fichier effacé
 - [x] Sauvegarde active : supprimer une note → message de confirmation adapté, copie effacée aussi du dossier
