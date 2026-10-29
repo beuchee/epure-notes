@@ -1,7 +1,5 @@
 package com.alain.epure.notes.ui
 
-import android.app.Activity
-import android.view.WindowInsetsController
 import androidx.compose.foundation.background
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.PressInteraction
@@ -26,7 +24,6 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -37,7 +34,6 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -84,15 +80,6 @@ fun EditorScreen(viewModel: EditorViewModel, onOpenNotes: () -> Unit, onOpenSett
     val imeVisible = WindowInsets.ime.getBottom(LocalDensity.current) > 0
     LaunchedEffect(imeVisible) {
         if (!imeVisible) barVisible = true
-    }
-
-    // Mode immersif : barre d'état masquée pendant l'écriture ; la barre de navigation reste (SPEC F-2.7, DEC-0029).
-    val view = LocalView.current
-    DisposableEffect(view) {
-        val controller = (view.context as? Activity)?.window?.insetsController
-        controller?.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
-        controller?.hide(android.view.WindowInsets.Type.statusBars())
-        onDispose { controller?.show(android.view.WindowInsets.Type.statusBars()) }
     }
 
     Column(

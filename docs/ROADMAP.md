@@ -101,7 +101,7 @@ Décisions à trancher : couleurs exactes du thème Jour (DEC-0009, principe dé
 - [x] Effacement oui / non (F-8.3) ; règle dans `domain/` + tests (retour arrière, couper, coller sur sélection, correction automatique)
 - [x] Police : sans objet, police système retenue (DEC-0028, DEC-0010)
 - [x] Masquage automatique de la barre (F-7.4)
-- [ ] Mode immersif selon décision (F-2.7)
+- [x] Mode immersif selon décision (F-2.7)
 - [x] Écran allumé (F-16) et compteur de mots (F-17) : écartés (DEC-0028)
 
 **Contrôle sur l'appareil**

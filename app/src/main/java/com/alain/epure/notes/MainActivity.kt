@@ -3,6 +3,7 @@ package com.alain.epure.notes
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.WindowInsetsController
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -112,6 +113,17 @@ class MainActivity : ComponentActivity() {
             }
             EpureNotesTheme(day = dayTheme) {
                 var screen by rememberSaveable { mutableStateOf(Screen.Editor) }
+                // Mode immersif : barre d'état masquée dans l'éditeur, affichée ailleurs (SPEC F-2.7, DEC-0029).
+                LaunchedEffect(screen) {
+                    window.insetsController?.let { controller ->
+                        if (screen == Screen.Editor) {
+                            controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                            controller.hide(android.view.WindowInsets.Type.statusBars())
+                        } else {
+                            controller.show(android.view.WindowInsets.Type.statusBars())
+                        }
+                    }
+                }
                 val shared = sharedText
                 LaunchedEffect(shared) {
                     if (shared != null) {
