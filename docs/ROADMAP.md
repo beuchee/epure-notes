@@ -86,8 +86,9 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 - [x] Activer la sauvegarde dans `Documents/Épure Notes` → fichiers visibles dans « Mes fichiers » ; modifier une note → copie à jour
 - [x] Désinstaller, réinstaller, « Restaurer depuis un dossier » → toutes les notes reviennent, sans doublon
 - [x] Renommer le dossier dans « Mes fichiers » → message « Dossier de sauvegarde introuvable. », notes intactes
-- [ ] Sauvegarde désactivée : une sauvegarde Google ou un transfert Smart Switch ne contient aucune note **[À VÉRIFIER]**
-- [ ] Smart Switch vers un autre téléphone recopie-t-il `Documents/Épure Notes` ? **[À VÉRIFIER]**, résultat consigné dans DEC-0019
+- [x] Sauvegarde Google : aucune note (diagnostic `bmgr`, DEC-0030)
+- Reporté (DEC-0030) : transfert Smart Switch ne contient aucune note **[À VÉRIFIER]**
+- Reporté (DEC-0030) : Smart Switch vers un autre téléphone recopie-t-il `Documents/Épure Notes` ? **[À VÉRIFIER]**, résultat à consigner dans DEC-0019
 
 ---
 
@@ -108,7 +109,7 @@ Décisions à trancher : couleurs exactes du thème Jour (DEC-0009, principe dé
 
 - [x] Chaque réglage s'applique tout de suite et survit à un redémarrage du téléphone
 - [x] « Effacer : non » avec le clavier Samsung : touche Retour arrière, maintien de Retour arrière, « Couper », correction automatique, balayage pour effacer un mot → aucun caractère retiré
-- [ ] « Effacer : non » avec Gboard (si installé) : mêmes tests
+- [x] « Effacer : non » avec Gboard : non applicable, Gboard non installé (DEC-0030)
 - [x] Thème Jour : aucun flash, contraste lisible en plein soleil
 - [x] Barre : n'apparaît jamais pendant la frappe, toujours accessible en moins d'un geste
 
@@ -118,16 +119,16 @@ Décisions à trancher : couleurs exactes du thème Jour (DEC-0009, principe dé
 
 Décision à trancher : F-11.5.
 
-- [ ] Fonction de recherche insensible à la casse et aux accents dans `domain/` + tests (F-11.2)
-- [ ] Champ « Rechercher » sur l'écran « Notes » (F-11.1)
-- [ ] Ouverture d'un résultat avec sélection de la première occurrence (F-11.3)
-- [ ] « Aucun résultat » (F-11.4)
+- [x] Fonction de recherche insensible à la casse et aux accents dans `domain/` + tests (F-11.2)
+- [x] Champ « Rechercher » sur l'écran « Notes » (F-11.1)
+- [x] Ouverture d'un résultat avec sélection de la première occurrence (F-11.3)
+- [x] « Aucun résultat » (F-11.4)
 
 **Contrôle sur l'appareil**
 
-- [ ] « eleve » trouve « Élève » ; « ECOS » trouve « ecos »
+- [x] « eleve » trouve « Élève » ; « ECOS » trouve « ecos »
 - [ ] 100 notes fictives : résultat sans délai perceptible
-- [ ] Retour : vide la recherche, puis revient à l'éditeur
+- [x] Retour : vide la recherche, puis revient à l'éditeur
 
 ---
 
@@ -167,6 +168,11 @@ Décision à trancher : DEC-0016 (widget ou raccourci, bibliothèque).
 - [ ] Aucune permission dans l'APK
 
 ---
+
+## Ajouts hors jalons (à valider)
+
+- [x] Import d'un fichier `.md` partagé depuis « Mes fichiers » → nouvelle note (F-10.4, DEC-0032)
+- [x] Partage depuis « Mes fichiers » : Épure Notes apparaît dans la liste pour un fichier `.md`
 
 ## Avant une éventuelle publication (hors jalons)
 

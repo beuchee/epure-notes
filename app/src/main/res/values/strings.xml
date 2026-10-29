@@ -9,6 +9,9 @@
     <string name="action_cancel">Annuler</string>
     <string name="notes_title">Notes</string>
     <string name="notes_empty">Aucune note</string>
+    <string name="search_hint">Rechercher</string>
+    <string name="search_none">Aucun résultat</string>
+    <string name="share_not_markdown">Ce fichier n\'est pas un fichier .md.</string>
     <string name="delete_note_question">Supprimer cette note ?</string>
     <string name="action_settings">Réglages</string>
     <string name="settings_title">Réglages</string>

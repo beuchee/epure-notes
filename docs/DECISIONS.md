@@ -353,3 +353,34 @@
 - Justification : écrire sans distraction, tout en gardant les commandes à un geste.
 - Réversibilité : facile.
 - Références : SPEC F-2.7, F-7.4.
+
+## DEC-0030 — Fermeture du jalon 2 avec un test reporté ; Gboard non applicable
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Décision :
+  - Le jalon 2 est fermé. Le test du transfert Smart Switch (un autre téléphone recopie-t-il `Documents/Épure Notes` ?) est reporté au prochain changement de téléphone, et reste marqué [À VÉRIFIER] dans la roadmap et DEC-0019.
+  - La sauvegarde Google est vérifiée : Android refuse la sauvegarde de l'app (`bmgr backupnow` : « Backup is not allowed »).
+  - Le test Gboard du jalon 3 est non applicable : Gboard n'est pas installé.
+- Justification : le test Smart Switch demande un second téléphone et ne bloque pas les fonctions suivantes. Décision d'Alain.
+- Réversibilité : facile.
+- Références : SPEC F-18, § 8 ; DEC-0019.
+
+## DEC-0031 — Recherche dans la note (jalon 4)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Décision : pas de recherche à l'intérieur de la note en version 1 (F-11.5). La recherche ne sert qu'à trouver une note dans la liste (F-11.1 à F-11.4).
+- Justification : choix simple, proposé par la spec.
+- Réversibilité : facile.
+- Références : SPEC F-11.5.
+
+## DEC-0032 — Import d'un fichier .md partagé (F-10.4)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (demandée par Alain)
+- Décision : Épure Notes apparaît dans la feuille de partage pour les fichiers `.md` (type `text/markdown`). Le contenu du fichier devient une nouvelle note. Le fichier d'origine n'est ni modifié ni supprimé.
+- Justification : importer des notes écrites dans un autre éditeur, sans permission supplémentaire (l'accès est donné par le partage).
+- Limite : les fichiers partagés avec un type générique (`application/octet-stream`) ne sont pas proposés ; un fichier `.md` avec un titre `# …` garde le `#` dans le titre affiché.
+- Réversibilité : facile.
+- Références : SPEC F-10.1, F-10.3, F-10.4.

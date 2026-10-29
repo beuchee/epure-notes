@@ -27,7 +27,8 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
 
-                <data android:mimeType="text/plain" />
+                <!-- Tous les types : un fichier .md partagé depuis « Mes fichiers » doit pouvoir être proposé (F-10.4). -->
+                <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
     </application>

@@ -2,6 +2,7 @@ package com.alain.epure.notes
 
 import android.content.Intent
 import android.net.Uri
+import android.provider.OpenableColumns
 import android.os.Bundle
 import android.view.WindowInsetsController
 import android.widget.Toast
@@ -18,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.toArgb
+import androidx.core.content.IntentCompat
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
@@ -39,6 +41,7 @@ import com.alain.epure.notes.ui.theme.Black
 import com.alain.epure.notes.ui.theme.DayBackground
 import com.alain.epure.notes.ui.theme.EpureNotesTheme
 import com.alain.epure.notes.R
+import java.io.IOException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -147,7 +150,10 @@ class MainActivity : ComponentActivity() {
                     Screen.Notes -> NotesScreen(
                         viewModel = notesViewModel,
                         onOpenNote = { id ->
-                            editorViewModel.openNote(id)
+                            // La recherche en cours ne reste pas à l'écran de la liste ; la première occurrence est sélectionnée.
+                            val query = notesViewModel.query.value
+                            notesViewModel.setQuery("")
+                            editorViewModel.openNote(id, query)
                             screen = Screen.Editor
                         },
                         onDeleteNote = { id ->
@@ -183,13 +189,37 @@ class MainActivity : ComponentActivity() {
         handleShareIntent(intent)
     }
 
+    // Texte partagé, ou fichier .md partagé depuis « Mes fichiers » (SPEC F-10.1, F-10.4).
     private fun handleShareIntent(intent: Intent?) {
-        if (intent?.action != Intent.ACTION_SEND || intent.type != "text/plain") return
-        sharedText = sharedNoteText(
-            subject = intent.getStringExtra(Intent.EXTRA_SUBJECT),
-            text = intent.getStringExtra(Intent.EXTRA_TEXT).orEmpty()
-        )
+        if (intent?.action != Intent.ACTION_SEND) return
+        val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+        if (text != null) {
+            sharedText = sharedNoteText(intent.getStringExtra(Intent.EXTRA_SUBJECT), text)
+            return
+        }
+        val uri = IntentCompat.getParcelableExtra(intent, Intent.EXTRA_STREAM, Uri::class.java) ?: return
+        if (displayName(uri)?.endsWith(".md", ignoreCase = true) != true) {
+            Toast.makeText(this, R.string.share_not_markdown, Toast.LENGTH_LONG).show()
+            return
+        }
+        readSharedFile(uri)?.let { sharedText = sharedNoteText(subject = null, text = it) }
     }
+
+    // Nom du fichier partagé. L'accès est donné par le partage : aucune permission n'est nécessaire.
+    private fun displayName(uri: Uri): String? =
+        try {
+            contentResolver.query(uri, arrayOf(OpenableColumns.DISPLAY_NAME), null, null, null)
+                ?.use { cursor -> if (cursor.moveToFirst()) cursor.getString(0) else null }
+        } catch (error: SecurityException) {
+            null
+        }
+
+    private fun readSharedFile(uri: Uri): String? =
+        try {
+            contentResolver.openInputStream(uri)?.bufferedReader(Charsets.UTF_8)?.use { it.readText() }
+        } catch (error: IOException) {
+            null
+        }
 
     // Activation : mémorise le dossier et recopie toutes les notes (SPEC F-18.5).
     private fun enableBackup(uri: Uri) {

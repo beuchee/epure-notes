@@ -11,6 +11,8 @@ import kotlinx.coroutines.flow.stateIn
 import com.alain.epure.notes.data.NoteStore
 import com.alain.epure.notes.data.SettingsStore
 import com.alain.epure.notes.domain.DEFAULT_TEXT_SIZE
+import com.alain.epure.notes.domain.firstMatchRange
+import androidx.compose.ui.text.TextRange
 import com.alain.epure.notes.system.BackupFolder
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.debounce
@@ -70,10 +72,15 @@ class EditorViewModel(
     }
 
     // Ouvre une note choisie dans la liste (SPEC F-6.3). La note en cours est enregistrée avant.
-    fun openNote(id: String) {
+    // Avec une recherche, la première occurrence est sélectionnée (SPEC F-11.3).
+    fun openNote(id: String, query: String = "") {
         saveNow()
         noteId = id
-        textState.setTextAndPlaceCursorAtEnd(store.read(id))
+        val text = store.read(id)
+        textState.setTextAndPlaceCursorAtEnd(text)
+        firstMatchRange(text, query)?.let { range ->
+            textState.edit { selection = TextRange(range.first, range.last + 1) }
+        }
     }
 
     // Nouvelle note contenant un texte reçu d'une autre app (SPEC F-10.1). Rien si le texte est vide.

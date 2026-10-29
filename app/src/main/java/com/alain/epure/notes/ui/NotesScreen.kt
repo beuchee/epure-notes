@@ -10,9 +10,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DropdownMenu
@@ -32,10 +34,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.dp
 import com.alain.epure.notes.R
 import com.alain.epure.notes.ui.theme.LocalNoteColors
+import androidx.compose.ui.graphics.SolidColor
 
 // Liste des notes, de la plus récente à la plus ancienne (SPEC F-6).
 @Composable
@@ -49,11 +54,16 @@ fun NotesScreen(
     backupActive: Boolean
 ) {
     val rows by viewModel.rows.collectAsState()
+    val query by viewModel.query.collectAsState()
     val context = LocalContext.current
     var noteToDelete by remember { mutableStateOf<NoteRow?>(null) }
 
     LaunchedEffect(Unit) { viewModel.refresh() }
-    BackHandler(onBack = onBack)
+    // Retour vide d'abord la recherche, puis revient à l'éditeur (SPEC T-8).
+    val goBack = {
+        if (query.isNotEmpty()) viewModel.setQuery("") else onBack()
+    }
+    BackHandler(onBack = goBack)
 
     Column(
         modifier = Modifier
@@ -67,6 +77,29 @@ fun NotesScreen(
             color = LocalNoteColors.current.textPrimary,
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)
         )
+        // Champ « Rechercher » (SPEC F-11.1), sans loupe.
+        BasicTextField(
+            value = query,
+            onValueChange = viewModel::setQuery,
+            singleLine = true,
+            textStyle = TextStyle(color = LocalNoteColors.current.textPrimary, fontSize = 16.sp),
+            cursorBrush = SolidColor(LocalNoteColors.current.textPrimary),
+            modifier = Modifier
+                .fillMaxWidth()
+                .sizeIn(minHeight = 48.dp)
+                .padding(horizontal = 24.dp),
+            decorationBox = { innerTextField ->
+                Box(contentAlignment = Alignment.CenterStart) {
+                    if (query.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.search_hint),
+                            style = TextStyle(color = LocalNoteColors.current.textSecondary, fontSize = 16.sp)
+                        )
+                    }
+                    innerTextField()
+                }
+            }
+        )
         if (rows.isEmpty()) {
             Box(
                 modifier = Modifier
@@ -74,7 +107,10 @@ fun NotesScreen(
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = stringResource(R.string.notes_empty), color = LocalNoteColors.current.textSecondary)
+                Text(
+                    text = stringResource(if (query.isEmpty()) R.string.notes_empty else R.string.search_none),
+                    color = LocalNoteColors.current.textSecondary
+                )
             }
         } else {
             LazyColumn(modifier = Modifier.weight(1f)) {
@@ -104,7 +140,7 @@ fun NotesScreen(
                 Text(text = stringResource(R.string.action_new_note))
             }
             TextButton(
-                onClick = onBack,
+                onClick = goBack,
                 colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
             ) {
                 Text(text = stringResource(R.string.action_back))
