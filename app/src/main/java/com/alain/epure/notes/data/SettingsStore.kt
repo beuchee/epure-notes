@@ -3,6 +3,7 @@ package com.alain.epure.notes.data
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -34,8 +35,24 @@ class SettingsStore(context: Context) {
         dataStore.edit { prefs -> prefs[TEXT_SIZE] = size }
     }
 
+    // Thème Jour (true) ou Nuit (false, par défaut) : DEC-0009.
+    val dayTheme: Flow<Boolean> = dataStore.data.map { it[DAY_THEME] ?: false }
+
+    suspend fun setDayTheme(day: Boolean) {
+        dataStore.edit { prefs -> prefs[DAY_THEME] = day }
+    }
+
+    // « Effacer : oui » (true, par défaut) ou « non » (SPEC F-8.3).
+    val deletionAllowed: Flow<Boolean> = dataStore.data.map { it[DELETION_ALLOWED] ?: true }
+
+    suspend fun setDeletionAllowed(allowed: Boolean) {
+        dataStore.edit { prefs -> prefs[DELETION_ALLOWED] = allowed }
+    }
+
     private companion object {
         val BACKUP_FOLDER = stringPreferencesKey("backup_folder")
         val TEXT_SIZE = intPreferencesKey("text_size")
+        val DAY_THEME = booleanPreferencesKey("day_theme")
+        val DELETION_ALLOWED = booleanPreferencesKey("deletion_allowed")
     }
 }

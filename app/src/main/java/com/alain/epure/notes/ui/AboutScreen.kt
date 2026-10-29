@@ -25,9 +25,7 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.alain.epure.notes.BuildConfig
 import com.alain.epure.notes.R
-import com.alain.epure.notes.ui.theme.Black
-import com.alain.epure.notes.ui.theme.TextPrimary
-import com.alain.epure.notes.ui.theme.TextSecondary
+import com.alain.epure.notes.ui.theme.LocalNoteColors
 
 private const val REPOSITORY_URL = "https://github.com/beuchee/epure-notes"
 
@@ -40,13 +38,13 @@ fun AboutScreen(onBack: () -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Black)
+            .background(LocalNoteColors.current.background)
             .systemBarsPadding()
     ) {
         Text(
             text = stringResource(R.string.about_title),
             style = MaterialTheme.typography.titleLarge,
-            color = TextPrimary,
+            color = LocalNoteColors.current.textPrimary,
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)
         )
         Column(
@@ -58,18 +56,18 @@ fun AboutScreen(onBack: () -> Unit) {
             Text(
                 text = stringResource(R.string.about_version, BuildConfig.VERSION_NAME),
                 style = MaterialTheme.typography.bodyLarge,
-                color = TextPrimary
+                color = LocalNoteColors.current.textPrimary
             )
             Text(
                 text = stringResource(R.string.about_license),
                 style = MaterialTheme.typography.bodyMedium,
-                color = TextSecondary,
+                color = LocalNoteColors.current.textSecondary,
                 modifier = Modifier.padding(top = 16.dp)
             )
             Text(
                 text = REPOSITORY_URL,
                 style = MaterialTheme.typography.bodyMedium,
-                color = TextPrimary,
+                color = LocalNoteColors.current.textPrimary,
                 modifier = Modifier
                     .sizeIn(minHeight = 48.dp)
                     .clickable { uriHandler.openUri(REPOSITORY_URL) }
@@ -78,28 +76,28 @@ fun AboutScreen(onBack: () -> Unit) {
             Text(
                 text = stringResource(R.string.about_privacy_title),
                 style = MaterialTheme.typography.bodyLarge,
-                color = TextPrimary,
+                color = LocalNoteColors.current.textPrimary,
                 modifier = Modifier.padding(top = 24.dp)
             )
             Text(
                 text = stringResource(R.string.about_privacy),
                 style = MaterialTheme.typography.bodyMedium,
-                color = TextSecondary,
+                color = LocalNoteColors.current.textSecondary,
                 modifier = Modifier.padding(top = 8.dp)
             )
             Text(
                 text = stringResource(R.string.backup_warning),
                 style = MaterialTheme.typography.bodyMedium,
                 fontStyle = FontStyle.Italic,
-                color = TextSecondary,
+                color = LocalNoteColors.current.textSecondary,
                 modifier = Modifier.padding(top = 16.dp)
             )
         }
-        HorizontalDivider(color = TextSecondary, thickness = 1.dp)
+        HorizontalDivider(color = LocalNoteColors.current.textSecondary, thickness = 1.dp)
         Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
             TextButton(
                 onClick = onBack,
-                colors = ButtonDefaults.textButtonColors(contentColor = TextPrimary)
+                colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
             ) {
                 Text(text = stringResource(R.string.action_back))
             }

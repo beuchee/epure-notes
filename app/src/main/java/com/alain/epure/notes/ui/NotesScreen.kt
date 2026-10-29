@@ -35,9 +35,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.alain.epure.notes.R
-import com.alain.epure.notes.ui.theme.Black
-import com.alain.epure.notes.ui.theme.TextPrimary
-import com.alain.epure.notes.ui.theme.TextSecondary
+import com.alain.epure.notes.ui.theme.LocalNoteColors
 
 // Liste des notes, de la plus récente à la plus ancienne (SPEC F-6).
 @Composable
@@ -46,6 +44,7 @@ fun NotesScreen(
     onOpenNote: (String) -> Unit,
     onDeleteNote: (String) -> Unit,
     onBack: () -> Unit,
+    onNewNote: () -> Unit,
     onOpenSettings: () -> Unit,
     backupActive: Boolean
 ) {
@@ -59,13 +58,13 @@ fun NotesScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Black)
+            .background(LocalNoteColors.current.background)
             .systemBarsPadding()
     ) {
         Text(
             text = stringResource(R.string.notes_title),
             style = MaterialTheme.typography.titleLarge,
-            color = TextPrimary,
+            color = LocalNoteColors.current.textPrimary,
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)
         )
         if (rows.isEmpty()) {
@@ -75,7 +74,7 @@ fun NotesScreen(
                     .fillMaxWidth(),
                 contentAlignment = Alignment.Center
             ) {
-                Text(text = stringResource(R.string.notes_empty), color = TextSecondary)
+                Text(text = stringResource(R.string.notes_empty), color = LocalNoteColors.current.textSecondary)
             }
         } else {
             LazyColumn(modifier = Modifier.weight(1f)) {
@@ -96,17 +95,23 @@ fun NotesScreen(
                 }
             }
         }
-        HorizontalDivider(color = TextSecondary, thickness = 1.dp)
+        HorizontalDivider(color = LocalNoteColors.current.textSecondary, thickness = 1.dp)
         Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
             TextButton(
+                onClick = onNewNote,
+                colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
+            ) {
+                Text(text = stringResource(R.string.action_new_note))
+            }
+            TextButton(
                 onClick = onBack,
-                colors = ButtonDefaults.textButtonColors(contentColor = TextPrimary)
+                colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
             ) {
                 Text(text = stringResource(R.string.action_back))
             }
             TextButton(
                 onClick = onOpenSettings,
-                colors = ButtonDefaults.textButtonColors(contentColor = TextPrimary)
+                colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
             ) {
                 Text(text = stringResource(R.string.action_settings))
             }
@@ -162,14 +167,14 @@ private fun NoteItem(
         ) {
             Text(
                 text = row.title,
-                color = TextPrimary,
+                color = LocalNoteColors.current.textPrimary,
                 style = MaterialTheme.typography.bodyLarge,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
                 text = row.dateLabel,
-                color = TextSecondary,
+                color = LocalNoteColors.current.textSecondary,
                 style = MaterialTheme.typography.bodyMedium
             )
         }

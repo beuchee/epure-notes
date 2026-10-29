@@ -95,22 +95,22 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 
 Décisions à trancher : couleurs exactes du thème Jour (DEC-0009, principe décidé), DEC-0015 (effacement), F-7.4 (masquage de la barre), F-8.1 (taille par défaut), forme des réglages (§ 3), F-2.7 (immersif), F-16, F-17.
 
-- [ ] Réglages enregistrés dans DataStore
+- [x] Réglages enregistrés dans DataStore
 - [x] Taille du texte 12 → 24 sp, par paliers (F-8.1, DEC-0027)
-- [ ] Thème Nuit / Jour (F-8.2) ; jetons du thème clair dans `Color.kt`
-- [ ] Effacement oui / non (F-8.3) ; règle dans `domain/` + tests (retour arrière, couper, coller sur sélection, correction automatique)
-- [ ] Police retenue embarquée, licence copiée dans le dépôt et citée dans « À propos » (DEC-0010)
-- [ ] Masquage automatique de la barre (F-7.4)
+- [x] Thème Nuit / Jour (F-8.2) ; jetons du thème clair dans `Color.kt`
+- [x] Effacement oui / non (F-8.3) ; règle dans `domain/` + tests (retour arrière, couper, coller sur sélection, correction automatique)
+- [x] Police : sans objet, police système retenue (DEC-0028, DEC-0010)
+- [x] Masquage automatique de la barre (F-7.4)
 - [ ] Mode immersif selon décision (F-2.7)
-- [ ] Écran allumé (F-16) et compteur de mots (F-17), seulement si retenus
+- [x] Écran allumé (F-16) et compteur de mots (F-17) : écartés (DEC-0028)
 
 **Contrôle sur l'appareil**
 
-- [ ] Chaque réglage s'applique tout de suite et survit à un redémarrage du téléphone
-- [ ] « Effacer : non » avec le clavier Samsung : touche Retour arrière, maintien de Retour arrière, « Couper », correction automatique, balayage pour effacer un mot → aucun caractère retiré
+- [x] Chaque réglage s'applique tout de suite et survit à un redémarrage du téléphone
+- [x] « Effacer : non » avec le clavier Samsung : touche Retour arrière, maintien de Retour arrière, « Couper », correction automatique, balayage pour effacer un mot → aucun caractère retiré
 - [ ] « Effacer : non » avec Gboard (si installé) : mêmes tests
-- [ ] Thème Jour : aucun flash, contraste lisible en plein soleil
-- [ ] Barre : n'apparaît jamais pendant la frappe, toujours accessible en moins d'un geste
+- [x] Thème Jour : aucun flash, contraste lisible en plein soleil
+- [x] Barre : n'apparaît jamais pendant la frappe, toujours accessible en moins d'un geste
 
 ---
 

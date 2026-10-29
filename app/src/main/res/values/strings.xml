@@ -24,6 +24,10 @@
     <string name="backup_stop_question">Arrêter la sauvegarde ?</string>
     <string name="action_stop">Arrêter</string>
     <string name="delete_note_question_backup">Supprimer cette note ? Elle sera aussi supprimée du dossier de sauvegarde.</string>
+    <string name="settings_theme_night">Thème : Nuit</string>
+    <string name="settings_theme_day">Thème : Jour</string>
+    <string name="settings_deletion_on">Effacer : oui</string>
+    <string name="settings_deletion_off">Effacer : non</string>
     <string name="settings_text_size">Taille du texte : %1$d sp</string>
     <string name="settings_restore">Restaurer depuis un dossier</string>
     <string name="restore_none">Aucune note trouvée dans ce dossier.</string>

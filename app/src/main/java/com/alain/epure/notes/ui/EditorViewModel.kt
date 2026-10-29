@@ -30,6 +30,10 @@ class EditorViewModel(
     val textSize: StateFlow<Int> = settings.textSize
         .stateIn(viewModelScope, SharingStarted.Eagerly, DEFAULT_TEXT_SIZE)
 
+    // « Effacer : oui » ou « non » (SPEC F-8.3).
+    val deletionAllowed: StateFlow<Boolean> = settings.deletionAllowed
+        .stateIn(viewModelScope, SharingStarted.Eagerly, true)
+
     private var noteId: String
 
     init {

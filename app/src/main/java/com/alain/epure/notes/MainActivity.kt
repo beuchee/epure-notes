@@ -11,6 +11,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
@@ -34,6 +35,7 @@ import com.alain.epure.notes.ui.NotesViewModel
 import com.alain.epure.notes.ui.SettingsScreen
 import com.alain.epure.notes.ui.SettingsViewModel
 import com.alain.epure.notes.ui.theme.Black
+import com.alain.epure.notes.ui.theme.DayBackground
 import com.alain.epure.notes.ui.theme.EpureNotesTheme
 import com.alain.epure.notes.R
 import kotlinx.coroutines.Dispatchers
@@ -100,7 +102,15 @@ class MainActivity : ComponentActivity() {
         // Après une rotation, l'intention est encore là : on ne recrée pas la note.
         if (savedInstanceState == null) handleShareIntent(intent)
         setContent {
-            EpureNotesTheme {
+            val dayTheme by settingsViewModel.dayTheme.collectAsState()
+            // Barres système adaptées au thème : sombres en Nuit, claires en Jour.
+            LaunchedEffect(dayTheme) {
+                enableEdgeToEdge(
+                    statusBarStyle = systemBarStyle(dayTheme),
+                    navigationBarStyle = systemBarStyle(dayTheme)
+                )
+            }
+            EpureNotesTheme(day = dayTheme) {
                 var screen by rememberSaveable { mutableStateOf(Screen.Editor) }
                 val shared = sharedText
                 LaunchedEffect(shared) {
@@ -134,6 +144,10 @@ class MainActivity : ComponentActivity() {
                             editorViewModel.onNoteDeleted(id)
                         },
                         onBack = { screen = Screen.Editor },
+                        onNewNote = {
+                            editorViewModel.newNote()
+                            screen = Screen.Editor
+                        },
                         onOpenSettings = { screen = Screen.Settings },
                         backupActive = container.backup.treeUri != null
                     )
@@ -206,6 +220,13 @@ class MainActivity : ComponentActivity() {
         container.backup.treeUri = null
         lifecycleScope.launch { container.settings.setBackupFolder(null) }
     }
+
+    private fun systemBarStyle(day: Boolean): SystemBarStyle =
+        if (day) {
+            SystemBarStyle.light(DayBackground.toArgb(), DayBackground.toArgb())
+        } else {
+            SystemBarStyle.dark(Black.toArgb())
+        }
 
     private companion object {
         const val PERMISSION_FLAGS = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION

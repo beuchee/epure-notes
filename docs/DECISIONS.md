@@ -119,7 +119,7 @@
 ## DEC-0010 — Police
 
 - Date : 28/10/2026
-- Statut : **[À DÉCIDER]** (au plus tard au jalon 3 ; police système provisoire au jalon 1)
+- Statut : **Décidée** le 28/10/2026 : police système (DEC-0028)
 - Contexte : le brief demande un rendu proche de freewrite, qui utilise Lato par défaut (captures). La charte A.5 prévoit la police système et exige une décision pour toute police tierce.
 - Options :
   - A. Police système (Samsung One) : aucun fichier ajouté, rendu One UI, moins proche de freewrite.
@@ -176,7 +176,7 @@
 ## DEC-0015 — Désactivation de l'effacement
 
 - Date : 28/10/2026
-- Statut : **Proposée** ; comportement des claviers **[À VÉRIFIER]**
+- Statut : **Décidée** le 28/10/2026 (DEC-0028) ; comportement des claviers **[À VÉRIFIER]**
 - Contexte : freewrite propose « Backspace On / Off » pour écrire sans se corriger. Sur Android, le clavier virtuel n'envoie pas toujours une touche « Retour arrière » : il remplace souvent directement le texte (mot en cours de composition, correction automatique, balayage pour effacer).
 - Décision proposée : filtrer les **modifications** du texte plutôt que les touches. Avec le champ de texte récent de Compose (`BasicTextField` avec `TextFieldState`), une `InputTransformation` refuse toute modification qui retire des caractères ; la règle « insertion pure ou non » est une fonction du `domain/`, testée. Quand l'effacement est désactivé, désactiver aussi la correction automatique (`KeyboardOptions`), sinon chaque correction serait refusée.
 - Points à vérifier sur l'appareil : clavier Samsung (composition des mots, suggestions, balayage), Gboard si installé ; collage sur une sélection.
@@ -329,3 +329,27 @@
 - Justification : demande d'Alain pour un texte plus petit.
 - Réversibilité : facile (liste de tailles dans `domain/TextSize.kt`).
 - Références : SPEC F-8.1, CHARTE B (B.4 ou tableau des textes), DEC-0021.
+
+## DEC-0028 — Choix du jalon 3 (police, effacement, thème Jour, options écartées)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Décision :
+  - Police (DEC-0010) : police système, pas de fichier de police embarqué. Aucune licence à copier.
+  - Effacement « Effacer : non » (DEC-0015) : approche proposée. Une modification qui retire des caractères est refusée ; la correction automatique est désactivée dans ce mode. Comportement du clavier Samsung à vérifier sur l'appareil.
+  - Thème Jour (DEC-0009) : fond `#FFFFFF`, texte `#000000`, texte secondaire `#5F5F5F`. À valider sur l'appareil (contraste).
+  - Écran allumé (F-16) et compteur de mots (F-17) : écartés en version 1.
+- Justification : choix simples, qui limitent les réglages et évitent toute dépendance.
+- Réversibilité : facile.
+- Références : SPEC F-2.4, F-8.3, F-8.2, F-16, F-17 ; DEC-0009, DEC-0010, DEC-0015.
+
+## DEC-0029 — Barre de commandes et mode immersif (jalon 3)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (validée par Alain)
+- Décision :
+  - F-7.4 : masquage automatique de la barre. Elle disparaît dès qu'on tape ; elle réapparaît au toucher du texte, à la fermeture du clavier, ou après 3 s sans frappe. Sans animation.
+  - F-2.7 : barre d'état masquée pendant l'écriture (écran éditeur) ; la barre de navigation reste visible. À vérifier sur One UI.
+- Justification : écrire sans distraction, tout en gardant les commandes à un geste.
+- Réversibilité : facile.
+- Références : SPEC F-2.7, F-7.4.

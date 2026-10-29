@@ -28,9 +28,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.unit.dp
 import com.alain.epure.notes.R
-import com.alain.epure.notes.ui.theme.Black
-import com.alain.epure.notes.ui.theme.TextPrimary
-import com.alain.epure.notes.ui.theme.TextSecondary
+import com.alain.epure.notes.ui.theme.LocalNoteColors
 
 // Liste de réglages (DEC-0024) : sauvegarde (F-18) et « À propos ».
 @Composable
@@ -45,18 +43,20 @@ fun SettingsScreen(
     BackHandler(onBack = onBack)
     val setting by viewModel.backupSetting.collectAsState()
     val textSize by viewModel.textSize.collectAsState()
+    val dayTheme by viewModel.dayTheme.collectAsState()
+    val deletionAllowed by viewModel.deletionAllowed.collectAsState()
     var confirmStop by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Black)
+            .background(LocalNoteColors.current.background)
             .systemBarsPadding()
     ) {
         Text(
             text = stringResource(R.string.settings_title),
             style = MaterialTheme.typography.titleLarge,
-            color = TextPrimary,
+            color = LocalNoteColors.current.textPrimary,
             modifier = Modifier.padding(horizontal = 24.dp, vertical = 24.dp)
         )
         Column(
@@ -72,14 +72,14 @@ fun SettingsScreen(
                     if (setting.active) R.string.settings_backup_on else R.string.settings_backup_off
                 ),
                 style = MaterialTheme.typography.bodyLarge,
-                color = TextPrimary
+                color = LocalNoteColors.current.textPrimary
             )
             if (setting.active) {
                 setting.folderName?.let {
                     Text(
                         text = it,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = TextSecondary
+                        color = LocalNoteColors.current.textSecondary
                     )
                 }
             } else {
@@ -87,15 +87,37 @@ fun SettingsScreen(
                     text = stringResource(R.string.backup_warning),
                     style = MaterialTheme.typography.bodyMedium,
                     fontStyle = FontStyle.Italic,
-                    color = TextSecondary,
+                    color = LocalNoteColors.current.textSecondary,
                     modifier = Modifier.padding(top = 4.dp)
                 )
             }
         }
         Text(
+            text = stringResource(if (dayTheme) R.string.settings_theme_day else R.string.settings_theme_night),
+            style = MaterialTheme.typography.bodyLarge,
+            color = LocalNoteColors.current.textPrimary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = viewModel::toggleDayTheme)
+                .sizeIn(minHeight = 48.dp)
+                .padding(horizontal = 24.dp, vertical = 12.dp)
+        )
+        Text(
+            text = stringResource(
+                if (deletionAllowed) R.string.settings_deletion_on else R.string.settings_deletion_off
+            ),
+            style = MaterialTheme.typography.bodyLarge,
+            color = LocalNoteColors.current.textPrimary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = viewModel::toggleDeletion)
+                .sizeIn(minHeight = 48.dp)
+                .padding(horizontal = 24.dp, vertical = 12.dp)
+        )
+        Text(
             text = stringResource(R.string.settings_text_size, textSize),
             style = MaterialTheme.typography.bodyLarge,
-            color = TextPrimary,
+            color = LocalNoteColors.current.textPrimary,
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable(onClick = viewModel::cycleTextSize)
@@ -105,7 +127,7 @@ fun SettingsScreen(
         Text(
             text = stringResource(R.string.settings_restore),
             style = MaterialTheme.typography.bodyLarge,
-            color = TextPrimary,
+            color = LocalNoteColors.current.textPrimary,
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable(onClick = onRestore)
@@ -115,7 +137,7 @@ fun SettingsScreen(
         Text(
             text = stringResource(R.string.settings_about),
             style = MaterialTheme.typography.bodyLarge,
-            color = TextPrimary,
+            color = LocalNoteColors.current.textPrimary,
             modifier = Modifier
                 .fillMaxWidth()
                 .clickable(onClick = onOpenAbout)
@@ -123,11 +145,11 @@ fun SettingsScreen(
                 .padding(horizontal = 24.dp, vertical = 12.dp)
         )
         Spacer(modifier = Modifier.weight(1f))
-        HorizontalDivider(color = TextSecondary, thickness = 1.dp)
+        HorizontalDivider(color = LocalNoteColors.current.textSecondary, thickness = 1.dp)
         Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
             TextButton(
                 onClick = onBack,
-                colors = ButtonDefaults.textButtonColors(contentColor = TextPrimary)
+                colors = ButtonDefaults.textButtonColors(contentColor = LocalNoteColors.current.textPrimary)
             ) {
                 Text(text = stringResource(R.string.action_back))
             }

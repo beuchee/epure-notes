@@ -35,6 +35,22 @@ class SettingsViewModel(private val settings: SettingsStore, backup: BackupFolde
         viewModelScope.launch { settings.setTextSize(nextTextSize(textSize.value)) }
     }
 
+    // Thème Jour ou Nuit (DEC-0009).
+    val dayTheme: StateFlow<Boolean> = settings.dayTheme
+        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    fun toggleDayTheme() {
+        viewModelScope.launch { settings.setDayTheme(!dayTheme.value) }
+    }
+
+    // « Effacer : oui » ou « non » (SPEC F-8.3).
+    val deletionAllowed: StateFlow<Boolean> = settings.deletionAllowed
+        .stateIn(viewModelScope, SharingStarted.Eagerly, true)
+
+    fun toggleDeletion() {
+        viewModelScope.launch { settings.setDeletionAllowed(!deletionAllowed.value) }
+    }
+
     private companion object {
         const val STOP_TIMEOUT_MS = 5_000L
     }
