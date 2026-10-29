@@ -18,6 +18,7 @@
     <string name="about_license">Licence GNU GPL v3. Code source :</string>
     <string name="about_privacy_title">Confidentialité</string>
     <string name="about_privacy">Épure Notes n\'a aucune permission et n\'accède pas au réseau. Aucune donnée ne quitte le téléphone.</string>
+    <string name="about_restore">Si tu les as sauvegardées, tes notes peuvent être restaurées à partir d\'un dossier qui les contient, au format .md (Réglages, « Restaurer depuis un dossier »).</string>
     <string name="backup_warning">Tes notes sont enregistrées seulement sur ce téléphone. Elles seront perdues si tu désinstalles l\'app ou si tu perds le téléphone.</string>
     <string name="settings_backup_on">Sauvegarde : oui</string>
     <string name="settings_backup_off">Sauvegarde : non</string>

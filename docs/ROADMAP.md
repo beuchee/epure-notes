@@ -66,7 +66,7 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 - [x] Liste vide : « Aucune note » (F-6.6)
 - [x] Partage du texte par la feuille de partage (F-9.1)
 - [x] Réception de texte partagé depuis une autre app → nouvelle note (F-10.1), si retenue
-- [ ] « À propos » (F-15), avec l'avertissement de perte (F-18.2)
+- [x] « À propos » (F-15), avec l'avertissement de perte (F-18.2)
 - [x] Commande « Réglages » ; réglage « Sauvegarde » avec avertissement en italique (F-8.6, F-18.2, F-18.3)
 - [x] Recopie des notes dans le dossier choisi, à l'activation puis à chaque enregistrement (F-18.4, F-18.5, F-18.6)
 - [x] « Restaurer depuis un dossier » sans écrasement (F-18.7) ; règle d'import dans `domain/` + tests
@@ -82,9 +82,9 @@ Décisions à trancher : F-4.3 (longueur du titre), F-6.4 (suppression / archiva
 - [x] Partager vers Gmail ou Samsung Notes → texte et sujet corrects
 - [x] Depuis Chrome, partager un texte sélectionné vers Épure Notes → nouvelle note (si F-10 retenue)
 - [x] Geste Retour prédictif : aperçu correct, pas de sortie involontaire de l'app depuis « Notes »
-- [ ] Sauvegarde désactivée : l'avertissement est visible dans les réglages et dans « À propos »
+- [x] Sauvegarde désactivée : l'avertissement est visible dans les réglages et dans « À propos »
 - [x] Activer la sauvegarde dans `Documents/Épure Notes` → fichiers visibles dans « Mes fichiers » ; modifier une note → copie à jour
-- [ ] Désinstaller, réinstaller, « Restaurer depuis un dossier » → toutes les notes reviennent, sans doublon
+- [x] Désinstaller, réinstaller, « Restaurer depuis un dossier » → toutes les notes reviennent, sans doublon
 - [x] Renommer le dossier dans « Mes fichiers » → message « Dossier de sauvegarde introuvable. », notes intactes
 - [ ] Sauvegarde désactivée : une sauvegarde Google ou un transfert Smart Switch ne contient aucune note **[À VÉRIFIER]**
 - [ ] Smart Switch vers un autre téléphone recopie-t-il `Documents/Épure Notes` ? **[À VÉRIFIER]**, résultat consigné dans DEC-0019

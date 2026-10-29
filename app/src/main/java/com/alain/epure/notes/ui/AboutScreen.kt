@@ -92,6 +92,12 @@ fun AboutScreen(onBack: () -> Unit) {
                 color = LocalNoteColors.current.textSecondary,
                 modifier = Modifier.padding(top = 16.dp)
             )
+            Text(
+                text = stringResource(R.string.about_restore),
+                style = MaterialTheme.typography.bodyMedium,
+                color = LocalNoteColors.current.textSecondary,
+                modifier = Modifier.padding(top = 16.dp)
+            )
         }
         HorizontalDivider(color = LocalNoteColors.current.textSecondary, thickness = 1.dp)
         Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 12.dp)) {
