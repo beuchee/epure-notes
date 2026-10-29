@@ -21,6 +21,14 @@
     <string name="action_clear">Effacer</string>
     <string name="action_edit">Modifier</string>
     <string name="action_remove">Retirer</string>
+    <string name="tasks_widget_preview_example">• Appeler le labo</string>
+    <string name="tasks_widget_label">Tâches</string>
+    <string name="tasks_lock_widget_label">Tâches (écran verrouillé)</string>
+    <string name="tasks_lock_widget_description">Affiche les tâches sur l\'écran verrouillé, si l\'option est activée dans Réglages.</string>
+    <string name="tasks_widget_hidden">Tâches masquées. Active l\'option dans Réglages.</string>
+    <string name="settings_lock_widget_on">Tâches sur l\'écran verrouillé : oui</string>
+    <string name="settings_lock_widget_off">Tâches sur l\'écran verrouillé : non</string>
+    <string name="tasks_widget_description">Affiche les tâches à faire sur l\'écran d\'accueil.</string>
     <string name="action_save">Enregistrer</string>
     <string name="search_none">Aucun résultat</string>
     <string name="share_not_markdown">Ce fichier n\'est pas un fichier .md.</string>

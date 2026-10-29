@@ -31,6 +31,30 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
+        <!-- Widget « Tâches » sur l'écran d'accueil (SPEC F-14, DEC-0016). Aucune permission. -->
+        <receiver
+            android:name=".system.TasksWidget"
+            android:exported="true"
+            android:label="@string/tasks_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/tasks_widget_info" />
+        </receiver>
+        <!-- Widget « Tâches » pour l'écran verrouillé, contenu selon le réglage (DEC-0035). -->
+        <receiver
+            android:name=".system.TasksLockWidget"
+            android:exported="true"
+            android:label="@string/tasks_lock_widget_label">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/tasks_lock_widget_info" />
+        </receiver>
     </application>
 
 </manifest>

@@ -41,6 +41,7 @@ import com.alain.epure.notes.ui.TasksScreen
 import com.alain.epure.notes.ui.TasksViewModel
 import com.alain.epure.notes.ui.theme.Black
 import com.alain.epure.notes.ui.theme.DayBackground
+import com.alain.epure.notes.system.TasksWidget
 import com.alain.epure.notes.ui.theme.EpureNotesTheme
 import com.alain.epure.notes.R
 import java.io.IOException
@@ -55,6 +56,9 @@ class MainActivity : ComponentActivity() {
 
     // Texte reçu d'une autre app, en attente d'être mis dans une nouvelle note.
     private var sharedText by mutableStateOf<String?>(null)
+
+    // Demande d'ouvrir l'écran Tâches (depuis le widget).
+    private var openTasksRequested by mutableStateOf(false)
 
     private lateinit var container: AppContainer
     private lateinit var editorViewModel: EditorViewModel
@@ -80,11 +84,19 @@ class MainActivity : ComponentActivity() {
         )[NotesViewModel::class.java]
         tasksViewModel = ViewModelProvider(
             this,
-            viewModelFactory { initializer { TasksViewModel(container.taskStore, container.backup) } }
+            viewModelFactory {
+                initializer {
+                    TasksViewModel(container.taskStore, container.backup) { TasksWidget.updateAll(applicationContext) }
+                }
+            }
         )[TasksViewModel::class.java]
         val settingsViewModel = ViewModelProvider(
             this,
-            viewModelFactory { initializer { SettingsViewModel(container.settings, container.backup) } }
+            viewModelFactory {
+                initializer {
+                    SettingsViewModel(container.settings, container.backup) { TasksWidget.updateAll(applicationContext) }
+                }
+            }
         )[SettingsViewModel::class.java]
 
         // Le choix du dossier de sauvegarde passe par le sélecteur du système (SPEC F-18.3).
@@ -111,7 +123,10 @@ class MainActivity : ComponentActivity() {
             if (event == Lifecycle.Event.ON_STOP) editorViewModel.saveNow()
         })
         // Après une rotation, l'intention est encore là : on ne recrée pas la note.
-        if (savedInstanceState == null) handleShareIntent(intent)
+        if (savedInstanceState == null) {
+            handleShareIntent(intent)
+            handleOpenTasks(intent)
+        }
         setContent {
             val dayTheme by settingsViewModel.dayTheme.collectAsState()
             // Barres système adaptées au thème : sombres en Nuit, claires en Jour.
@@ -135,6 +150,12 @@ class MainActivity : ComponentActivity() {
                     }
                 }
                 val shared = sharedText
+                LaunchedEffect(openTasksRequested) {
+                    if (openTasksRequested) {
+                        screen = Screen.Tasks
+                        openTasksRequested = false
+                    }
+                }
                 LaunchedEffect(shared) {
                     if (shared != null) {
                         editorViewModel.newNoteWith(shared)
@@ -199,6 +220,12 @@ class MainActivity : ComponentActivity() {
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
         handleShareIntent(intent)
+        handleOpenTasks(intent)
+    }
+
+    // Un toucher sur le widget « Tâches » ouvre l'écran Tâches (SPEC F-14).
+    private fun handleOpenTasks(intent: Intent?) {
+        if (intent?.getBooleanExtra(EXTRA_OPEN_TASKS, false) == true) openTasksRequested = true
     }
 
     // Texte partagé, ou fichier .md partagé depuis « Mes fichiers » (SPEC F-10.1, F-10.4).
@@ -283,7 +310,8 @@ class MainActivity : ComponentActivity() {
             SystemBarStyle.dark(Black.toArgb())
         }
 
-    private companion object {
-        const val PERMISSION_FLAGS = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+    companion object {
+        const val EXTRA_OPEN_TASKS = "open_tasks"
+        private const val PERMISSION_FLAGS = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
     }
 }

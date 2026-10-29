@@ -49,7 +49,15 @@ class SettingsStore(context: Context) {
         dataStore.edit { prefs -> prefs[DELETION_ALLOWED] = allowed }
     }
 
+    // Afficher les tâches sur l'écran verrouillé (désactivé par défaut, confidentialité).
+    val lockScreenTasks: Flow<Boolean> = dataStore.data.map { it[LOCK_SCREEN_TASKS] ?: false }
+
+    suspend fun setLockScreenTasks(enabled: Boolean) {
+        dataStore.edit { prefs -> prefs[LOCK_SCREEN_TASKS] = enabled }
+    }
+
     private companion object {
+        val LOCK_SCREEN_TASKS = booleanPreferencesKey("lock_screen_tasks")
         val BACKUP_FOLDER = stringPreferencesKey("backup_folder")
         val TEXT_SIZE = intPreferencesKey("text_size")
         val DAY_THEME = booleanPreferencesKey("day_theme")

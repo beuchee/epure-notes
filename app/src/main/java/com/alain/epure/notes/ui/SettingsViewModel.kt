@@ -16,7 +16,11 @@ import kotlinx.coroutines.launch
 // État de la sauvegarde pour l'écran Réglages : active ou non, et nom du dossier choisi (SPEC F-18.3).
 data class BackupSetting(val active: Boolean, val folderName: String?)
 
-class SettingsViewModel(private val settings: SettingsStore, backup: BackupFolder) : ViewModel() {
+class SettingsViewModel(
+    private val settings: SettingsStore,
+    backup: BackupFolder,
+    private val onLockScreenChanged: () -> Unit = {}
+) : ViewModel() {
 
     val backupSetting: StateFlow<BackupSetting> = settings.backupFolder
         .map { uri ->
@@ -41,6 +45,17 @@ class SettingsViewModel(private val settings: SettingsStore, backup: BackupFolde
 
     fun toggleDayTheme() {
         viewModelScope.launch { settings.setDayTheme(!dayTheme.value) }
+    }
+
+    // Tâches sur l'écran verrouillé (DEC-0035) : désactivé par défaut.
+    val lockScreenTasks: StateFlow<Boolean> = settings.lockScreenTasks
+        .stateIn(viewModelScope, SharingStarted.Eagerly, false)
+
+    fun toggleLockScreenTasks() {
+        viewModelScope.launch {
+            settings.setLockScreenTasks(!lockScreenTasks.value)
+            onLockScreenChanged()
+        }
     }
 
     // « Effacer : oui » ou « non » (SPEC F-8.3).

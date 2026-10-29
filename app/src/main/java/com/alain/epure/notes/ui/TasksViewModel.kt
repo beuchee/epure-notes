@@ -11,7 +11,11 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 // Liste de tâches unique (SPEC F-12). Chaque changement est enregistré dans `taches.md`, puis recopié si la sauvegarde est active.
-class TasksViewModel(private val store: TaskStore, private val backup: BackupFolder) : ViewModel() {
+class TasksViewModel(
+    private val store: TaskStore,
+    private val backup: BackupFolder,
+    private val onChanged: () -> Unit = {}
+) : ViewModel() {
 
     private val _tasks = MutableStateFlow(parseTasks(store.read()))
     val tasks: StateFlow<List<Task>> = _tasks.asStateFlow()
@@ -55,6 +59,7 @@ class TasksViewModel(private val store: TaskStore, private val backup: BackupFol
         val content = formatTasks(tasks)
         store.save(content)
         backup.writeFile(TASKS_FILE, content)
+        onChanged()
     }
 
     companion object {

@@ -405,3 +405,13 @@
 - Justification : la barre à cinq commandes ne tient pas sur un téléphone avec la police agrandie (DEC-0011).
 - Réversibilité : facile.
 - Références : SPEC F-7.2, DEC-0011.
+
+## DEC-0035 — Widget « Tâches » sur l'écran verrouillé (option)
+
+- Date : 28/10/2026
+- Statut : **Décidée** le 28/10/2026 (demandée par Alain)
+- Décision : un second widget « Tâches », réservé à l'écran verrouillé, est proposé. Son contenu n'affiche les tâches que si l'option « Tâches sur l'écran verrouillé » est activée dans Réglages (désactivée par défaut). Sinon, un texte neutre s'affiche. Le widget de l'écran d'accueil montre toujours les tâches.
+- Justification : confidentialité. Les textes des tâches ne doivent pas être visibles sans déverrouiller le téléphone, sauf choix explicite d'Alain.
+- Constat (sur le téléphone d'Alain, One UI) : le widget verrouillé n'est pas proposé. Aucun widget tiers n'utilise la catégorie standard d'écran verrouillé ; One UI n'expose que ses propres catégories (non documentées). Décision d'Alain : garder le code, sans l'exposer. La ligne de Réglages reste, sans effet sur ce téléphone, jusqu'à décision contraire.
+- Réversibilité : facile.
+- Références : SPEC F-14, F-8 ; DEC-0016.

@@ -45,6 +45,7 @@ fun SettingsScreen(
     val textSize by viewModel.textSize.collectAsState()
     val dayTheme by viewModel.dayTheme.collectAsState()
     val deletionAllowed by viewModel.deletionAllowed.collectAsState()
+    val lockScreenTasks by viewModel.lockScreenTasks.collectAsState()
     var confirmStop by remember { mutableStateOf(false) }
 
     Column(
@@ -92,6 +93,18 @@ fun SettingsScreen(
                 )
             }
         }
+        Text(
+            text = stringResource(
+                if (lockScreenTasks) R.string.settings_lock_widget_on else R.string.settings_lock_widget_off
+            ),
+            style = MaterialTheme.typography.bodyLarge,
+            color = LocalNoteColors.current.textPrimary,
+            modifier = Modifier
+                .fillMaxWidth()
+                .clickable(onClick = viewModel::toggleLockScreenTasks)
+                .sizeIn(minHeight = 48.dp)
+                .padding(horizontal = 24.dp, vertical = 12.dp)
+        )
         Text(
             text = stringResource(if (dayTheme) R.string.settings_theme_day else R.string.settings_theme_night),
             style = MaterialTheme.typography.bodyLarge,
