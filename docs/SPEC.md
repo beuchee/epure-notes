@@ -115,7 +115,7 @@ Avant une publication sur le Play Store : recherche d'homonymes, vérification I
 ### F-7 — Barre de commandes (jalons 1 et 3)
 
 - **F-7.1** Barre en bas de l'éditeur, au-dessus du clavier quand il est ouvert ; fond `Black` (ou fond du thème clair), filet de 1 dp en haut, **texte seul, sans icône** (charte A.5, DEC-0011).
-- **F-7.2** Actions de la barre (DEC-0039) : « + » (Nouvelle note), « > tâche » (ajouter la ligne du curseur aux tâches), « ^ » (Réglages), « - tâches » (effacer les tâches faites), « Notes », « Tâches », « Retour ». Répartition par écran dans DEC-0039.
+- **F-7.2** Actions de la barre (DEC-0039) : « + » (Nouvelle note), « > tâche » (ajouter la ligne du curseur aux tâches ; devient « > note » quand du texte est sélectionné, DEC-0040), « ^ » (Réglages), « - tâches » (effacer les tâches faites), « Notes », « Tâches », « Retour ». Répartition par écran dans DEC-0039.
 - **F-7.3** Jalon 1 : barre toujours visible (prototype).
 - **F-7.4** Jalon 3 — masquage automatique : la barre disparaît dès que l'on tape ; elle réapparaît au toucher du texte, à la fermeture du clavier, ou après une pause de frappe (proposition : 3 s, **[À DÉCIDER]**). Apparition et disparition immédiates, sans animation.
   > Un toucher dans le texte sert aussi à placer le curseur : on ne peut pas réserver le toucher simple à l'affichage des commandes comme dans un lecteur. Comportement à valider sur l'appareil **[À VÉRIFIER]**.
@@ -173,6 +173,7 @@ Le brief prévoyait l'ouverture de PDF depuis d'autres apps (intent `VIEW`, `app
 - **F-13.2** Action « → Tâche » dans la barre de commandes : ajoute la ligne où se trouve le curseur (DEC-0013, décidée). L'appui long reste au système (sélection, copier-coller). Une entrée « Ajouter aux tâches » dans le menu de sélection du système pourra être réévaluée au jalon 5, sans engagement.
 - **F-13.3** Texte ajouté : la ligne, sans espaces de début ni de fin, sans puce initiale (`-`, `*`, `•`). Une ligne vide n'ajoute rien.
 - **F-13.4** La note n'est pas modifiée.
+- **F-13.6** Avec une sélection de texte (appui long), le bouton « > note » crée une nouvelle note dont le contenu est le texte sélectionné ; sa première ligne sert de titre (F-4.1). La note en cours n'est pas modifiée (DEC-0040).
 - **F-13.5** Retour visuel : **[À DÉCIDER]**. Proposition : le libellé de l'action devient « Ajoutée » pendant 2 s, sans animation.
 
 ### F-14 — Tâches sur l'écran d'accueil (jalon 6, conditionnel)
