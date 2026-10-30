@@ -86,6 +86,14 @@ class EditorViewModel(
         }
     }
 
+    // Nouvelle note contenant le texte sélectionné ; sa première ligne sert de titre (DEC-0040).
+    // La note en cours n'est pas modifiée. Sans sélection, rien ne se passe.
+    fun newNoteFromSelection() {
+        val selection = textState.selection
+        if (selection.collapsed) return
+        newNoteWith(textState.text.substring(selection.min, selection.max))
+    }
+
     // Nouvelle note vide ; sans effet si la note en cours est déjà vide (SPEC F-5.2).
     fun newNote() {
         if (textState.text.isBlank()) return

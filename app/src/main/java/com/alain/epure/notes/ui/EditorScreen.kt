@@ -59,6 +59,11 @@ fun EditorScreen(
 ) {
     val textSize by viewModel.textSize.collectAsState()
     val taskAdded by viewModel.taskAdded.collectAsState()
+    // Avec une sélection, « > » crée une note au lieu d'ajouter une tâche (DEC-0040).
+    var hasSelection by remember { mutableStateOf(false) }
+    LaunchedEffect(viewModel.textState) {
+        snapshotFlow { !viewModel.textState.selection.collapsed }.collect { hasSelection = it }
+    }
     val deletionAllowed by viewModel.deletionAllowed.collectAsState()
     // « Effacer : non » : toute modification qui retire des caractères est annulée (SPEC F-8.3, DEC-0015).
     val inputTransformation = remember(deletionAllowed) {
@@ -137,9 +142,24 @@ fun EditorScreen(
                     onClick = viewModel::newNote
                 )
                 CommandButton(
-                    label = stringResource(if (taskAdded) R.string.action_added else R.string.action_to_task),
-                    description = stringResource(if (taskAdded) R.string.action_added else R.string.cd_to_task),
-                    onClick = onAddTask
+                    label = stringResource(
+                        when {
+                            hasSelection -> R.string.action_to_note
+                            taskAdded -> R.string.action_added
+                            else -> R.string.action_to_task
+                        }
+                    ),
+                    description = stringResource(
+                        when {
+                            hasSelection -> R.string.cd_to_note
+                            taskAdded -> R.string.action_added
+                            else -> R.string.cd_to_task
+                        }
+                    ),
+                    // La sélection est relue au moment du clic, pas seulement à l'affichage.
+                    onClick = {
+                        if (!viewModel.textState.selection.collapsed) viewModel.newNoteFromSelection() else onAddTask()
+                    }
                 )
                 }
                 Row {

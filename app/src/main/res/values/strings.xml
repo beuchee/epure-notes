@@ -3,6 +3,7 @@
     <string name="action_new_note">+</string>
     <string name="cd_new_note">Nouvelle note</string>
     <string name="cd_to_task">Ajouter la ligne aux tâches</string>
+    <string name="cd_to_note">Créer une note avec la sélection</string>
     <string name="cd_settings">Réglages</string>
     <string name="cd_clear_done">Effacer les tâches faites</string>
     <string name="editor_placeholder">Commence à écrire</string>
@@ -16,6 +17,7 @@
     <string name="search_hint">Rechercher</string>
     <string name="action_tasks">Tâches</string>
     <string name="action_to_task">&gt; tâche</string>
+    <string name="action_to_note">&gt; note</string>
     <string name="action_added">Ajoutée</string>
     <string name="tasks_title">Tâches</string>
     <string name="tasks_add_hint">Ajouter une tâche</string>

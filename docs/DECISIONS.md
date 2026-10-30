@@ -459,3 +459,15 @@
 - Justification : barres lisibles avec la police agrandie, plus homogènes d'un écran à l'autre.
 - Réversibilité : facile.
 - Références : SPEC F-7.2, F-7.5 ; DEC-0011.
+
+## DEC-0040 — « > » ajoute la sélection en note (hors jalon)
+
+- Date : 30/10/2026
+- Statut : **Décidée** le 30/10/2026 (demandée par Alain)
+- Décision : le bouton « > » de l'éditeur a deux rôles selon la sélection.
+  - Sans sélection (curseur dans une ligne) : ajoute la ligne aux tâches, comme avant (DEC-0013, DEC-0039).
+  - Avec une sélection (texte sélectionné par appui long) : crée une nouvelle note dont le contenu est le texte sélectionné. Sa première ligne sert de titre (F-4.1). La note en cours n'est pas modifiée.
+- Libellé : « > note » pendant la sélection, « > tâche » sinon.
+- Justification : un seul bouton pour envoyer le texte utile ailleurs, sans ajouter de commande dans la barre (DEC-0034, barre à quatre commandes).
+- Réversibilité : facile.
+- Références : SPEC F-7.2, F-13 ; DEC-0013, DEC-0039. **À reporter dans SPEC.md** après validation sur le téléphone.
